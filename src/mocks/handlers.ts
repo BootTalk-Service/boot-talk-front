@@ -1,0 +1,9 @@
+import { END_POINT } from "@/constants/endPoint";
+import { http, HttpResponse } from "msw";
+import { DB } from "./db/db";
+
+export const handlers = [
+  http.get(END_POINT.EXAMPLE, () => {
+    return HttpResponse.json(DB.example, {});
+  }),
+];

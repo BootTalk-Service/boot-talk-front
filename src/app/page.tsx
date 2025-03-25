@@ -1,8 +1,9 @@
-import Image from "next/image";
+import Header from "@/components/common/Header";
 
 export default function Home() {
   return (
-   <div>부트톡</div>
-    
+    <div>
+      <Header />
+    </div>
   );
 }
