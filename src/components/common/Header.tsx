@@ -12,8 +12,9 @@ const Header = () => {
               src="/logo.png"
               alt="로고"
               width={160}
-              height={40}
+              height={20}
               className="mr-2"
+              priority
             />
           </Link>
         </div>
