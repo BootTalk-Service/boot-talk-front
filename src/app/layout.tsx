@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/common/Header";
 
+import QueryProvider from "@/provider/QueryProvider";
+import Header from "@/components/common/Header";
 
 export const metadata: Metadata = {
   title: "Boot Talk App",
@@ -16,6 +17,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <QueryProvider>{children}</QueryProvider>
+      </body>
         <Header />
         {children}
         </body>
