@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "mock": "npx tsx watch ./src/mocks/http.ts"
   },
   "dependencies": {
     "@mswjs/http-middleware": "^0.10.3",
@@ -36,6 +37,12 @@
     "eslint-config-next": "15.2.3",
     "msw": "^2.7.3",
     "tailwindcss": "^4",
+    "tsx": "^4.19.3",
     "typescript": "^5"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

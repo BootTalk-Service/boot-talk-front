@@ -6,4 +6,8 @@ export const handlers = [
   http.get(END_POINT.EXAMPLE, () => {
     return HttpResponse.json(DB.example, {});
   }),
+
+  http.get(END_POINT.MY_INFO, () => {
+    return HttpResponse.json(DB.myInfo, {});
+  }),
 ];
