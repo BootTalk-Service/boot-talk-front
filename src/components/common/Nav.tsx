@@ -2,12 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import clsx from "clsx";
 
 const navItems = [
   { label: "부트캠프", href: "/" },
   { label: "리뷰", href: "/review" },
-  { label: "커피챗", href: "/chat" },
+  { label: "커피챗", href: "/coffee-chat" },
 ];
 
 const Nav = () => {
@@ -21,10 +20,9 @@ const Nav = () => {
             <li key={item.href}>
               <Link
                 href={item.href}
-                className={clsx(
-                  "text-amber-950 text-sm hover:text-amber-900 transition-colors",
-                  pathname === item.href && "text-amber-900 font-semibold"
-                )}
+                className={`text-amber-950 text-sm hover:text-amber-900 transition-colors ${
+                  pathname === item.href ? "text-amber-900 font-semibold" : ""
+                }`}
               >
                 {item.label}
               </Link>
