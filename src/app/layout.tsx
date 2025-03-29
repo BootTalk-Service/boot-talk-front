@@ -20,7 +20,7 @@ export default function RootLayout({
       <body>
         <QueryProvider>
           <Header />
-          <Nav/
+          <Nav />
           {children}
         </QueryProvider>
       </body>
