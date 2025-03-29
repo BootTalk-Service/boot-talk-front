@@ -3,6 +3,7 @@ import "./globals.css";
 
 import QueryProvider from "@/provider/QueryProvider";
 import Header from "@/components/common/Header";
+import Nav from "@/components/common/Nav";
 
 export const metadata: Metadata = {
   title: "Boot Talk App",
@@ -19,6 +20,7 @@ export default function RootLayout({
       <body>
         <QueryProvider>
           <Header />
+          <Nav/
           {children}
         </QueryProvider>
       </body>

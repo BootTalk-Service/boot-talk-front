@@ -11,6 +11,10 @@ export const handlers = [
     return HttpResponse.json(DB.myInfo, {});
   }),
 
+  http.get(END_POINT.BOOTCAMPS, () => {
+    return HttpResponse.json(DB.bootcamps, {});
+  }),  
+    
   http.get(END_POINT.MY_REVIEWS, () => {
     return HttpResponse.json(DB.myReviews, {});
 
