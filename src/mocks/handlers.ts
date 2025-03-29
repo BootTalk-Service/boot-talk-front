@@ -10,4 +10,8 @@ export const handlers = [
   http.get(END_POINT.MY_INFO, () => {
     return HttpResponse.json(DB.myInfo, {});
   }),
+
+  http.get(END_POINT.MY_REVIEWS, () => {
+    return HttpResponse.json(DB.myReviews, {});
+  }),
 ];

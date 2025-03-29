@@ -6,7 +6,6 @@ export const DB = {
     data: {
       t_user_id: 1,
       email: "frontend@example.com",
-      password: "1234",
       name: "김개발",
       desired_Career: "프론트엔드",
       current_point: 5,
@@ -332,48 +331,36 @@ export const DB = {
     },
   ],
 
-  my_reviews: [
-    {
-      t_review_id: 1,
-      t_bt_id: "ACG20243001060786",
-      t_user_id: 1,
-      rating: 5,
-      content: "너무 도움됐어요!",
-      created_at: "2024-03-01",
-    },
-    {
-      t_review_id: 2,
-      t_bt_id: "AIG20243001060799",
-      t_user_id: 1,
-      rating: 4,
-      content: "실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요.",
-      created_at: "2024-03-08",
-    },
-    {
-      t_review_id: 3,
-      t_bt_id: "ACG20243001060795",
-      t_user_id: 1,
-      rating: 3,
-      content: "강사님은 좋았는데 자료가 조금 부족했어요.",
-      created_at: "2024-03-15",
-    },
-    {
-      t_review_id: 4,
-      t_bt_id: "ACG20243001060789",
-      t_user_id: 1,
-      content: "멘토링이 진짜 인생 바뀌는 줄..!",
-      rating: 5,
-      created_at: "2025-02-01T10:00:00",
-    },
-    {
-      t_review_id: 5,
-      t_bt_id: "ACG20243001060786",
-      t_user_id: 1,
-      content: "수정된 리뷰 내용입니다. 더 많은 인사이트를 얻었습니다.",
-      rating: 4,
-      created_at: "2025-02-20T14:30:00",
-    },
-  ],
+  myReviews: {
+    message: "사용자가 작성한 리뷰 조회 성공",
+    data: [
+      {
+        t_user_id: 1,
+        bootcampId: 1,
+        bootcampName: "부트1",
+        content: "오프라인 강의가 정말 좋았어요!",
+        rating: 5,
+        created_at: "2024-03-08",
+      },
+      {
+        t_user_id: 2,
+        bootcampId: 2,
+        bootcampName: "부트2",
+        rating: 4,
+        content:
+          "실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요.",
+        created_at: "2024-03-08",
+      },
+      {
+        t_user_id: 3,
+        bootcampId: 3,
+        bootcampName: "부트3",
+        rating: 3,
+        content: "강사님은 좋았는데 자료가 조금 부족했어요.",
+        created_at: "2024-03-15",
+      },
+    ],
+  },
 
   points: [
     {
