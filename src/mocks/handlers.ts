@@ -11,6 +11,9 @@ export const handlers = [
     return HttpResponse.json(DB.myInfo, {});
   }),
 
+  http.get(END_POINT.MY_REVIEWS, () => {
+    return HttpResponse.json(DB.myReviews, {});
+
   http.get(END_POINT.MENTOR_LIST, () => {
     return HttpResponse.json(DB.mentors, {});
   }),

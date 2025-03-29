@@ -1,25 +1,23 @@
 import Image from "next/image";
 import React from "react";
-import { User, Edit, Star, Award, CreditCard, LogOut } from "lucide-react";
-import useGetMyInfo from "@/hooks/my-page/useGetMyInfo";
+import { User, Edit, Award, CreditCard, LogOut, AwardIcon } from "lucide-react";
+import { useGetMyInfo } from "@/hooks/my-page/useGetMyInfo";
 
-const MyPageLayout = ({ activeTab, onTabChange, children }) => {
+interface MyPageLayoutProps {
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+  children: React.ReactNode;
+}
+
+const MyPageLayout = ({
+  activeTab,
+  onTabChange,
+  children,
+}: MyPageLayoutProps) => {
   const { myInfo, isMyInfoLoading, isMyInfoError } = useGetMyInfo();
 
   if (isMyInfoLoading) return <div>로딩 중...</div>;
   if (isMyInfoError) return <div>정보를 불러오는데 실패했습니다.</div>;
-
-  const userInfo = myInfo
-    ? {
-        name: myInfo?.name,
-        points: myInfo?.current_point,
-        profileImage: myInfo?.profile_image,
-      }
-    : {
-        name: "사용자",
-        points: 0,
-        profileImage: null,
-      };
 
   const tabs = [
     { id: "profile", label: "프로필 수정", icon: <User size={18} /> },
@@ -31,7 +29,7 @@ const MyPageLayout = ({ activeTab, onTabChange, children }) => {
   return (
     <div className="container mx-auto p-4 max-w-6xl">
       {/* 페이지 제목 */}
-      <h1 className="text-3xl font-bold mb-8 text-base-content flex items-center">
+      <h1 className="text-3xl font-bold mb-8 text-amber-950 flex items-center">
         <span className="bg-warning w-2 h-8 inline-block mr-3 rounded"></span>
         마이페이지
       </h1>
@@ -53,13 +51,13 @@ const MyPageLayout = ({ activeTab, onTabChange, children }) => {
                   />
                 </div>
               </div>
-              <h2 className="text-xl font-bold text-center text-base-content">
-                {userInfo.name}
+              <h2 className="text-xl font-bold text-center text-amber-950">
+                {myInfo.name}
               </h2>
               <div className="flex justify-center mt-2">
-                <div className="px-4 py-1 bg-neutral text-base-100 rounded-full font-medium flex items-center gap-1 shadow-sm">
-                  <Star size={14} className="fill-current" />
-                  <span>{userInfo.points.toLocaleString()} P</span>
+                <div className="px-4 py-1 bg-amber-950 text-base-100 rounded-full font-medium flex items-center gap-1 shadow-sm">
+                  <AwardIcon size={14} className="fill-current" />
+                  <span>{myInfo.current_point} P</span>
                 </div>
               </div>
             </div>
@@ -73,7 +71,7 @@ const MyPageLayout = ({ activeTab, onTabChange, children }) => {
                     key={tab.id}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all ${
                       activeTab === tab.id
-                        ? "bg-neutral text-white font-medium shadow-md"
+                        ? "bg-amber-950 text-white font-medium shadow-md"
                         : "text-gray-600 hover:bg-neutral-100"
                     }`}
                     onClick={() => onTabChange(tab.id)}
@@ -98,7 +96,7 @@ const MyPageLayout = ({ activeTab, onTabChange, children }) => {
         {/* 오른쪽 컨텐츠 영역 */}
         <div className="flex-1">
           <div className="bg-base-100 rounded-xl shadow-md p-6 border border-base-300 min-h-96">
-            <h2 className="text-xl font-bold mb-6 pb-3 border-b border-gray-200">
+            <h2 className="text-xl font-bold mb-6 pb-3 border-b border-gray-200 text-amber-950">
               {tabs.find((tab) => tab.id === activeTab)?.label || ""}
             </h2>
             <div>{children}</div>
