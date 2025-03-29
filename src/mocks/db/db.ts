@@ -93,116 +93,125 @@ export const DB = {
     },
   ],
 
-  mentors: [
-    {
-      t_user_id: 101,
-      user_type: "현업자",
-      career: "백엔드",
-      introduction: "백엔드 개발 5년차, 스타트업 CTO 경험 보유",
-      coffee_chat_schedule: [
-        {
-          day_of_week: "월",
-          start_time: "21:00",
-          end_time: "23:00",
-          is_available: true,
-        },
-        {
-          day_of_week: "수",
-          start_time: "20:00",
-          end_time: "22:00",
-          is_available: true,
-        },
-      ],
-    },
-    {
-      t_user_id: 102,
-      user_type: "현업자",
-      career: "프론트엔드",
-      introduction: "Vue와 React에 익숙한 프리랜서 개발자입니다.",
-      coffee_chat_schedule: [
-        {
-          day_of_week: "화",
-          start_time: "19:00",
-          end_time: "21:00",
-          is_available: true,
-        },
-        {
-          day_of_week: "목",
-          start_time: "20:00",
-          end_time: "22:00",
-          is_available: true,
-        },
-      ],
-    },
-    {
-      t_user_id: 103,
-      user_type: "현업자",
-      career: "AI 엔지니어",
-      introduction: "LLM, 챗봇 개발 경험 있습니다. 관심 있으신 분 환영!",
-      coffee_chat_schedule: [
-        {
-          day_of_week: "월",
-          start_time: "18:00",
-          end_time: "20:00",
-          is_available: true,
-        },
-      ],
-    },
-    {
-      t_user_id: 104,
-      user_type: "현업자",
-      career: "UX/UI 디자이너",
-      introduction: "프론트와 협업 경험이 풍부한 디자이너입니다.",
-      coffee_chat_schedule: [
-        {
-          day_of_week: "화",
-          start_time: "20:00",
-          end_time: "22:00",
-          is_available: true,
-        },
-        {
-          day_of_week: "금",
-          start_time: "21:00",
-          end_time: "23:00",
-          is_available: true,
-        },
-      ],
-    },
-    {
-      t_user_id: 105,
-      user_type: "현업자",
-      career: "데이터 분석가",
-      introduction: "SQL, Tableau, Python 활용 데이터 시각화 도움 가능",
-      coffee_chat_schedule: [
-        {
-          day_of_week: "수",
-          start_time: "19:00",
-          end_time: "21:00",
-          is_available: true,
-        },
-      ],
-    },
-    {
-      t_user_id: 106,
-      user_type: "현업자",
-      career: "DevOps 엔지니어",
-      introduction: "AWS 인프라 구성 및 CI/CD 파이프라인 경험 공유 가능",
-      coffee_chat_schedule: [
-        {
-          day_of_week: "목",
-          start_time: "19:30",
-          end_time: "21:30",
-          is_available: true,
-        },
-        {
-          day_of_week: "토",
-          start_time: "14:00",
-          end_time: "16:00",
-          is_available: true,
-        },
-      ],
-    },
-  ],
+  mentors: {
+    message: "멘토 목록이 조회되었습니다.",
+    data: [
+      {
+        t_user_id: 101,
+        user_type: "수료자",
+        name: "김백엔드",
+        career: "백엔드",
+        introduction: "제로베이스 30기 수료자",
+        coffee_chat_schedule: [
+          {
+            day_of_week: "월",
+            start_time: "21:00",
+            end_time: "23:00",
+            is_available: true,
+          },
+          {
+            day_of_week: "수",
+            start_time: "20:00",
+            end_time: "22:00",
+            is_available: true,
+          },
+        ],
+      },
+      {
+        t_user_id: 102,
+        user_type: "현업자",
+        name: "박프론트",
+        career: "프론트엔드",
+        introduction: "Vue와 React에 익숙한 프리랜서 개발자입니다.",
+        coffee_chat_schedule: [
+          {
+            day_of_week: "화",
+            start_time: "19:00",
+            end_time: "21:00",
+            is_available: true,
+          },
+          {
+            day_of_week: "목",
+            start_time: "20:00",
+            end_time: "22:00",
+            is_available: true,
+          },
+        ],
+      },
+      {
+        t_user_id: 103,
+        user_type: "현업자",
+        name: "이AI",
+        career: "AI 엔지니어",
+        introduction: "LLM, 챗봇 개발 경험 있습니다. 관심 있으신 분 환영!",
+        coffee_chat_schedule: [
+          {
+            day_of_week: "월",
+            start_time: "18:00",
+            end_time: "20:00",
+            is_available: true,
+          },
+        ],
+      },
+      {
+        t_user_id: 104,
+        user_type: "현업자",
+        name: "최디자인",
+        career: "UX/UI 디자이너",
+        introduction: "프론트와 협업 경험이 풍부한 디자이너입니다.",
+        coffee_chat_schedule: [
+          {
+            day_of_week: "화",
+            start_time: "20:00",
+            end_time: "22:00",
+            is_available: true,
+          },
+          {
+            day_of_week: "금",
+            start_time: "21:00",
+            end_time: "23:00",
+            is_available: true,
+          },
+        ],
+      },
+      {
+        t_user_id: 105,
+        user_type: "현업자",
+        name: "정데이터",
+        career: "데이터 분석가",
+        introduction: "SQL, Tableau, Python 활용 데이터 시각화 도움 가능",
+        coffee_chat_schedule: [
+          {
+            day_of_week: "수",
+            start_time: "19:00",
+            end_time: "21:00",
+            is_available: true,
+          },
+        ],
+      },
+      {
+        t_user_id: 106,
+        user_type: "현업자",
+        name: "이프론트",
+        career: "DevOps 엔지니어",
+        introduction: "AWS 인프라 구성 및 CI/CD 파이프라인 경험 공유 가능",
+        coffee_chat_schedule: [
+          {
+            day_of_week: "목",
+            start_time: "19:30",
+            end_time: "21:30",
+            is_available: true,
+          },
+          {
+            day_of_week: "토",
+            start_time: "14:00",
+            end_time: "16:00",
+            is_available: true,
+          },
+        ],
+      },
+    ],
+  },
 
   chat_messages: [
     {
@@ -404,4 +413,32 @@ export const DB = {
       created_at: "2025-03-28T00:00:00",
     },
   ],
+
+  acceptedCoffeeChats: {
+    message: "커피챗 수락 목록이 조회되었습니다.",
+    data: [
+      {
+        id: 1,
+        title: "프론트엔드 개발 이야기",
+        host: "김개발",
+        date: "2025-03-30",
+        status: "예정됨",
+      },
+      {
+        id: 2,
+        title: "리액트 학습 팁",
+        host: "이리액트",
+        date: "2025-04-02",
+        status: "예정됨",
+      },
+      {
+        id: 3,
+        title: "주니어 개발자 성장기",
+        host: "박주니어",
+        date: "2025-04-05",
+        status: "예정됨",
+      },
+    ],
+    error: null,
+  },
 };
