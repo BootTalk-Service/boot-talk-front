@@ -13,10 +13,11 @@ export const handlers = [
 
   http.get(END_POINT.BOOTCAMPS, () => {
     return HttpResponse.json(DB.bootcamps, {});
-  }),  
-    
+  }),
+
   http.get(END_POINT.MY_REVIEWS, () => {
     return HttpResponse.json(DB.myReviews, {});
+  }),
 
   http.get(END_POINT.MENTOR_LIST, () => {
     return HttpResponse.json(DB.mentors, {});
