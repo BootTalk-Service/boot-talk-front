@@ -2,7 +2,8 @@
 
 import { FilterButtonsProps } from "@/types/FilterButtons";
 import { useState, useEffect, useRef } from "react";
-import { FILTER_OPTIOMS } from "@/components/feature/main/bootcampFilters";
+import { FILTER_OPTIONS } from "@/components/feature/main/bootcampFilters";
+import { X } from "lucide-react";
 
 
 const FilterButtons = ({ onFilterChange }: FilterButtonsProps) => {
@@ -13,13 +14,14 @@ const FilterButtons = ({ onFilterChange }: FilterButtonsProps) => {
   const handleSelect = (label: string, option: string) => {
     const newFilters = { ...selectedFilters, [label]: option };
     setSelectedFilters(newFilters);
-    setOpenDropdown(null);
     onFilterChange(newFilters);
+    setOpenDropdown(null)
   };
 
   const clearAllFilters = () => {
     setSelectedFilters({});
     onFilterChange({});
+    setOpenDropdown(null);
   };
 
   // 외부 클릭 시 드롭다운 닫기
@@ -41,7 +43,7 @@ const FilterButtons = ({ onFilterChange }: FilterButtonsProps) => {
 
   return (
     <div className="flex flex-wrap justify-center gap-3 px-4 py-6">
-      {FILTER_OPTIOMS.map((filter) => (
+      {FILTER_OPTIONS.map((filter) => (
         <div
         className="relative flex items-center gap-1"
         key={filter.label}
@@ -72,17 +74,7 @@ const FilterButtons = ({ onFilterChange }: FilterButtonsProps) => {
               className="ml-2 border border-gray-300 rounded-full p-1 hover:bg-gray-100"
               aria-label="전체 필터 초기화"
             >
-              {/* JSX 아이콘 */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-4 h-4 text-black"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-              </svg>
+              <X className="w-4 h-4"/>
             </button>
           )}
 
