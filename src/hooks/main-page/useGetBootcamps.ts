@@ -3,8 +3,8 @@ import { END_POINT } from "@/constants/endPoint";
 import { useQuery } from "@tanstack/react-query";
 
 const getBootcamp = async () => {
-  const res = await axiosDefault.get(END_POINT.BOOTCAMPS);
-  return res.data;
+  const response = await axiosDefault.get(END_POINT.BOOTCAMPS);
+  return response.data;
 };
 
 export const useGetBootcamps = () => {

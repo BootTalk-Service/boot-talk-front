@@ -2,10 +2,19 @@ import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import { useQuery } from "@tanstack/react-query";
 
+interface UserInfo {
+  t_user_id: number;
+  email: string;
+  name: string;
+  desired_career: string;
+  current_point: number;
+  profile_image: string | null;
+}
+
 const fetchMyInfo = async () => {
   try {
-    const response = await axiosDefault.get(END_POINT.MY_INFO, {});
-    return response.data.data;
+    const response = await axiosDefault.get<UserInfo>(END_POINT.MY_INFO);
+    return response.data;
   } catch (error) {
     console.error("Failed to fetch my info:", error);
     throw error;

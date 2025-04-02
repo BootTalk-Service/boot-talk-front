@@ -14,7 +14,7 @@ interface Review {
 const fetchMyReviews = async () => {
   try {
     const response = await axiosDefault.get(END_POINT.MY_REVIEWS);
-    return response.data.data;
+    return response.data;
   } catch (error) {
     console.error("Failed to fetch my reviews:", error);
     throw error;

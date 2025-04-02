@@ -1,10 +1,10 @@
 "use client";
 
-import Certificates from "@/components/mypage/Certificates";
-import MyPageLayout from "@/components/mypage/MyPageLayout";
-import MyReviews from "@/components/mypage/MyReviews";
-import PointHistory from "@/components/mypage/PointHistory";
-import ProfileEdit from "@/components/mypage/ProfileEdit";
+import Certificates from "@/components/feature/mypage/Certificates";
+import MyPageLayout from "@/components/feature/mypage/MyPageLayout";
+import MyReviews from "@/components/feature/mypage/MyReviews";
+import PointHistory from "@/components/feature/mypage/PointHistory";
+import ProfileEdit from "@/components/feature/mypage/ProfileEdit";
 import { useState } from "react";
 
 export default function Mypage() {
