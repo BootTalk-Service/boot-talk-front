@@ -4,7 +4,9 @@ export const END_POINT = {
   BOOTCAMPS: "/api/bootcamps",
   MY_REVIEWS: "/api/reviews/my",
   POINT_HISTORY: "api/points/me",
-  MENTOR_LIST: "/api/coffee-chats-info/search",
+  MENTOR_LIST: "/api/coffee-chats/info/search",
   ACCEPTED_COFFEE_CHATS: "/api/coffee-chats/accepted",
   FILE_UPLOAD: "/api/file/upload",
+  SENT_COFFEE_CHATS: "/api/coffee-chats/applications",
+  RECEIVED_COFFEE_CHATS: "/api/coffee-chats/received",
 } as const;

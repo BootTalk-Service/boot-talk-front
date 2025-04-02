@@ -1,13 +1,16 @@
-import { useCoffeeChatStore } from "@/store/coffee-chat/useCoffeeChatStore";
+import {
+  SubTab,
+  useCoffeeChatStore,
+} from "@/store/coffee-chat/useCoffeeChatStore";
 
 const MyChatTabNavigation = () => {
   const { subTab, setSubTab } = useCoffeeChatStore();
 
   const tabs = [
-    { id: "list", label: "커피챗 리스트" },
-    { id: "sent", label: "보낸 신청" },
-    { id: "received", label: "받은 신청" },
-    { id: "conversations", label: "대화목록" },
+    { id: SubTab.LIST, label: "커피챗 리스트" },
+    { id: SubTab.SENT, label: "보낸 신청" },
+    { id: SubTab.RECEIVED, label: "받은 신청" },
+    { id: SubTab.CONVERSATIONS, label: "대화목록" },
   ];
 
   return (
@@ -15,7 +18,7 @@ const MyChatTabNavigation = () => {
       {tabs.map((tab) => (
         <button
           key={tab.id}
-          className={`px-4 py-2 ${
+          className={`px-4 py-2 whitespace-nowrap${
             subTab === tab.id
               ? "border-b-2 border-amber-950 text-amber-950 font-medium"
               : "text-gray-500"

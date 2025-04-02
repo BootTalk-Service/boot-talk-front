@@ -25,7 +25,7 @@ export const handlers = [
   }),
 
   http.get(END_POINT.MENTOR_LIST, () => {
-    return HttpResponse.json(DB.mentors, {});
+    return HttpResponse.json(DB.mentorList, {});
   }),
 
   http.get(END_POINT.ACCEPTED_COFFEE_CHATS, () => {
@@ -106,5 +106,12 @@ export const handlers = [
       );
     }
   }),
-];
 
+  http.get(END_POINT.SENT_COFFEE_CHATS, () => {
+    return HttpResponse.json(DB.sentCoffeeChats, {});
+  }),
+
+  http.get(END_POINT.RECEIVED_COFFEE_CHATS, () => {
+    return HttpResponse.json(DB.receivedCoffeeChats, {});
+  }),
+];
