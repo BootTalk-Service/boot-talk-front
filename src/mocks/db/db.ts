@@ -469,31 +469,27 @@ export const DB = {
     },
   ],
 
-  acceptedCoffeeChats: {
-    message: "커피챗 수락 목록이 조회되었습니다.",
-    data: [
-      {
-        id: 1,
-        title: "프론트엔드 개발 이야기",
-        host: "김개발",
-        date: "2025-03-30",
-        status: "예정됨",
-      },
-      {
-        id: 2,
-        title: "리액트 학습 팁",
-        host: "이리액트",
-        date: "2025-04-02",
-        status: "예정됨",
-      },
-      {
-        id: 3,
-        title: "주니어 개발자 성장기",
-        host: "박주니어",
-        date: "2025-04-05",
-        status: "예정됨",
-      },
-    ],
-    error: null,
-  },
+  acceptedCoffeeChats: [
+    {
+      id: 1,
+      title: "프론트엔드 개발 이야기",
+      host: "김개발",
+      date: "2025-03-30",
+      status: "예정됨",
+    },
+    {
+      id: 2,
+      title: "리액트 학습 팁",
+      host: "이리액트",
+      date: "2025-04-02",
+      status: "예정됨",
+    },
+    {
+      id: 3,
+      title: "주니어 개발자 성장기",
+      host: "박주니어",
+      date: "2025-04-05",
+      status: "예정됨",
+    },
+  ],
 };
