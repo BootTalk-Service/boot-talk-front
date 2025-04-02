@@ -2,16 +2,12 @@ export const DB = {
   example: [{ id: 1, name: "홍길동" }],
 
   myInfo: {
-    message: "사용자 정보가 조회되었습니다.",
-    data: {
-      t_user_id: 1,
-      email: "frontend@example.com",
-      name: "김개발",
-      desired_Career: "프론트엔드",
-      current_point: 5,
-      profile_image: null,
-    },
-    error: null,
+    t_user_id: 1,
+    email: "frontend@example.com",
+    name: "김개발",
+    desired_career: "프론트엔드",
+    current_point: 2,
+    profile_image: "/profile-default.png",
   },
 
   bootcamps: [
@@ -469,38 +465,35 @@ export const DB = {
     },
   ],
 
-  myReviews: {
-    message: "사용자가 작성한 리뷰 조회 성공",
-    data: [
-      {
-        t_user_id: 1,
-        bootcampId: 1,
-        bootcampName: "부트1",
-        content: "오프라인 강의가 정말 좋았어요!",
-        rating: 5,
-        created_at: "2024-03-08",
-      },
-      {
-        t_user_id: 2,
-        bootcampId: 2,
-        bootcampName: "부트2",
-        rating: 4,
-        content:
-          "실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요.",
-        created_at: "2024-03-08",
-      },
-      {
-        t_user_id: 3,
-        bootcampId: 3,
-        bootcampName: "부트3",
-        rating: 3,
-        content: "강사님은 좋았는데 자료가 조금 부족했어요.",
-        created_at: "2024-03-15",
-      },
-    ],
-  },
+  myReviews: [
+    {
+      t_user_id: 1,
+      bootcampId: 1,
+      bootcampName: "부트1",
+      content: "오프라인 강의가 정말 좋았어요!",
+      rating: 5,
+      created_at: "2024-03-08",
+    },
+    {
+      t_user_id: 2,
+      bootcampId: 2,
+      bootcampName: "부트2",
+      rating: 4,
+      content:
+        "실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요.",
+      created_at: "2024-03-08",
+    },
+    {
+      t_user_id: 3,
+      bootcampId: 3,
+      bootcampName: "부트3",
+      rating: 3,
+      content: "강사님은 좋았는데 자료가 조금 부족했어요.",
+      created_at: "2024-03-15",
+    },
+  ],
 
-  points: [
+  pointHistory: [
     {
       point_id: 1,
       user_id: 1,

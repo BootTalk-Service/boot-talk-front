@@ -21,7 +21,7 @@ const MyReviews = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 pb-4">
+    <div className="max-w-4xl mx-auto">
       {myReviews?.length === 0 ? (
         <p className="text-gray-500">작성된 리뷰가 없습니다.</p>
       ) : (
