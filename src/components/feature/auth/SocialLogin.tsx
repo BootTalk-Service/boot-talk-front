@@ -1,7 +1,26 @@
+"use client";
+
+import { useAuthStore } from "@/store/authStore";
+import { useRouter } from "next/navigation";
 import AuthCard from "@/components/common/AuthCard"
 import Image from "next/image"
+import { DB } from "@/mocks/db/db";
+import { transformUser } from "@/mocks/db/transformUser"
 
-const SocialLogin  = () => {
+const SocialLogin = () => {
+  const router = useRouter();
+  const { login } = useAuthStore();
+
+  const handleNaverLogin = () => {
+    const mockUserFromDB = DB.myInfo.data;
+
+    const mockUser = transformUser(mockUserFromDB);
+
+    login(mockUser, "mock_token");
+    localStorage.setItem("access_token", "mock_token");
+    router.push("/");
+  };
+
   return (
     <AuthCard>
       <div className="flex flex-col items-center justify-center w-full h-full gap-4">
@@ -17,11 +36,7 @@ const SocialLogin  = () => {
         </p>
         <button
           className="btn btn-success text-white text-base mt-6 min-w-[180px] min-h-[44px] mb-6"
-          onClick={() => {
-            // TODO: 소셜로그인 - api 명세, 로그인 주소 / 로그인 후 첫 이용 고객은 직무 선택
-            window.location.href =
-              "https://your-backend.com/oauth2/authorization/naver";
-          }}
+          onClick={handleNaverLogin}
         >
           네이버로 로그인
         </button>
@@ -30,4 +45,4 @@ const SocialLogin  = () => {
   )
 }
 
-export default SocialLogin
+export default SocialLogin;
