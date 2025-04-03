@@ -2,17 +2,17 @@
 
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
-import AuthCard from "@/components/common/AuthCard"
-import Image from "next/image"
+import AuthCard from "@/components/common/AuthCard";
+import Image from "next/image";
 import { DB } from "@/mocks/db/db";
-import { transformUser } from "@/mocks/db/transformUser"
+import { transformUser } from "@/mocks/db/transformUser";
 
 const SocialLogin = () => {
   const router = useRouter();
   const { login } = useAuthStore();
 
   const handleNaverLogin = () => {
-    const mockUserFromDB = DB.myInfo.data;
+    const mockUserFromDB = DB.myInfo;
 
     const mockUser = transformUser(mockUserFromDB);
 
@@ -32,7 +32,9 @@ const SocialLogin = () => {
           className="object-contain mt-6 mb-10"
         />
         <p className="text-base text-center leading-relaxed">
-          우리 부트톡<br />너희들의 미래를 담당하지
+          우리 부트톡
+          <br />
+          너희들의 미래를 담당하지
         </p>
         <button
           className="btn btn-success text-white text-base mt-6 min-w-[180px] min-h-[44px] mb-6"
@@ -42,7 +44,7 @@ const SocialLogin = () => {
         </button>
       </div>
     </AuthCard>
-  )
-}
+  );
+};
 
 export default SocialLogin;
