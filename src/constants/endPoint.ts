@@ -9,4 +9,5 @@ export const END_POINT = {
   FILE_UPLOAD: "/api/file/upload",
   SENT_COFFEE_CHATS: "/api/coffee-chats/applications",
   RECEIVED_COFFEE_CHATS: "/api/coffee-chats/received",
+  AUTH_NAVER: "/api/auth/naver"
 } as const;

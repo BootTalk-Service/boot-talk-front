@@ -114,4 +114,20 @@ export const handlers = [
   http.get(END_POINT.RECEIVED_COFFEE_CHATS, () => {
     return HttpResponse.json(DB.receivedCoffeeChats, {});
   }),
+  
+  http.post(END_POINT.AUTH_NAVER, () => {
+    const { t_user_id, name, email, profile_image, current_point } = DB.myInfo;
+  
+    return HttpResponse.json({
+      success: true,
+      token: "mock_token",
+      user: {
+        id: t_user_id,
+        name,
+        email,
+        avatarUrl: profile_image ?? "/profile-default.png",
+        points: current_point,
+      },
+    });
+  }),
 ];

@@ -4,21 +4,33 @@ import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import AuthCard from "@/components/common/AuthCard";
 import Image from "next/image";
-import { DB } from "@/mocks/db/db";
-import { transformUser } from "@/mocks/db/transformUser";
 
 const SocialLogin = () => {
   const router = useRouter();
   const { login } = useAuthStore();
 
-  const handleNaverLogin = () => {
-    const mockUserFromDB = DB.myInfo;
-
-    const mockUser = transformUser(mockUserFromDB);
-
-    login(mockUser, "mock_token");
-    localStorage.setItem("access_token", "mock_token");
-    router.push("/");
+  const handleNaverLogin = async () => {
+    try {
+      const res = await fetch("/api/auth/naver", {
+        method: "POST",
+      });
+  
+      if (!res.ok) {
+        throw new Error("네이버 로그인 실패");
+      }
+  
+      const data = await res.json();
+  
+      if (!data.user || !data.token) {
+        throw new Error("유저 정보 또는 토큰 누락");
+      }
+  
+      login(data.user, data.token)
+      localStorage.setItem("access_token", data.token);
+      router.push("/");
+    } catch (err) {
+      console.error("❌ 네이버 로그인 에러:", err);
+    }
   };
 
   return (
