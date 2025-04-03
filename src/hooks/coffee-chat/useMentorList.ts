@@ -3,18 +3,21 @@ import { END_POINT } from "@/constants/endPoint";
 import { useQuery } from "@tanstack/react-query";
 
 interface Mentor {
-  t_user_id: number;
-  user_type: string;
-  name: string;
-  career: string;
+  coffeeChatInfoId: number;
+  userId: number;
+  userName: string;
+  userType: string;
+  jobType: string;
   introduction: string;
-  coffee_chat_schedule: string[];
+  createdAt: string;
+  updatedAt: string;
+  deleted: boolean;
 }
 
 const fetchMentorList = async () => {
   try {
     const response = await axiosDefault.get(END_POINT.MENTOR_LIST, {});
-    return response.data.data;
+    return response.data;
   } catch (error) {
     console.error("Failed to fetch mentor list:", error);
     throw error;

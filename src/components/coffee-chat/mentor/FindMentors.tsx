@@ -34,13 +34,13 @@ const FindMentors = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {mentorList?.map((mentor) => (
           <div
-            key={mentor.t_user_id}
-            className="p-4 bg-white rounded shadow hover:shadow-md transition-shadow"
+            key={mentor.userId}
+            className="p-4 bg-white border border-base-300 rounded shadow hover:shadow-md transition-shadow"
           >
             <div className="flex justify-between">
               <div>
-                <h4 className="font-semibold text-lg">{mentor.name}</h4>
-                <p className="text-gray-600">{mentor.user_type}</p>
+                <h4 className="font-semibold text-lg">{mentor.userName}</h4>
+                <p className="text-gray-600">{mentor.userType}</p>
               </div>
               <button className="text-xs text-amber-950 border border-amber-950 px-2 py-1 rounded">
                 프로필 보기
@@ -50,16 +50,15 @@ const FindMentors = () => {
             <div className="mt-3">
               <div className="flex flex-wrap gap-1 mb-2">
                 <span className="text-xs bg-amber-100 text-amber-950 px-2 py-1 rounded">
-                  {mentor.career}
+                  {mentor.jobType}
                 </span>
               </div>
               <p className="text-sm text-gray-600 mb-1">
                 <span className="font-medium">커피챗 비용:</span>{" "}
-                {mentor.user_type === "현업자" ? 3 : 1}포인트
+                {mentor.userType === "현업자" ? 3 : 1}포인트
               </p>
               <p className="text-sm text-gray-600 mb-3">
-                <span className="font-medium">가능 날짜:</span>{" "}
-                {mentor.coffee_chat_schedule.length}일 가능
+                <span className="font-medium">가능 날짜:</span> 3일 가능
               </p>
               <button className="w-full py-2 bg-amber-950 text-white hover:bg-amber-900 rounded-lg transition-colors">
                 신청하기

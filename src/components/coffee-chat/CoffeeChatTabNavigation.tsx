@@ -1,4 +1,7 @@
-import { useCoffeeChatStore } from "@/store/coffee-chat/useCoffeeChatStore";
+import {
+  useCoffeeChatStore,
+  MainTab,
+} from "@/store/coffee-chat/useCoffeeChatStore";
 import React from "react";
 
 const CoffeeChatTabNavigation = () => {
@@ -9,7 +12,7 @@ const CoffeeChatTabNavigation = () => {
     <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
       <button
         className={`flex-1 py-2 px-4 rounded-md ${
-          mainTab === "find-mentors"
+          mainTab === MainTab.FIND_MENTORS
             ? "bg-white shadow-sm font-medium"
             : "text-gray-600 hover:bg-gray-200"
         }`}
@@ -19,7 +22,7 @@ const CoffeeChatTabNavigation = () => {
       </button>
       <button
         className={`flex-1 py-2 px-4 rounded-md ${
-          mainTab === "my-chats"
+          mainTab === MainTab.MY_CHATS
             ? "bg-white shadow-sm font-medium"
             : "text-gray-600 hover:bg-gray-200"
         }`}

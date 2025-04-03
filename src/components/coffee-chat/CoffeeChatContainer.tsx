@@ -1,19 +1,22 @@
 "use client";
 
 import React from "react";
-import FindMentors from "./FindMentors";
-import MyChats from "./MyChats";
+import FindMentors from "./mentor/FindMentors";
+import MyChats from "./my-chat/MyChats";
 import CoffeeChatHeader from "./CoffeeChatHeader";
-import { useCoffeeChatStore } from "@/store/coffee-chat/useCoffeeChatStore";
+import {
+  MainTab,
+  useCoffeeChatStore,
+} from "@/store/coffee-chat/useCoffeeChatStore";
 import CoffeeChatTabNavigation from "./CoffeeChatTabNavigation";
 
 const CoffeeChatContainer = () => {
   const mainTab = useCoffeeChatStore((state) => state.mainTab);
 
   const renderMainContent = () => {
-    if (mainTab === "find-mentors") {
+    if (mainTab === MainTab.FIND_MENTORS) {
       return <FindMentors />;
-    } else if (mainTab === "my-chats") {
+    } else if (mainTab === MainTab.MY_CHATS) {
       return <MyChats />;
     }
   };
