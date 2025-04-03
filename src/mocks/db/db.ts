@@ -2,16 +2,12 @@ export const DB = {
   example: [{ id: 1, name: "홍길동" }],
 
   myInfo: {
-    message: "사용자 정보가 조회되었습니다.",
-    data: {
-      t_user_id: 1,
-      email: "frontend@example.com",
-      name: "김개발",
-      desired_Career: "프론트엔드",
-      current_point: 5,
-      profile_image: null,
-    },
-    error: null,
+    t_user_id: 1,
+    email: "frontend@example.com",
+    name: "김개발",
+    desired_career: "프론트엔드",
+    current_point: 2,
+    profile_image: "/profile-default.png",
   },
 
   bootcamps: [
@@ -38,7 +34,7 @@ export const DB = {
     {
       bootcamp_id: 2,
       bootcamp_name: "패스트캠퍼스",
-      training_center_name: "프론트엔드 실무 마스터 캠프 두줄 이상은 ... 처리 예정입니다. 예제",
+      training_center_name: "프론트엔드 실무 마스터 캠프",
       bootcamp_region: "서울특별시 마포구",
       bootcamp_cost: false,
       bootcamp_link: "https://example.com/bootcamp/2",
@@ -74,7 +70,6 @@ export const DB = {
       triaining_center_email: "soojung.lee@hanghae99.kr",
       trainging_center_address: "경기도 성남시 판교로 10",
       trainging_center_url: "https://hanghae99.spartacodingclub.kr/",
-
     },
     {
       bootcamp_id: 4,
@@ -115,7 +110,6 @@ export const DB = {
       triaining_center_email: "yuna.park@likelion.net",
       trainging_center_address: "대구광역시 달서구 달구벌대로 789",
       trainging_center_url: "https://likelion.net/",
-
     },
     {
       bootcamp_id: 6,
@@ -176,7 +170,6 @@ export const DB = {
       triaining_center_email: "soojung.lee@hanghae99.kr",
       trainging_center_address: "경기도 성남시 판교로 10",
       trainging_center_url: "https://hanghae99.spartacodingclub.kr/",
-
     },
     {
       bootcamp_id: 9,
@@ -197,7 +190,6 @@ export const DB = {
       triaining_center_email: "minho.jung@codestates.com",
       trainging_center_address: "부산광역시 해운대구 센텀서로 30",
       trainging_center_url: "https://www.codestates.com/",
-
     },
     {
       bootcamp_id: 10,
@@ -221,125 +213,78 @@ export const DB = {
     },
   ],
 
-  mentors: {
-    message: "멘토 목록이 조회되었습니다.",
-    data: [
-      {
-        t_user_id: 101,
-        user_type: "수료자",
-        name: "김백엔드",
-        career: "백엔드",
-        introduction: "제로베이스 30기 수료자",
-        coffee_chat_schedule: [
-          {
-            day_of_week: "월",
-            start_time: "21:00",
-            end_time: "23:00",
-            is_available: true,
-          },
-          {
-            day_of_week: "수",
-            start_time: "20:00",
-            end_time: "22:00",
-            is_available: true,
-          },
-        ],
-      },
-      {
-        t_user_id: 102,
-        user_type: "현업자",
-        name: "박프론트",
-        career: "프론트엔드",
-        introduction: "Vue와 React에 익숙한 프리랜서 개발자입니다.",
-        coffee_chat_schedule: [
-          {
-            day_of_week: "화",
-            start_time: "19:00",
-            end_time: "21:00",
-            is_available: true,
-          },
-          {
-            day_of_week: "목",
-            start_time: "20:00",
-            end_time: "22:00",
-            is_available: true,
-          },
-        ],
-      },
-      {
-        t_user_id: 103,
-        user_type: "현업자",
-        name: "이AI",
-        career: "AI 엔지니어",
-        introduction: "LLM, 챗봇 개발 경험 있습니다. 관심 있으신 분 환영!",
-        coffee_chat_schedule: [
-          {
-            day_of_week: "월",
-            start_time: "18:00",
-            end_time: "20:00",
-            is_available: true,
-          },
-        ],
-      },
-      {
-        t_user_id: 104,
-        user_type: "현업자",
-        name: "최디자인",
-        career: "UX/UI 디자이너",
-        introduction: "프론트와 협업 경험이 풍부한 디자이너입니다.",
-        coffee_chat_schedule: [
-          {
-            day_of_week: "화",
-            start_time: "20:00",
-            end_time: "22:00",
-            is_available: true,
-          },
-          {
-            day_of_week: "금",
-            start_time: "21:00",
-            end_time: "23:00",
-            is_available: true,
-          },
-        ],
-      },
-      {
-        t_user_id: 105,
-        user_type: "현업자",
-        name: "정데이터",
-        career: "데이터 분석가",
-        introduction: "SQL, Tableau, Python 활용 데이터 시각화 도움 가능",
-        coffee_chat_schedule: [
-          {
-            day_of_week: "수",
-            start_time: "19:00",
-            end_time: "21:00",
-            is_available: true,
-          },
-        ],
-      },
-      {
-        t_user_id: 106,
-        user_type: "현업자",
-        name: "이프론트",
-        career: "DevOps 엔지니어",
-        introduction: "AWS 인프라 구성 및 CI/CD 파이프라인 경험 공유 가능",
-        coffee_chat_schedule: [
-          {
-            day_of_week: "목",
-            start_time: "19:30",
-            end_time: "21:30",
-            is_available: true,
-          },
-          {
-            day_of_week: "토",
-            start_time: "14:00",
-            end_time: "16:00",
-            is_available: true,
-          },
-        ],
-      },
-    ],
-  },
+  mentorList: [
+    {
+      coffeeChatInfoId: 1,
+      userId: 101,
+      userName: "김자바",
+      userType: "현업자",
+      jobType: "백엔드",
+      introduction:
+        "Java와 Spring 기반의 마이크로서비스 아키텍처 경험이 풍부합니다.",
+      createdAt: "2024-04-02T10:15:30Z",
+      updated_at: "2024-04-02T10:15:30Z",
+      deleted: false,
+    },
+    {
+      coffeeChatInfoId: 2,
+      userId: 102,
+      userName: "박고",
+      userType: "현업자",
+      jobType: "프론트엔드",
+      introduction:
+        "Go 언어와 gRPC 기반 시스템을 개발하고 운영한 경험이 있습니다.",
+      createdAt: "2024-04-02T11:00:45Z",
+      updatedAt: "2024-04-02T11:00:45Z",
+      deleted: false,
+    },
+    {
+      coffeeChatInfoId: 3,
+      userId: 103,
+      userName: "최노드",
+      userType: "수료자",
+      jobType: "프론트엔드",
+      introduction:
+        "Node.js와 Express를 활용한 RESTful API 개발을 주로 하고 있습니다.",
+      createdAt: "2024-04-02T12:20:15Z",
+      updatedAt: "2024-04-02T12:20:15Z",
+      deleted: false,
+    },
+    {
+      coffeeChatInfoId: 4,
+      userId: 104,
+      userName: "이장고",
+      userType: "수료자",
+      jobType: "백엔드",
+      introduction:
+        "Python과 Django를 이용한 웹 애플리케이션 백엔드 개발을 담당합니다.",
+      createdAt: "2024-04-02T13:45:05Z",
+      updatedAt: "2024-04-02T13:45:05Z",
+      deleted: false,
+    },
+    {
+      coffeeChatInfoId: 5,
+      userId: 105,
+      userName: "유도커",
+      userType: "수료자",
+      jobType: "백엔드",
+      introduction: "Kubernetes와 Docker를 활용한 배포 자동화 경험이 있습니다.",
+      createdAt: "2024-04-02T14:30:22Z",
+      updatedAt: "2024-04-02T14:30:22Z",
+      deleted: false,
+    },
+    {
+      coffeeChatInfoId: 6,
+      userId: 106,
+      userName: "강데이터",
+      userType: "현업자",
+      jobType: "프론트엔드",
+      introduction: "대규모 데이터 처리와 SQL 최적화에 강점이 있습니다.",
+      createdAt: "2024-04-02T15:10:40Z",
+      updatedAt: "2024-04-02T15:10:40Z",
+      deleted: false,
+    },
+  ],
 
   chat_messages: [
     {
@@ -469,38 +414,35 @@ export const DB = {
     },
   ],
 
-  myReviews: {
-    message: "사용자가 작성한 리뷰 조회 성공",
-    data: [
-      {
-        t_user_id: 1,
-        bootcampId: 1,
-        bootcampName: "부트1",
-        content: "오프라인 강의가 정말 좋았어요!",
-        rating: 5,
-        created_at: "2024-03-08",
-      },
-      {
-        t_user_id: 2,
-        bootcampId: 2,
-        bootcampName: "부트2",
-        rating: 4,
-        content:
-          "실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요.",
-        created_at: "2024-03-08",
-      },
-      {
-        t_user_id: 3,
-        bootcampId: 3,
-        bootcampName: "부트3",
-        rating: 3,
-        content: "강사님은 좋았는데 자료가 조금 부족했어요.",
-        created_at: "2024-03-15",
-      },
-    ],
-  },
+  myReviews: [
+    {
+      t_user_id: 1,
+      bootcampId: 1,
+      bootcampName: "부트1",
+      content: "오프라인 강의가 정말 좋았어요!",
+      rating: 5,
+      created_at: "2024-03-08",
+    },
+    {
+      t_user_id: 2,
+      bootcampId: 2,
+      bootcampName: "부트2",
+      rating: 4,
+      content:
+        "실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요. 실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요.",
+      created_at: "2024-03-08",
+    },
+    {
+      t_user_id: 3,
+      bootcampId: 3,
+      bootcampName: "부트3",
+      rating: 3,
+      content: "강사님은 좋았는데 자료가 조금 부족했어요.",
+      created_at: "2024-03-15",
+    },
+  ],
 
-  points: [
+  pointHistory: [
     {
       point_id: 1,
       user_id: 1,
@@ -530,31 +472,75 @@ export const DB = {
     },
   ],
 
-  acceptedCoffeeChats: {
-    message: "커피챗 수락 목록이 조회되었습니다.",
-    data: [
-      {
-        id: 1,
-        title: "프론트엔드 개발 이야기",
-        host: "김개발",
-        date: "2025-03-30",
-        status: "예정됨",
-      },
-      {
-        id: 2,
-        title: "리액트 학습 팁",
-        host: "이리액트",
-        date: "2025-04-02",
-        status: "예정됨",
-      },
-      {
-        id: 3,
-        title: "주니어 개발자 성장기",
-        host: "박주니어",
-        date: "2025-04-05",
-        status: "예정됨",
-      },
-    ],
-    error: null,
-  },
+  acceptedCoffeeChats: [
+    {
+      id: 1,
+      title: "프론트엔드 개발 이야기",
+      host: "김개발",
+      date: "2025-03-30",
+      status: "예정됨",
+    },
+    {
+      id: 2,
+      title: "리액트 학습 팁",
+      host: "이리액트",
+      date: "2025-04-02",
+      status: "예정됨",
+    },
+    {
+      id: 3,
+      title: "주니어 개발자 성장기",
+      host: "박주니어",
+      date: "2025-04-05",
+      status: "예정됨",
+    },
+  ],
+
+  sentCoffeeChats: [
+    {
+      coffeeChatApplicationId: 1,
+      coffeeChatInfoId: 1,
+      applierName: "양금명",
+      applierUserId: 1,
+      request_start_time: "2025-03-20 21:00",
+      request_end_time: "2025-03-20 22:00",
+      status: "PENDING",
+      content: "백엔드 커리어 상담을 받고 싶습니다.",
+    },
+    {
+      coffeeChatApplicationId: 2,
+      coffeeChatInfoId: 2,
+      applierName: "양은명",
+      applierUserId: 2,
+      request_start_time: "2025-03-22 19:00",
+      request_end_time: "2025-03-22 20:00",
+      status: "CONFIRMED",
+      content: "프론트엔드 개발 학습 방법에 대해 듣고 싶습니다.",
+    },
+  ],
+
+  receivedCoffeeChats: [
+    {
+      coffeeChatApplicationId: 1,
+      coffeeChatInfoId: 2,
+      applierName: "오애순",
+      applierUserId: 1,
+      status: "PENDING",
+      content: "백엔드 학습에 대해 상담하고 싶습니다.",
+      request_start_time: "2025-03-25T21:00:00",
+      request_end_time: "2025-03-25T22:00:00",
+      updatedAt: null,
+    },
+    {
+      coffeeChatApplicationId: 2,
+      coffeeChatInfoId: 3,
+      applierName: "양관식",
+      applierUserId: 2,
+      status: "PENDING",
+      content: "프론트엔드 학습 방법을 배우고 싶습니다.",
+      request_start_time: "2025-03-25T19:00:00",
+      request_end_time: "2025-03-25T20:00:00",
+      updatedAt: null,
+    },
+  ],
 };

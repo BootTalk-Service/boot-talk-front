@@ -2,18 +2,18 @@ import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import { useQuery } from "@tanstack/react-query";
 
-export const getExample = async () => {
-  const res = await axiosDefault.get(END_POINT.EXAMPLE);
+export const fetchExample = async () => {
+  const response = await axiosDefault.get(END_POINT.EXAMPLE);
 
-  console.log("API 응답:", res.data);
+  console.log("API 응답:", response.data);
 
-  return res.data;
+  return response.data;
 };
 
 export const useGetExample = () => {
   const { data: example } = useQuery({
     queryKey: ["example"],
-    queryFn: getExample,
+    queryFn: fetchExample,
   });
 
   return { example };

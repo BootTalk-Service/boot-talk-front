@@ -25,6 +25,7 @@ const MyPageLayout = ({
     { id: "certificates", label: "수료증 인증", icon: <Award size={18} /> },
     { id: "points", label: "포인트 사용내역", icon: <CreditCard size={18} /> },
   ];
+  console.log("레이아웃 이미지", myInfo?.profile_image);
 
   return (
     <div className="container mx-auto p-4 max-w-6xl">
@@ -43,7 +44,7 @@ const MyPageLayout = ({
               <div className="flex items-center justify-center mb-4">
                 <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-base-100 shadow-lg">
                   <Image
-                    src={"/profile-defalut.png"}
+                    src={myInfo?.profile_image || "/profile-default.png"}
                     alt="프로필 사진"
                     width={150}
                     height={150}
@@ -52,12 +53,12 @@ const MyPageLayout = ({
                 </div>
               </div>
               <h2 className="text-xl font-bold text-center text-amber-950">
-                {myInfo.name}
+                {myInfo?.name}
               </h2>
               <div className="flex justify-center mt-2">
                 <div className="px-4 py-1 bg-amber-950 text-base-100 rounded-full font-medium flex items-center gap-1 shadow-sm">
                   <AwardIcon size={14} className="fill-current" />
-                  <span>{myInfo.current_point} P</span>
+                  <span>{myInfo?.current_point} P</span>
                 </div>
               </div>
             </div>
