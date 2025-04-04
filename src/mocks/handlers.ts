@@ -1,3 +1,4 @@
+import { MentorInfoData, MentorTimeData } from "./../types/request";
 import { END_POINT } from "@/constants/endPoint";
 import { http, HttpResponse } from "msw";
 import { DB } from "./db/db";
@@ -113,5 +114,53 @@ export const handlers = [
 
   http.get(END_POINT.RECEIVED_COFFEE_CHATS, () => {
     return HttpResponse.json(DB.receivedCoffeeChats, {});
+  }),
+
+  http.post(END_POINT.MENTOR_INFO, async ({ request }) => {
+    const body = await request.json();
+    const { userType, jobType, introduction } = body as MentorInfoData;
+
+    if (!userType || !jobType || !introduction) {
+      return HttpResponse.json(
+        {
+          message: "필수 입력 항목이 누락되었습니다.",
+        },
+        { status: 400 }
+      );
+    }
+
+    // 성공 응답
+    return HttpResponse.json(
+      {
+        userType,
+        jobType,
+        introduction,
+      },
+      { status: 200 }
+    );
+  }),
+
+  http.post(END_POINT.MENTOR_TIME, async ({ request }) => {
+    const body = await request.json();
+    const { availableTimes } = body as MentorTimeData;
+
+    if (
+      !availableTimes ||
+      typeof availableTimes !== "object" ||
+      Object.keys(availableTimes).length === 0
+    ) {
+      return HttpResponse.json(
+        {
+          message: "가능한 시간대를 하나 이상 입력해주세요.",
+        },
+        { status: 400 }
+      );
+    }
+    return HttpResponse.json(
+      {
+        availableTimes,
+      },
+      { status: 200 }
+    );
   }),
 ];
