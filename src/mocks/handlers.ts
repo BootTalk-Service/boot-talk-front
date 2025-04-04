@@ -123,12 +123,18 @@ export const handlers = [
       return HttpResponse.json({ error: "부트캠프를 찾을 수 없습니다." }, { status: 404 });
     }
   
-    const reviews = DB.reviews.filter((r) => r.t_review_id === bootcampId);
+    const reviews = DB.reviews.filter((r) => r.reviewId === bootcampId);
   
     return HttpResponse.json({
       ...bootcamp,
       reviews,
     });
   }),
-  
+
+  http.get(END_POINT.REVIEWS, () => {
+    return HttpResponse.json(
+      { content: DB.reviews },
+      { status: 200 }
+    );
+  }),
 ];
