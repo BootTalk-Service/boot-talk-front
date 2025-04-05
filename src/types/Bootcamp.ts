@@ -30,6 +30,7 @@ export interface BootcampDetail extends Bootcamp {
 
 
 export interface Review {
+  t_review_id: number;
   reviewId: number;
   userName: string;
   review_id: string;

@@ -343,7 +343,13 @@ export const DB = {
 
   reviews: [
     {
+
+      t_review_id: 1,
+      userName: "뽀로로개발자", 
+      review_id: "ACG20243001060786",
+
       reviewId: 1,
+
       t_user_id: 3,
       trainingProgramId: "ACG2024001060786",
       courseName: "네카레쿠배당토를 뜯어봅시다",
@@ -353,6 +359,19 @@ export const DB = {
       rating: 5,
     },
     {
+
+      t_review_id: 1,
+      userName: "코딩하는토끼",
+      review_id: "AIG202430010607Z99",
+      t_user_id: 5,
+      rating: 4,
+      content: "실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요.",
+      created_at: "2024-03-04",
+    },
+    {
+      t_review_id: 2,
+      userName: "프론트짱민수",
+      review_id: "AIG20C243001060798",
       reviewId: 2,
       userName: "코딩하는토끼",
       trainingProgramId: "AIG20243001060799",
@@ -363,6 +382,10 @@ export const DB = {
       created_at: "2024-03-04",
     },
     {
+
+      t_review_id: 1,
+      userName: "버그박멸러",
+      review_id: "ACG20243001E060795",
       reviewId: 3,
       userName: "프론트짱민수",
       trainingProgramId: "AIG2C243001060798",
@@ -383,6 +406,10 @@ export const DB = {
       created_at: "2024-03-07",
     },
     {
+
+      t_review_id: 3,
+      userName: "리액트초보",
+      review_id: "ACG20243001060796",
       reviewId: 5,
       userName: "리액트초보",
       trainingProgramId: "ACG20243u001060796",
@@ -393,6 +420,10 @@ export const DB = {
       created_at: "2024-03-07",
     },
     {
+
+      t_review_id: 4,
+      userName: "코딩에진심인편",
+      review_id: "ACG20243001060789",
       reviewId: 6,
       userName: "코딩에진심인편",
       trainingProgramId: "ACG2024300g1060789",
@@ -403,6 +434,9 @@ export const DB = {
       created_at: "2024-03-10",
     },
     {
+      t_review_id: 5,
+      userName: "잠못드는개발자",
+      review_id: "ACG20243001060786",
       reviewId: 7,
       userName: "잠못드는개발자",
       trainingProgramId: "ACG20243001v060786",
@@ -413,6 +447,9 @@ export const DB = {
       created_at: "2024-03-13",
     },
     {
+      t_review_id: 6,
+      userName: "JS는내운명",
+      review_id: "AIG20243001060700",
       reviewId: 8,
       userName: "JS는내운명",
       trainingProgramId: "AIG2024301060700",
@@ -423,6 +460,9 @@ export const DB = {
       created_at: "2024-03-16",
     },
     {
+      t_review_id: 7,
+      userName: "디버깅하는사자",
+      review_id: "ACG20243001060295",
       reviewId: 9,
       userName: "디버깅하는사자",
       trainingProgramId: "ACG2024300i1060295",
@@ -433,6 +473,9 @@ export const DB = {
       created_at: "2024-03-19",
     },
     {
+      t_review_id: 8,
+      userName: "코드도비",
+      review_id: "ACG202430010789",
       reviewId: 10,
       userName: "코드도비",
       trainingProgramId: "ACG2024300h10789",
@@ -443,6 +486,9 @@ export const DB = {
       created_at: "2024-03-22",
     },
     {
+      t_review_id: 9,
+      userName: "코테레츠고",
+      review_id: "ACG202430010607088",
       reviewId: 11,
       userName: "코테레츠고",
       trainingProgramId: "ACG2024300106g07088",
@@ -453,6 +499,9 @@ export const DB = {
       created_at: "2024-03-25",
     },
     {
+      t_review_id: 10,
+      userName: "갈길이멀다",
+      review_id: "ACG202430010607186",
       reviewId: 12,
       userName: "갈길이멀다",
       trainingProgramId: "ACG202430010v607186",
