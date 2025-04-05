@@ -7,7 +7,7 @@ const MyChatTabNavigation = () => {
   const { subTab, setSubTab } = useCoffeeChatStore();
 
   const tabs = [
-    { id: SubTab.LIST, label: "커피챗 리스트" },
+    { id: SubTab.LIST, label: "예정 커피챗" },
     { id: SubTab.SENT, label: "보낸 신청" },
     { id: SubTab.RECEIVED, label: "받은 신청" },
     { id: SubTab.CONVERSATIONS, label: "대화목록" },
