@@ -116,6 +116,26 @@ export const handlers = [
     return HttpResponse.json(DB.receivedCoffeeChats, {});
   }),
 
+  http.get(END_POINT.BOOTCAMP_DETAIL(":id"), ({ params }) => {
+    const bootcampId = Number(params.id);
+    const bootcamp = DB.bootcamps.find((b) => b.bootcamp_id === bootcampId);
+  
+    if (!bootcamp) {
+      return HttpResponse.json({ error: "부트캠프를 찾을 수 없습니다." }, { status: 404 });
+    }
+  
+    const reviews = DB.reviews.filter((r) => r.reviewId === bootcampId);
+  
+    return HttpResponse.json({
+      ...bootcamp,
+      reviews,
+    });
+  }),
+
+  http.get(END_POINT.REVIEWS, () => {
+    return HttpResponse.json(
+      { content: DB.reviews },
+
   http.post(END_POINT.MENTOR_INFO, async ({ request }) => {
     const body = await request.json();
     const { userType, jobType, introduction } = body as MentorInfoData;
