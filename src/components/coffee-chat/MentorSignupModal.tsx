@@ -3,7 +3,7 @@ import Modal from "../common/modal/CommonModal";
 import { Clock, PencilLine, UserSearch } from "lucide-react";
 import { toast } from "react-toastify";
 import useMentorRegistration from "@/hooks/coffee-chat/useMentorRegistration";
-import TimeSlotSelector, { TimeSlot } from "./\bTimeSlotSelectorProps";
+import TimeSlotSelector, { TimeSlot } from "./TimeSlotSelectorProps";
 
 interface MentorSignupModalProps {
   isOpen: boolean;
