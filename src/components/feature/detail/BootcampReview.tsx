@@ -15,7 +15,7 @@ export default function BootcampReview({ reviews }: BootcampReviewProps) {
       <div className="space-y-4 text-base text-gray-700">
         {reviews?.length > 0 ? (
           reviews.map((review) => (
-            <ReviewItem key={review.review_id} review={review} />
+            <ReviewItem key={`${review.reviewId}-${review.trainingProgramId}`} review={review} />
           ))
         ) : (
           <p className="text-gray-500 text-sm">아직 등록된 리뷰가 없습니다.</p>
