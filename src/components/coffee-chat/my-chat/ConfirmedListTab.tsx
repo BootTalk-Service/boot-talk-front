@@ -4,21 +4,21 @@ const ConfirmedListTab = () => {
   const coffeeChats = [
     {
       id: 1,
-      title: "프론트엔드 개발 이야기",
-      host: "김개발",
+      title: "프론트엔드 상담 받고 싶어요",
+      host: "나",
       date: "2025-03-30",
       status: "예정됨",
     },
     {
       id: 2,
-      title: "리액트 학습 팁",
-      host: "이리액트",
+      title: "리액트 학습 팁 알려주세요",
+      host: "나",
       date: "2025-04-02",
       status: "예정됨",
     },
     {
       id: 3,
-      title: "주니어 개발자 성장기",
+      title: "주니어 개발자 성장에 대해서 궁금해요",
       host: "박주니어",
       date: "2025-04-05",
       status: "예정됨",
