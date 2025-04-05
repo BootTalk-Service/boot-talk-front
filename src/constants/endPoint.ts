@@ -10,4 +10,6 @@ export const END_POINT = {
   SENT_COFFEE_CHATS: "/api/coffee-chats/applications",
   RECEIVED_COFFEE_CHATS: "/api/coffee-chats/received",
   BOOTCAMP_DETAIL: (id: string) => `/bootcamps/${id}`,
+  MENTOR_INFO: "/api/coffee-chats/info/user-info",
+  MENTOR_TIME: "/api/coffee-chats/times/available-times",
 } as const;
