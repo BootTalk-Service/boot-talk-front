@@ -16,9 +16,9 @@ const CoffeeChatHeader: React.FC = () => {
   return (
     <>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-amber-950">커피챗</h1>
+        <h1 className="text-2xl font-bold">커피챗</h1>
         <button
-          className="px-4 py-2 bg-amber-950 text-white rounded-lg hover:bg-amber-900 transition-colors"
+          className="px-4 py-2 bg-amber-900 text-white rounded-lg hover:bg-amber-950 transition-colors"
           onClick={openModal}
         >
           커피챗 등록
