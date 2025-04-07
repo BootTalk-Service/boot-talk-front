@@ -5,7 +5,7 @@ export const END_POINT = {
   MY_REVIEWS: "/api/reviews/my",
   POINT_HISTORY: "api/points/me",
   MENTOR_LIST: "/api/coffee-chats/info/search",
-  ACCEPTED_COFFEE_CHATS: "/api/coffee-chats/accepted",
+  APPROVED_COFFEE_CHATS: "/api/coffee-chats/applications/approved",
   FILE_UPLOAD: "/api/file/upload",
   SENT_COFFEE_CHATS: "/api/coffee-chats/applications",
   RECEIVED_COFFEE_CHATS: "/api/coffee-chats/received",
@@ -13,4 +13,5 @@ export const END_POINT = {
   REVIEWS: "/api/reviews",
   MENTOR_INFO: "/api/coffee-chats/info/user-info",
   MENTOR_TIME: "/api/coffee-chats/times/available-times",
+  MENTOR_APPLICATION_TIME: "/api/coffee-chats/times/{mentorId}",
 } as const;

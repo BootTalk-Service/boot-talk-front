@@ -1,7 +1,8 @@
 export interface CoffeeChat {
-  coffeeChatApplicationId: string;
+  coffeeChatAppId: string;
   content: string;
   status: string;
-  applierName: string;
-  request_start_time: string;
+  menteeName: string;
+  mentoName: string;
+  coffeeChatStartTime: string;
 }
