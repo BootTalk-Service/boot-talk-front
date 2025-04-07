@@ -678,7 +678,7 @@ export const DB = {
       updatedAt: null,
     },
     {
-      coffeeChatApplicationId: 2,
+      coffeeChatAppId: 2,
       coffeeChatInfoId: 3,
       menteeName: "부상길",
       mentoName: "박영란",
@@ -689,7 +689,7 @@ export const DB = {
       updatedAt: null,
     },
     {
-      coffeeChatApplicationId: 3,
+      coffeeChatAppId: 3,
       coffeeChatInfoId: 4,
       menteeName: "박막천",
       mentoName: "권계옥",
@@ -700,7 +700,7 @@ export const DB = {
       updatedAt: null,
     },
     {
-      coffeeChatApplicationId: 4,
+      coffeeChatAppId: 4,
       coffeeChatInfoId: 5,
       menteeName: "전광례",
       mentoName: "염병철",
