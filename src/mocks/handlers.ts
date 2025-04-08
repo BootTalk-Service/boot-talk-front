@@ -29,10 +29,6 @@ export const handlers = [
     return HttpResponse.json(DB.mentorList, {});
   }),
 
-  http.get(END_POINT.ACCEPTED_COFFEE_CHATS, () => {
-    return HttpResponse.json(DB.acceptedCoffeeChats, {});
-  }),
-
   http.put(END_POINT.MY_INFO, async ({ request }) => {
     try {
       const body = await request.json();
@@ -106,6 +102,10 @@ export const handlers = [
         { status: 500 }
       );
     }
+  }),
+
+  http.get(END_POINT.APPROVED_COFFEE_CHATS, () => {
+    return HttpResponse.json(DB.approvedCoffeeChats, {});
   }),
 
   http.get(END_POINT.SENT_COFFEE_CHATS, () => {

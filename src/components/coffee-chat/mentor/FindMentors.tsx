@@ -1,3 +1,5 @@
+"use client";
+
 import { useMentorList } from "@/hooks/coffee-chat/useMentorList";
 import React from "react";
 
@@ -15,52 +17,64 @@ const FindMentors = () => {
 
   return (
     <div className="mt-4">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4 gap-4">
         <h3 className="text-lg font-semibold">멘토 리스트</h3>
-        <div className="flex space-x-2">
-          <select className="text-sm border rounded px-2 py-1">
-            <option>최신순</option>
-            <option>평점순</option>
+        <div className="flex flex-wrap gap-2">
+          <select className="text-sm border rounded px-3 py-2 bg-white focus:border-amber-900 focus:ring-1 focus:ring-amber-900 outline-none">
+            <option value="latest">최신순</option>
           </select>
-          <select className="text-sm border rounded px-2 py-1">
-            <option>모든 분야</option>
-            <option>프론트엔드</option>
-            <option>백엔드</option>
-            <option>디자인</option>
+          <select className="text-sm border rounded px-3 py-2 bg-white focus:border-amber-900 focus:ring-1 focus:ring-amber-900 outline-none">
+            <option value="all">모든 분야</option>
+            <option value="프론트엔드">프론트엔드</option>
+            <option value="백엔드">백엔드</option>
+            <option value="디자인">디자인</option>
           </select>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {mentorList?.map((mentor) => (
           <div
             key={mentor.userId}
-            className="p-4 bg-white border border-base-300 rounded shadow hover:shadow-md transition-shadow"
+            className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow h-full flex flex-col"
           >
             <div className="flex justify-between">
-              <div>
-                <h4 className="font-semibold text-lg">{mentor.userName}</h4>
-                <p className="text-gray-600">{mentor.userType}</p>
-              </div>
-              <button className="text-xs text-amber-950 border border-amber-950 px-2 py-1 rounded">
-                프로필 보기
-              </button>
+              <h4 className="font-semibold text-lg">{mentor.userName}</h4>
+              <span
+                className={`text-sm px-3 py-1 rounded-full ${
+                  mentor.userType === "현업자"
+                    ? "bg-gray-100 text-gray-800"
+                    : "bg-gray-50 text-gray-700"
+                }`}
+              >
+                {mentor.userType}
+              </span>
             </div>
 
-            <div className="mt-3">
-              <div className="flex flex-wrap gap-1 mb-2">
-                <span className="text-xs bg-amber-100 text-amber-950 px-2 py-1 rounded">
-                  {mentor.jobType}
+            <div className="my-3">
+              <span className="inline-block bg-gray-100 text-gray-700 text-xs font-medium px-2.5 py-1 rounded">
+                {mentor.jobType}
+              </span>
+            </div>
+
+            <div className="space-y-2 mt-2 text-sm text-gray-600 flex-grow">
+              <p className="flex justify-between">
+                <span>커피챗 비용:</span>
+                <span className="font-medium text-gray-800">
+                  {mentor.userType === "현업자" ? 3 : 1} 포인트
                 </span>
-              </div>
-              <p className="text-sm text-gray-600 mb-1">
-                <span className="font-medium">커피챗 비용:</span>{" "}
-                {mentor.userType === "현업자" ? 3 : 1}포인트
               </p>
-              <p className="text-sm text-gray-600 mb-3">
-                <span className="font-medium">가능 날짜:</span> 3일 가능
+              <p className="flex justify-between">
+                <span>가능 날짜:</span>
+                <span className="font-medium text-gray-800">3일 가능</span>
               </p>
-              <button className="w-full py-2 bg-amber-950 text-white hover:bg-amber-900 rounded-lg transition-colors">
+            </div>
+
+            <div className="flex space-x-2 mt-4">
+              <button className="flex-1 py-2 px-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-sm font-medium transition-colors">
+                프로필 보기
+              </button>
+              <button className="flex-1 py-2 px-3 bg-amber-900 hover:bg-amber-950 text-white rounded text-sm font-medium transition-colors">
                 신청하기
               </button>
             </div>
