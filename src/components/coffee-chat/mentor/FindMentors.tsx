@@ -1,3 +1,5 @@
+"use client";
+
 import { useMentorList } from "@/hooks/coffee-chat/useMentorList";
 import React from "react";
 
