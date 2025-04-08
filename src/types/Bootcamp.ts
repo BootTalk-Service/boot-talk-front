@@ -17,6 +17,7 @@ export interface Bootcamp {
   training_manager: string;
   training_manager_tel: string;
   training_manager_email: string;
+  bootcampIds: number;
 }
 
 export interface BootcampDetail extends Bootcamp {

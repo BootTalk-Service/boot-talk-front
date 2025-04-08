@@ -8,8 +8,8 @@ export const DB = {
     desired_career: "프론트엔드",
     current_point: 2,
     profile_image: "/profile-default.png",
+    bootcamp_id: [1],
   },
-
   bootcamps: [
     {
       bootcamp_id: 1,
