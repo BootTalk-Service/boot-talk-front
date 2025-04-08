@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { CoffeeChat } from "@/types/response";
 import Modal from "@/components/common/modal/CommonModal";
+import { getStatusBadge } from "./getStatusBadge";
 
 interface CoffeeChatDetailModalProps {
   isOpen: boolean;
@@ -39,49 +40,50 @@ const CoffeeChatDetailModal: React.FC<CoffeeChatDetailModalProps> = ({
       <div className="space-y-4">
         {/* 상태 뱃지 */}
         <div className="flex items-center">
-          <AlertCircle size={18} className="mr-2 text-primary" />
+          <AlertCircle size={18} className="mr-2 " />
           <span className="mr-2 font-medium">상태:</span>
-          <div
-            className={`badge ${
-              coffeeChat.status === "CONFIRMED"
-                ? "badge-success badge-outline"
-                : "badge-warning badge-outline"
-            }`}
-          >
-            {coffeeChat.status === "CONFIRMED" ? "승인됨" : "대기중"}
-          </div>
+          {getStatusBadge(coffeeChat.status)}
         </div>
 
         {/* 신청자/주최자 정보 */}
         <div className="flex items-center">
-          <User size={18} className="mr-2 text-primary" />
+          <User size={18} className="mr-2 " />
           <span className="mr-2 font-medium">
-            {isSent ? "주최자" : "신청자"}:
+            {isSent ? "멘토" : "신청자"}:
           </span>
-          <span>{coffeeChat.applierName}</span>
+          <span>{isSent ? coffeeChat.mentoName : coffeeChat.menteeName}</span>
         </div>
 
         {/* 날짜 및 시간 정보 */}
         <div className="flex items-center">
-          <Calendar size={18} className="mr-2 text-primary" />
+          <Calendar size={18} className="mr-2 " />
           <span className="mr-2 font-medium">신청 일시:</span>
           <span>
-            {new Date(coffeeChat.request_start_time).toLocaleDateString()}
+            {new Date(coffeeChat.coffeeChatStartTime).toLocaleDateString(
+              "ko-KR"
+            )}
           </span>
         </div>
 
         <div className="flex items-center">
-          <Clock size={18} className="mr-2 text-primary" />
+          <Clock size={18} className="mr-2 " />
           <span className="mr-2 font-medium">신청 시간:</span>
           <span>
-            {new Date(coffeeChat.request_start_time).toLocaleTimeString()}
+            {new Date(coffeeChat.coffeeChatStartTime).toLocaleTimeString(
+              "ko-KR",
+              {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+              }
+            )}
           </span>
         </div>
 
         {/* 메시지 */}
         <div className="mt-4">
           <div className="flex items-center mb-2">
-            <MessageCircle size={18} className="mr-2 text-primary self-start" />
+            <MessageCircle size={18} className="mr-2 self-start" />
             <span className="mr-2 font-medium whitespace-nowrap self-start">
               메시지:
             </span>

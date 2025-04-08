@@ -222,7 +222,7 @@ const MentorSignupModal: React.FC<MentorSignupModalProps> = ({
         <div className="pt-2 flex justify-end">
           <button
             type="submit"
-            className="btn bg-amber-950 w-full hover:bg-amber-900 text-white"
+            className="btn bg-amber-900 w-full hover:bg-amber-950 text-white"
             disabled={isPending}
           >
             {isPending ? "등록 중..." : "커피챗 멘토로 등록하기"}

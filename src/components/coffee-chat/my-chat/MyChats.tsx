@@ -3,9 +3,9 @@ import MyChatTabNavigation from "./MyChatTabNavigation";
 import ReceivedListTab from "./ReceivedListTab";
 import SentListTab from "./SentListTab";
 import ChattingListTab from "./ChattingListTab";
-import ConfirmedListTab from "./ConfirmedListTab";
 import { FC, useMemo } from "react";
 import { SubTab } from "@/store/coffee-chat/useCoffeeChatStore";
+import ApprovedListTab from "./ApprovedListTab";
 
 type TabComponents = Record<SubTab, FC>;
 
@@ -15,7 +15,7 @@ export default function MyChats() {
   // 활성화된 탭 컴포넌트만 렌더링하기 위한 맵
   const TabComponent: TabComponents = useMemo(
     () => ({
-      [SubTab.LIST]: ConfirmedListTab,
+      [SubTab.LIST]: ApprovedListTab,
       [SubTab.SENT]: SentListTab,
       [SubTab.RECEIVED]: ReceivedListTab,
       [SubTab.CONVERSATIONS]: ChattingListTab,

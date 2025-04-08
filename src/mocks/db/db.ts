@@ -25,12 +25,12 @@ export const DB = {
       bootcamp_end_date: "2025-06-30",
       bootcamp_rating: 4.8,
       bootcamp_review_count: 12,
-    
+
       training_center_id: 1,
       training_center_phone_number: "02-123-4567",
       training_center_email: "hong@zerobase.com",
       training_center_address: "서울시 강남구 테헤란로 123",
-      training_center_url: "https://zero-base.co.kr"
+      training_center_url: "https://zero-base.co.kr",
     },
     {
       bootcamp_id: 2,
@@ -51,7 +51,7 @@ export const DB = {
       training_center_phone_number: "02-1234-5678",
       training_center_email: "hyunjung.kim@fastcampus.co.kr",
       training_center_address: "서울특별시 마포구 백범로 35",
-      training_center_url: "https://fastcampus.co.kr/about"
+      training_center_url: "https://fastcampus.co.kr/about",
     },
     {
       bootcamp_id: 3,
@@ -72,7 +72,7 @@ export const DB = {
       training_center_phone_number: "031-123-9876",
       training_center_email: "soojung.lee@hanghae99.kr",
       training_center_address: "경기도 성남시 판교로 10",
-      training_center_url: "https://hanghae99.spartacodingclub.kr/"
+      training_center_url: "https://hanghae99.spartacodingclub.kr/",
     },
     {
       bootcamp_id: 4,
@@ -93,7 +93,7 @@ export const DB = {
       training_center_phone_number: "051-321-4321",
       training_center_email: "minho.jung@codestates.com",
       training_center_address: "부산광역시 해운대구 센텀서로 30",
-      training_center_url: "https://www.codestates.com/"
+      training_center_url: "https://www.codestates.com/",
     },
     {
       bootcamp_id: 5,
@@ -114,7 +114,7 @@ export const DB = {
       training_center_phone_number: "053-555-6789",
       training_center_email: "yuna.park@likelion.net",
       training_center_address: "대구광역시 달서구 달구벌대로 789",
-      training_center_url: "https://likelion.net/"
+      training_center_url: "https://likelion.net/",
     },
     {
       bootcamp_id: 6,
@@ -130,12 +130,12 @@ export const DB = {
       bootcamp_end_date: "2025-06-30",
       bootcamp_rating: 4.8,
       bootcamp_review_count: 12,
-    
+
       training_center_id: 1,
       training_center_phone_number: "02-123-4567",
       training_center_email: "hong@zerobase.com",
       training_center_address: "서울시 강남구 테헤란로 123",
-      training_center_url: "https://zero-base.co.kr"
+      training_center_url: "https://zero-base.co.kr",
     },
     {
       bootcamp_id: 7,
@@ -156,7 +156,7 @@ export const DB = {
       training_center_phone_number: "02-1234-5678",
       training_center_email: "hyunjung.kim@fastcampus.co.kr",
       training_center_address: "서울특별시 마포구 백범로 35",
-      training_center_url: "https://fastcampus.co.kr/about"
+      training_center_url: "https://fastcampus.co.kr/about",
     },
     {
       bootcamp_id: 8,
@@ -177,7 +177,7 @@ export const DB = {
       training_center_phone_number: "031-123-9876",
       training_center_email: "soojung.lee@hanghae99.kr",
       training_center_address: "경기도 성남시 판교로 10",
-      training_center_url: "https://hanghae99.spartacodingclub.kr/"
+      training_center_url: "https://hanghae99.spartacodingclub.kr/",
     },
     {
       bootcamp_id: 9,
@@ -198,7 +198,7 @@ export const DB = {
       training_center_phone_number: "051-321-4321",
       training_center_email: "minho.jung@codestates.com",
       training_center_address: "부산광역시 해운대구 센텀서로 30",
-      training_center_url: "https://www.codestates.com/"
+      training_center_url: "https://www.codestates.com/",
     },
     {
       bootcamp_id: 10,
@@ -219,7 +219,7 @@ export const DB = {
       training_center_phone_number: "053-555-6789",
       training_center_email: "yuna.park@likelion.net",
       training_center_address: "대구광역시 달서구 달구벌대로 789",
-      training_center_url: "https://likelion.net/"
+      training_center_url: "https://likelion.net/",
     },
   ],
 
@@ -343,9 +343,8 @@ export const DB = {
 
   reviews: [
     {
-
       t_review_id: 1,
-      userName: "뽀로로개발자", 
+      userName: "뽀로로개발자",
       review_id: "ACG20243001060786",
 
       reviewId: 1,
@@ -355,11 +354,10 @@ export const DB = {
       courseName: "네카레쿠배당토를 뜯어봅시다",
       content: "너무 도움됐어요!",
       created_at: "2024-03-01",
-      userName: "뽀로로개발자", 
+      userName: "뽀로로개발자",
       rating: 5,
     },
     {
-
       t_review_id: 1,
       userName: "코딩하는토끼",
       review_id: "AIG202430010607Z99",
@@ -382,7 +380,6 @@ export const DB = {
       created_at: "2024-03-04",
     },
     {
-
       t_review_id: 1,
       userName: "버그박멸러",
       review_id: "ACG20243001E060795",
@@ -406,7 +403,6 @@ export const DB = {
       created_at: "2024-03-07",
     },
     {
-
       t_review_id: 3,
       userName: "리액트초보",
       review_id: "ACG20243001060796",
@@ -420,7 +416,6 @@ export const DB = {
       created_at: "2024-03-07",
     },
     {
-
       t_review_id: 4,
       userName: "코딩에진심인편",
       review_id: "ACG20243001060789",
@@ -519,7 +514,7 @@ export const DB = {
       content: "부트캠프1 리뷰",
       rating: 4,
       createdAt: "2025-04-04T01:50:33.945196",
-      updatedAt: "2025-04-04T01:50:33.945196"
+      updatedAt: "2025-04-04T01:50:33.945196",
     },
     {
       reviewId: 14,
@@ -529,7 +524,7 @@ export const DB = {
       content: "부트캠프2 리뷰",
       rating: 5,
       createdAt: "2025-04-04T01:50:17.656716",
-      updatedAt: "2025-04-04T01:50:17.656716"
+      updatedAt: "2025-04-04T01:50:17.656716",
     },
     {
       reviewId: 15,
@@ -539,7 +534,7 @@ export const DB = {
       content: "부트캠프3 리뷰",
       rating: 3,
       createdAt: "2025-04-04T01:49:55.407069",
-      updatedAt: "2025-04-04T01:49:55.407069"
+      updatedAt: "2025-04-04T01:49:55.407069",
     },
   ],
 
@@ -601,74 +596,118 @@ export const DB = {
     },
   ],
 
-  acceptedCoffeeChats: [
+  approvedCoffeeChats: [
     {
-      id: 1,
-      title: "프론트엔드 개발 이야기",
-      host: "김개발",
-      date: "2025-03-30",
-      status: "예정됨",
+      coffeeChatAppId: 1,
+      coffeeChatInfoId: 1,
+      menteeUserId: 1,
+      menteeName: "도경수",
+      mentoName: "변백현",
+      status: "APPROVED",
+      content: "백엔드 개발에 대해 커피챗 신청합니다!",
+      coffeeChatStartTime: "2025-04-04T02:00:00",
+      coffeeChatEndTime: "2025-04-04T02:30:00",
     },
     {
-      id: 2,
-      title: "리액트 학습 팁",
-      host: "이리액트",
-      date: "2025-04-02",
-      status: "예정됨",
+      coffeeChatAppId: 2,
+      coffeeChatInfoId: 2,
+      menteeUserId: 2,
+      menteeName: "김민재",
+      mentoName: "황희찬",
+      status: "APPROVED",
+      content: "프론트엔드 개발에 대해 커피챗 신청합니다!",
+      coffeeChatStartTime: "2025-04-05T04:00:00",
+      coffeeChatEndTime: "2025-04-05T04:30:00",
     },
     {
-      id: 3,
-      title: "주니어 개발자 성장기",
-      host: "박주니어",
-      date: "2025-04-05",
-      status: "예정됨",
+      coffeeChatAppId: 3,
+      coffeeChatInfoId: 3,
+      menteeUserId: 3,
+      menteeName: "손흥민",
+      mentoName: "이강인",
+      status: "APPROVED",
+      content: "프론트엔드 개발에 대해 커피챗 신청합니다!",
+      coffeeChatStartTime: "2025-04-06T06:00:00",
+      coffeeChatEndTime: "2025-04-06T06:30:00",
     },
   ],
 
   sentCoffeeChats: [
     {
-      coffeeChatApplicationId: 1,
+      coffeeChatAppId: 1,
       coffeeChatInfoId: 1,
-      applierName: "양금명",
+      menteeName: "양은명",
+      mentoName: "양금명",
       applierUserId: 1,
-      request_start_time: "2025-03-20 21:00",
-      request_end_time: "2025-03-20 22:00",
+      coffeeChatStartTime: "2025-04-04T02:09:07",
       status: "PENDING",
       content: "백엔드 커리어 상담을 받고 싶습니다.",
     },
     {
-      coffeeChatApplicationId: 2,
+      coffeeChatAppId: 2,
       coffeeChatInfoId: 2,
-      applierName: "양은명",
+      menteeName: "박충수",
+      mentoName: "최양임",
       applierUserId: 2,
-      request_start_time: "2025-03-22 19:00",
-      request_end_time: "2025-03-22 20:00",
-      status: "CONFIRMED",
+      coffeeChatStartTime: "2025-04-05T02:09:07",
+      status: "APPROVED",
       content: "프론트엔드 개발 학습 방법에 대해 듣고 싶습니다.",
+    },
+    {
+      coffeeChatAppId: 3,
+      coffeeChatInfoId: 3,
+      menteeName: "염병철",
+      mentoName: "나민옥",
+      applierUserId: 3,
+      coffeeChatStartTime: "2025-04-06T02:09:07",
+      status: "REJECTED",
+      content: "프론트엔드 개발에 대해 조언을 받고 싶습니다.",
     },
   ],
 
   receivedCoffeeChats: [
     {
-      coffeeChatApplicationId: 1,
+      coffeeChatAppId: 1,
       coffeeChatInfoId: 2,
-      applierName: "오애순",
+      menteeName: "양관식",
+      mentoName: "오애순",
       applierUserId: 1,
       status: "PENDING",
       content: "백엔드 학습에 대해 상담하고 싶습니다.",
-      request_start_time: "2025-03-25T21:00:00",
-      request_end_time: "2025-03-25T22:00:00",
+      coffeeChatStartTime: "2025-03-25T21:00:00",
       updatedAt: null,
     },
     {
-      coffeeChatApplicationId: 2,
+      coffeeChatAppId: 2,
       coffeeChatInfoId: 3,
-      applierName: "양관식",
+      menteeName: "부상길",
+      mentoName: "박영란",
       applierUserId: 2,
-      status: "PENDING",
+      status: "APPROVED",
       content: "프론트엔드 학습 방법을 배우고 싶습니다.",
-      request_start_time: "2025-03-25T19:00:00",
-      request_end_time: "2025-03-25T20:00:00",
+      coffeeChatStartTime: "2025-03-25T19:00:00",
+      updatedAt: null,
+    },
+    {
+      coffeeChatAppId: 3,
+      coffeeChatInfoId: 4,
+      menteeName: "박막천",
+      mentoName: "권계옥",
+      applierUserId: 3,
+      status: "REJECTED",
+      content: "프론트엔드 개발에 대해 조언을 받고 싶습니다.",
+      coffeeChatStartTime: "2025-03-25T17:00:00",
+      updatedAt: null,
+    },
+    {
+      coffeeChatAppId: 4,
+      coffeeChatInfoId: 5,
+      menteeName: "전광례",
+      mentoName: "염병철",
+      applierUserId: 4,
+      status: "CANCELED",
+      content: "백엔드 개발에 대해 조언을 받고 싶습니다.",
+      coffeeChatStartTime: "2025-03-25T15:00:00",
       updatedAt: null,
     },
   ],
