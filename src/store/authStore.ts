@@ -6,7 +6,7 @@ type User = {
   name: string;
   email: string;
   avatarUrl?: string;
-  points?: number;
+  current_point: number;
 };
 
 type AuthState = {

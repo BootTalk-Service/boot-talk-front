@@ -4,25 +4,31 @@ import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import Link from "next/link";
 import { Bell, Menu } from "lucide-react";
+import { clearAuthStorage } from "@/lib/logout";
+import MobileDrawerMenu from "@/components/common/MobileDrawerMenu";
+import { useDrawerScrollLock } from "@/hooks/useDrawerScrollLock";
 
 const Header = () => {
   const { user, logout } = useAuthStore();
 
   const handleLogout = () => {
     logout();
-    localStorage.removeItem("access_token");
-    window.location.href = "/";
+    clearAuthStorage();
   };
-
+  
+  const userTextStyle = "text-sm font-medium";
+  useDrawerScrollLock();
 
   return (
+    <>
+    <input id="mobile-drawer" type="checkbox" className="drawer-toggle hidden" />
     <header className="bg-base-100 shadow-md">
       <div className="navbar container mx-auto px-4 relative justify-between">
-        {/* 햄버거 (모바일 전용) */}
+        {/* 햄버거 (모바일) */}
         <div className="flex md:hidden items-center">
-          <button className="btn btn-ghost">
+          <label htmlFor="mobile-drawer" className="btn btn-ghost">
             <Menu size={24} />
-          </button>
+          </label>
         </div>
 
         {/* 로고 */}
@@ -40,29 +46,21 @@ const Header = () => {
         </div>
 
         {/* 로그인 상태 */}
-        <div className="flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-4">
         {user ? (
           <div className="flex items-center gap-3">
-            <button className="btn btn-ghost btn-circle">
-              <Bell className="text-amber-950"/>
+            <button className="btn btn-ghost btn-circle" aria-label="알림">
+              <Bell />
             </button>
-
-            {/* <Image
-              src={user.avatarUrl || "/profile-default.png"}
-              alt="프로필"
-              width={36}
-              height={36}
-              className="rounded-full"
-            /> */}
             
-            <Link href="/mypage" className="text-sm font-medium hover:underline">
-              <span className="text-amber-950 text-sm font-medium">{`${user.name}님`}</span>
-            </Link>
+            <Link href="/mypage" className={userTextStyle}>
+                {`${user.name}님`}
+              </Link>
             
-            <span className="text-amber-950 text-sm">{`${user.points}P`}</span>
+              <span className={userTextStyle}>{user.current_point}P</span>
             
             <button
-              className="btn bg-base-100 border-none text-amber-950 text-sm hover:text-amber-900 transition-colors"
+              className="btn bg-base-100 border-none text-sm hover:text-amber-950 transition-colors"
               onClick={handleLogout}
             >
               로그아웃
@@ -72,7 +70,7 @@ const Header = () => {
               <div className="flex items-center gap-2">
                 <Link 
                   href="/login" 
-                  className="btn bg-base-100 border-none text-amber-950 text-sm hover:text-amber-900 transition-colors"
+                  className="btn bg-base-100 border-none text-sm hover:text-amber-950 transition-colors"
                 >
                   로그인 / 회원가입
                 </Link>
@@ -81,6 +79,13 @@ const Header = () => {
           </div>
       </div>
     </header>
+
+     {/* ✅ Drawer (모바일) */}
+      <div className="drawer-side z-50 md:hidden fixed">
+        <label htmlFor="mobile-drawer" className="drawer-overlay"></label>
+        <MobileDrawerMenu />
+      </div>
+    </>
   );
 };
 
