@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import FindMentors from "@/components/coffee-chat/mentor/FindMentors";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
@@ -7,6 +9,6 @@ const MentorPage = () => {
   if (!user) return null;
 
   return <FindMentors />;
-  );
+};
 
 export default MentorPage;
