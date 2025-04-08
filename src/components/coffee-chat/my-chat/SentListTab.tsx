@@ -1,3 +1,5 @@
+"use client";
+
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import { CoffeeChat } from "@/types/response";

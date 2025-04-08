@@ -1,11 +1,8 @@
-import CoffeeChatContainer from "@/components/coffee-chat/CoffeeChatContainer";
+import FindMentors from "@/components/coffee-chat/mentor/FindMentors";
+import React from "react";
 
-const CoffeeChatPage = () => {
-  return (
-    <div className="max-w-7xl mx-auto mt-5 p-4  min-h-screen">
-      <CoffeeChatContainer />
-    </div>
-  );
+const MentorPage = () => {
+  return <FindMentors />;
 };
 
-export default CoffeeChatPage;
+export default MentorPage;
