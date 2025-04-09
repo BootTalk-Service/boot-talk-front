@@ -1,18 +1,7 @@
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
+import { Mentor } from "@/types/response";
 import { useQuery } from "@tanstack/react-query";
-
-interface Mentor {
-  coffeeChatInfoId: number;
-  userId: number;
-  userName: string;
-  userType: string;
-  jobType: string;
-  introduction: string;
-  createdAt: string;
-  updatedAt: string;
-  deleted: boolean;
-}
 
 const fetchMentorList = async () => {
   try {
