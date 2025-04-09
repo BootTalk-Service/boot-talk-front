@@ -56,7 +56,7 @@ const MentorProfileModal: React.FC<MentorProfileModalProps> = ({
         {/* 소개 영역 */}
         <div className="border-t pt-4">
           <div className="flex items-start space-x-3">
-            <Info className="text-blue-600 mt-1" size={20} />
+            <Info size={20} />
             <div className="flex-1">
               <p className="text-sm text-gray-500 mb-2">소개</p>
               <textarea
