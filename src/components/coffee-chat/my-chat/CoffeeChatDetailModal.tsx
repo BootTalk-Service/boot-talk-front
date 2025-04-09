@@ -20,23 +20,18 @@ interface CoffeeChatDetailModalProps {
 
 /**
  * 커피챗 상세 정보 모달 컴포넌트
- * 받은 커피챗과 보낸 커피챗 모두 사용 가능
+ * 확정 커피챗, 받은 커피챗 및 보낸 커피챗 모두 사용 가능
  */
 const CoffeeChatDetailModal: React.FC<CoffeeChatDetailModalProps> = ({
   isOpen,
   onClose,
   coffeeChat,
-  isSent = false,
+  isSent = false, // 기본값: false
 }) => {
   if (!coffeeChat) return null;
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title={isSent ? "보낸 커피챗 상세 정보" : "받은 커피챗 상세 정보"}
-      size="md"
-    >
+    <Modal isOpen={isOpen} onClose={onClose} size="md" title="커피챗 상세 정보">
       <div className="space-y-4">
         {/* 상태 뱃지 */}
         <div className="flex items-center">
