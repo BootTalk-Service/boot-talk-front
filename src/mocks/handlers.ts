@@ -227,5 +227,20 @@ export const handlers = [
       { message: "알림을 확인하였습니다." },
       { status: 200 }
     );
+    
+  http.get(END_POINT.CHAT_ROOM_LIST, () => {
+    return HttpResponse.json(DB.chatRoomList, {});
+  }),
+
+  http.get(END_POINT.CHAT_ROOM(":roomUuid"), ({ params }) => {
+    const roomUuid = params.roomUuid;
+    const chatRoom = DB.chatRoomList.find((c) => c.roomUuid === roomUuid);
+    if (!chatRoom) {
+      return HttpResponse.json(
+        { error: "채팅방을 찾을 수 없습니다." },
+        { status: 404 }
+      );
+    }
+    return HttpResponse.json(chatRoom, {});
   }),
 ];

@@ -8,6 +8,7 @@ const Modal: React.FC<CommonModalProps> = ({
   children,
   title,
   size = "md",
+  hideHeader = false,
 }) => {
   // 모달 크기 클래스 매핑
   const sizeClasses = {
@@ -56,31 +57,46 @@ const Modal: React.FC<CommonModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center ">
-      {/* daisyUI 카드 컴포넌트 활용 */}
-      <div
-        className={`card ${sizeClasses[size]} w-full bg-base-100 border border-gray-300 shadow-xl animate-fadeIn`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="card-body p-0">
-          {/* 모달 헤더 */}
-          <div className="flex items-center justify-between px-4 py-2 border-b">
-            {title && <h3 className="card-title text-lg">{title}</h3>}
-            <button
-              type="button"
-              className="btn btn-sm btn-circle btn-ghost"
-              onClick={onClose}
-              aria-label="닫기"
-            >
-              <X size={18} />
-            </button>
-          </div>
+    <>
+      {/* 모달 배경 - 전체 화면 커버 */}
+      <div className="fixed inset-0 bg-black/10 bg-opacity-50 z-40" />
 
-          {/* 모달 콘텐츠 */}
-          <div className="p-4 overflow-y-auto max-h-[70vh]">{children}</div>
+      {/* 모달 컨테이너 - 중앙 정렬 */}
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+        onClick={onClose}
+      >
+        {/* 모달 카드 */}
+        <div
+          className={`card ${sizeClasses[size]} w-full bg-base-100 border border-gray-300 shadow-xl animate-fadeIn`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="card-body p-0">
+            {/* 선택적 헤더 */}
+            {!hideHeader && (
+              <div className="flex items-center justify-between px-4 py-2 border-b">
+                {title ? (
+                  <h3 className="card-title text-lg">{title}</h3>
+                ) : (
+                  <div className="flex-1" />
+                )}
+                <button
+                  type="button"
+                  className="btn btn-sm btn-circle btn-ghost"
+                  onClick={onClose}
+                  aria-label="닫기"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            )}
+
+            {/* 모달 콘텐츠 */}
+            <div className="p-4 overflow-y-auto max-h-[70vh]">{children}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
