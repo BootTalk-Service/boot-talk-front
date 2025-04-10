@@ -186,4 +186,46 @@ export const handlers = [
       { status: 200 }
     );
   }),
+
+  // 알림 목록 조회
+  http.get(END_POINT.NOTIFICATIONS, ({ request }) => {
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get("page") || "1");
+    const limit = Number(url.searchParams.get("limit") || "10");
+
+    const start = (page - 1) * limit;
+    const end = start + limit;
+
+    const slice = DB.Notifications.slice(start, end);
+    const uncheckedCount = DB.Notifications.filter((n) => !n.checked).length;
+
+    return HttpResponse.json({
+      notificationResponseDtoList: slice,
+      uncheckedCount,
+    });
+  }),
+
+  // 알림 읽음 처리
+  http.patch(END_POINT.NOTIFICATIONS, async ({ request }) => {
+    const url = new URL(request.url);
+    const timeParam = url.searchParams.get("time");
+
+    if (!timeParam) {
+      return HttpResponse.json(
+        { message: "time 파라미터가 필요합니다." },
+        { status: 400 }
+      );
+    }
+
+    DB.Notifications.forEach((n) => {
+      if (new Date(n.createdAt) <= new Date(timeParam)) {
+        n.checked = true;
+      }
+    });
+
+    return HttpResponse.json(
+      { message: "알림을 확인하였습니다." },
+      { status: 200 }
+    );
+  }),
 ];

@@ -14,4 +14,5 @@ export const END_POINT = {
   MENTOR_INFO: "/api/coffee-chats/info/user-info",
   MENTOR_TIME: "/api/coffee-chats/times/available-times",
   MENTOR_APPLICATION_TIME: "/api/coffee-chats/times/{mentorId}",
+  NOTIFICATIONS: "/api/notifications",
 } as const;

@@ -3,10 +3,11 @@
 import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import Link from "next/link";
-import { Bell, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { clearAuthStorage } from "@/lib/logout";
 import MobileDrawerMenu from "@/components/common/MobileDrawerMenu";
 import { useDrawerScrollLock } from "@/hooks/useDrawerScrollLock";
+import NotificationDropdown from "../notification/NotificationDropdown";
 
 const Header = () => {
   const { user, logout } = useAuthStore();
@@ -49,9 +50,7 @@ const Header = () => {
         <div className="hidden md:flex items-center gap-4">
         {user ? (
           <div className="flex items-center gap-3">
-            <button className="btn btn-ghost btn-circle" aria-label="알림">
-              <Bell />
-            </button>
+            <NotificationDropdown />
             
             <Link href="/mypage" className={userTextStyle}>
                 {`${user.name}님`}
@@ -80,7 +79,7 @@ const Header = () => {
       </div>
     </header>
 
-     {/* ✅ Drawer (모바일) */}
+     {/* Drawer (모바일) */}
       <div className="drawer-side z-50 md:hidden fixed">
         <label htmlFor="mobile-drawer" className="drawer-overlay"></label>
         <MobileDrawerMenu />
