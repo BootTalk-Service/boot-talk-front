@@ -27,7 +27,7 @@ const MyChatLayout = ({ children }: { children: ReactNode }) => {
             href={tab.path}
             className={`px-4 py-2 whitespace-nowrap ${
               pathname === tab.path
-                ? "border-b-2 border-amber-950 text-amber-950 font-medium"
+                ? "border-b-2 border-black text-black font-medium"
                 : "text-gray-500"
             }`}
           >
