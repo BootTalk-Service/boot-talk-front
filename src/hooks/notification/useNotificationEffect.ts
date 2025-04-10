@@ -1,37 +1,18 @@
+"use client";
+
 import { useEffect } from "react";
 import { useNotificationStore } from "@/store/notificationStore";
+import { axiosDefault } from "@/api/axiosInstance";
+import { END_POINT } from "@/constants/endPoint";
 
 export const useNotificationEffect = () => {
   const { setNotifications } = useNotificationStore();
 
-  
-  useEffect(() => {
-    const enableMockWorker = async () => {
-      if (
-        process.env.NEXT_PUBLIC_USE_MOCK === "true" &&
-        typeof window !== "undefined"
-      ) {
-        const { worker } = await import("@/mocks/browser");
-        worker.start();
-      }
-    };
-    enableMockWorker();
-  }, []);
-
-  // 알림 데이터
   useEffect(() => {
     const fetchNotifications = async () => {
-      if (
-        process.env.NEXT_PUBLIC_USE_MOCK === "true" &&
-        typeof window !== "undefined"
-      ) {
-        const { worker } = await import("@/mocks/browser");
-        await worker.start();
-      }
-
       try {
-        const res = await fetch("/api/notifications?page=1&limit=10");
-        const data = await res.json();
+        const res = await axiosDefault.get(END_POINT.NOTIFICATIONS);
+        const data = res.data;
         setNotifications(data?.notificationResponseDtoList ?? []);
       } catch (error) {
         console.error("알림 로딩 실패:", error);
