@@ -27,4 +27,6 @@ export interface ChatRoom {
   expiresAt: string;
   endAt: string;
   isActive: boolean;
+  mentorId: number;
+  menteeId: number;
 }
