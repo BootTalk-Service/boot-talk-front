@@ -202,4 +202,28 @@ export const handlers = [
     }
     return HttpResponse.json(chatRoom, {});
   }),
+
+  http.get(END_POINT.ADMIN_CERTIFICATION, () => {
+    console.log("[MSW] 수료증 인증 목록 호출됨");
+    return HttpResponse.json(DB.Certifications);
+  }),
+
+  http.patch(`${END_POINT.ADMIN_CERTIFICATION}/:id`, ({ request, params }) => {
+    const id = Number(params.id);
+    const url = new URL(request.url);
+    const status = url.searchParams.get("status");
+  
+    const certIndex = DB.Certifications.findIndex(
+      (c) => c.certificationId === id
+    );
+  
+    if (certIndex === -1 || !status) {
+      return HttpResponse.json({ message: "Not found or invalid status" }, { status: 400 });
+    }
+  
+    // status 업데이트
+    DB.Certifications[certIndex].status = status as "APPROVED" | "REJECTED";
+  
+    return HttpResponse.json(DB.Certifications[certIndex]);
+  }),
 ];

@@ -16,4 +16,5 @@ export const END_POINT = {
   MENTOR_APPLICATION_TIME: "/api/coffee-chats/times/{mentorId}",
   CHAT_ROOM: (roomUuid: string) => `/chat-rooms/${roomUuid}`,
   CHAT_ROOM_LIST: "/api/chat-rooms",
+  ADMIN_CERTIFICATION: "/api/admin/certifications",
 } as const;
