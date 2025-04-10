@@ -1,27 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useGetCertificationList } from "@/hooks/admin/useGetCertificationList";
 import { usePatchCertificationStatus } from "@/hooks/admin/usePatchCertificationStatus";
 import PaginationControls from "./PaginationControls";
 import ImageModal from "./ImageModal";
+import CertificationCard from "./CertificationCard";
 import { Certification } from "@/types/certification";
 
 const CertificationApproval = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const {
-    data: certifications = [],
-    isLoading,
-    isError,
-    refetch,
-  } = useGetCertificationList();
-
+  const queryClient = useQueryClient();
+  const { data: certifications = [], isLoading, isError } = useGetCertificationList();
   const { mutate: patchStatus } = usePatchCertificationStatus();
 
   const ITEMS_PER_PAGE = 5;
-  const filtered = certifications.filter((cert: Certification) => cert.status === "PENDING");
+  // const filtered = certifications.filter((cert: Certification) => cert.status === "PENDING");
+  const filtered = certifications; // 필터링 제거(디버깅용)
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
 
   const paginated = filtered.slice(
@@ -29,55 +27,45 @@ const CertificationApproval = () => {
     currentPage * ITEMS_PER_PAGE
   );
 
-  const handleStatusChange = (id: number, status: "APPROVED" | "REJECTED") => {
+  const handleStatusChange = (id: number, status: Certification["status"]) => {
+    const previousCertifications = queryClient.getQueryData<Certification[]>([
+      "admin-certifications",
+    ]);
+
+    queryClient.setQueryData<Certification[]>(
+      ["admin-certifications"],
+      (old) => old?.filter((cert) => cert.certificationId !== id) || []
+    );
+
     patchStatus(
       { id, status },
       {
-        onSuccess: () => {
-          refetch();
+        onError: () => {
+          queryClient.setQueryData(
+            ["admin-certifications"],
+            previousCertifications
+          );
         },
       }
     );
   };
 
-  if (isLoading) return <p>로딩 중...</p>;
-  if (isError) return <p>불러오지 못했습니다.</p>;
+  if (isLoading) return <div>로딩 중...</div>;
+  if (isError) return <div>불러오지 못했습니다.</div>;
 
   return (
-    <div className="space-y-4 relative">
+    <div className="space-y-4 relative min-h-[500px]">
       {paginated.length === 0 ? (
         <p className="text-gray-500">수료증 인증 요청이 없습니다.</p>
       ) : (
         paginated.map((cert: Certification) => (
-          <div
+          <CertificationCard
             key={cert.certificationId}
-            className="p-4 border border-gray-200 rounded-lg shadow-sm flex justify-between items-center"
-          >
-            <div>
-              <p className="text-lg font-medium">{cert.userName}</p>
-              <p className="text-sm text-gray-500">직무 : {cert.categoryType}</p>
-            </div>
-            <div className="space-x-2 flex items-center">
-              <button
-                onClick={() => handleStatusChange(cert.certificationId, "APPROVED")}
-                className="px-3 py-1.5 text-sm bg-emerald-600 text-white rounded hover:bg-emerald-700"
-              >
-                승인
-              </button>
-              <button
-                onClick={() => handleStatusChange(cert.certificationId, "REJECTED")}
-                className="px-3 py-1.5 text-sm bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                거절
-              </button>
-              <button
-                onClick={() => setSelectedImage(cert.fileUrl)}
-                className="px-3 py-1.5 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-              >
-                수료증 보기
-              </button>
-            </div>
-          </div>
+            cert={cert}
+            onApprove={(id) => handleStatusChange(id, "APPROVED")}
+            onReject={(id) => handleStatusChange(id, "REJECTED")}
+            onView={setSelectedImage}
+          />
         ))
       )}
 
@@ -88,9 +76,9 @@ const CertificationApproval = () => {
       />
 
       <ImageModal
-          selectedImage={selectedImage}
-          setSelectedImage={setSelectedImage}
-        />
+        selectedImage={selectedImage}
+        setSelectedImage={setSelectedImage}
+      />
     </div>
   );
 };

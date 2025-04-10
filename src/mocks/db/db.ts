@@ -785,5 +785,17 @@ export const DB = {
       status: "PENDING",
       createdAt: "2025-04-06T13:00:00.000000",
     },
+    {
+      certificationId: 7,
+      userId: 7014,
+      userName: "나피엠",
+      categoryType: "PM",
+      fileUrl: "https://boottalk-bucket.s3.amazonaws.com/uploads/sample-designer.png",
+      courseName: "PM으로 살기",
+      trainingCenterName: "제로베이스",
+      coursedId: 34,
+      status: "PENDING",
+      createdAt: "2025-04-06T13:00:00.000000",
+    },
   ],
 };
