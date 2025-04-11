@@ -12,3 +12,10 @@ export interface MentorInfoData {
     [key: string]: string[];
   };
 }
+
+export interface MentorApplicationData {
+  coffeeChatInfoId: number;
+  content: string;
+  coffeeChatStartTime: string;
+  coffeeChatEndTime: string;
+}

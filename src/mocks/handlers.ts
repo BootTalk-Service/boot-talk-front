@@ -1,4 +1,4 @@
-import { MentorInfoData } from "./../types/request";
+import { MentorApplicationData, MentorInfoData } from "./../types/request";
 import { END_POINT } from "@/constants/endPoint";
 import { http, HttpResponse } from "msw";
 import { DB } from "./db/db";
@@ -28,6 +28,16 @@ export const handlers = [
   http.get(END_POINT.MENTOR_LIST, () => {
     return HttpResponse.json(DB.mentorList, {});
   }),
+
+  http.get(
+    END_POINT.MENTOR_APPLICATION_TIME(":coffeeChatInfoId"),
+    ({ params }) => {
+      const { coffeeChatInfoId } = params;
+      console.log(coffeeChatInfoId);
+
+      return HttpResponse.json(DB.mentorApplicationTime, {});
+    }
+  ),
 
   http.put(END_POINT.MY_INFO, async ({ request }) => {
     try {
@@ -110,6 +120,26 @@ export const handlers = [
 
   http.get(END_POINT.SENT_COFFEE_CHATS, () => {
     return HttpResponse.json(DB.sentCoffeeChats, {});
+  }),
+
+  http.post(END_POINT.SENT_COFFEE_CHATS, async ({ request }) => {
+    const body = await request.json();
+    const {
+      coffeeChatEndTime,
+      coffeeChatInfoId,
+      coffeeChatStartTime,
+      content,
+    } = body as MentorApplicationData;
+
+    return HttpResponse.json(
+      {
+        coffeeChatEndTime,
+        coffeeChatInfoId,
+        coffeeChatStartTime,
+        content,
+      },
+      { status: 200 }
+    );
   }),
 
   http.get(END_POINT.RECEIVED_COFFEE_CHATS, () => {

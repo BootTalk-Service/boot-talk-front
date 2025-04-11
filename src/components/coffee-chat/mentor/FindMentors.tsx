@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import MentorProfileModal from "./MentorProfileModal";
 import { useMentorList } from "@/hooks/coffee-chat/useMentorList";
 import { Mentor } from "@/types/response";
+import ChatRequestModal from "./ChatRequestModal";
 
 const FindMentors = () => {
   const { mentorList, isLoading, isError } = useMentorList();
   console.log("멘토 리스트:", mentorList);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null);
+  const [isChatModalOpen, setIsChatModalOpen] = useState<boolean>(false);
 
   const handleMentorClick = (mentor: Mentor) => {
     setSelectedMentor(mentor);
@@ -16,6 +18,15 @@ const FindMentors = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleChatRequest = (mentor: Mentor) => {
+    setSelectedMentor(mentor);
+    setIsChatModalOpen(true);
+  };
+
+  const closeChatModal = () => {
+    setIsChatModalOpen(false);
   };
 
   if (isLoading) {
@@ -78,12 +89,15 @@ const FindMentors = () => {
 
               <div className="flex space-x-2 mt-4">
                 <button
-                  className="flex-1 py-2 px-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-sm font-medium transition-colors"
+                  className="btn flex-1 btn-soft"
                   onClick={() => handleMentorClick(mentor)}
                 >
                   프로필 보기
                 </button>
-                <button className="flex-1 py-2 px-3 bg-amber-900 hover:bg-amber-950 text-white rounded text-sm font-medium transition-colors">
+                <button
+                  className="btn flex-1 btn-outline hover:text-amber-900"
+                  onClick={() => handleChatRequest(mentor)}
+                >
                   신청하기
                 </button>
               </div>
@@ -97,6 +111,13 @@ const FindMentors = () => {
         isOpen={isModalOpen}
         onClose={closeModal}
         mentorProfile={selectedMentor}
+      />
+
+      {/* 커피챗 신청 모달 */}
+      <ChatRequestModal
+        isOpen={isChatModalOpen}
+        onClose={closeChatModal}
+        mentor={selectedMentor}
       />
     </>
   );
