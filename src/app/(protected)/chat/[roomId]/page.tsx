@@ -3,6 +3,7 @@
 import { useWebSocket } from "@/hooks/useWebSocket";
 import { ChatRoom } from "@/types/response";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 interface ChatRoomPageProps {
   selectedChat: ChatRoom;
@@ -70,6 +71,7 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
     if (connected) {
       sendMessage(msg);
     } else {
+      toast.error("메세지 전송 실패");
       console.error("WebSocket 연결이 끊어졌습니다.");
     }
     // 화면 내 메시지 표시
@@ -125,6 +127,7 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
         <button
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 transition-colors"
+          disabled={!connected}
         >
           전송
         </button>
