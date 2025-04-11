@@ -13,8 +13,8 @@ const MyChatLayout = ({ children }: { children: ReactNode }) => {
     { id: "received", label: "받은 신청", path: "/coffee-chat/my/received" },
     {
       id: "conversations",
-      label: "대화목록",
-      path: "/coffee-chat/my/chat",
+      label: "채팅",
+      path: "/chat",
     },
   ];
 
