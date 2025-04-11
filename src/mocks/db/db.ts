@@ -735,7 +735,8 @@ export const DB = {
       userId: 7043,
       userName: "이수학",
       categoryType: "UI_UX_ENGINEERING",
-      fileUrl: "https://boottalk-bucket.s3.amazonaws.com/uploads/1744191520053_pngtree-star-rating-five-review-icon-png-image_5006730.png",
+      fileUrl:
+        "https://boottalk-bucket.s3.amazonaws.com/uploads/1744191520053_pngtree-star-rating-five-review-icon-png-image_5006730.png",
       courseName: "웹기초(HTML5+CSS3)",
       trainingCenterName: "(주)우리인재개발원",
       coursedId: 26,
@@ -747,7 +748,8 @@ export const DB = {
       userId: 7043,
       userName: "김코딩",
       categoryType: "APPLICATION_SW_ENGINEERING",
-      fileUrl: "https://boottalk-bucket.s3.amazonaws.com/uploads/1744191520053_pngtree-star-rating-five-review-icon-png-image_5006730.png",
+      fileUrl:
+        "https://boottalk-bucket.s3.amazonaws.com/uploads/1744191520053_pngtree-star-rating-five-review-icon-png-image_5006730.png",
       courseName: "React 실무 완전정복",
       trainingCenterName: "코드스쿼드",
       coursedId: 27,
@@ -771,7 +773,8 @@ export const DB = {
       userId: 7012,
       userName: "이디자인",
       categoryType: "UI_UX_ENGINEERING",
-      fileUrl: "https://boottalk-bucket.s3.amazonaws.com/uploads/sample-uiux.png",
+      fileUrl:
+        "https://boottalk-bucket.s3.amazonaws.com/uploads/sample-uiux.png",
       courseName: "UX 설계와 프로토타이핑",
       trainingCenterName: "디자인하이",
       coursedId: 32,
@@ -783,7 +786,8 @@ export const DB = {
       userId: 7013,
       userName: "최프론트",
       categoryType: "WEB_ENGINEERING",
-      fileUrl: "https://boottalk-bucket.s3.amazonaws.com/uploads/sample-web.png",
+      fileUrl:
+        "https://boottalk-bucket.s3.amazonaws.com/uploads/sample-web.png",
       courseName: "프론트엔드 심화",
       trainingCenterName: "스파르타코딩클럽",
       coursedId: 33,
@@ -795,7 +799,8 @@ export const DB = {
       userId: 7014,
       userName: "장디자이너",
       categoryType: "UI_UX_ENGINEERING",
-      fileUrl: "https://boottalk-bucket.s3.amazonaws.com/uploads/sample-designer.png",
+      fileUrl:
+        "https://boottalk-bucket.s3.amazonaws.com/uploads/sample-designer.png",
       courseName: "Figma 마스터",
       trainingCenterName: "패스트캠퍼스",
       coursedId: 34,
@@ -807,12 +812,15 @@ export const DB = {
       userId: 7014,
       userName: "나피엠",
       categoryType: "PM",
-      fileUrl: "https://boottalk-bucket.s3.amazonaws.com/uploads/sample-designer.png",
+      fileUrl:
+        "https://boottalk-bucket.s3.amazonaws.com/uploads/sample-designer.png",
       courseName: "PM으로 살기",
       trainingCenterName: "제로베이스",
       coursedId: 34,
       status: "PENDING",
       createdAt: "2025-04-06T13:00:00.000000",
+    },
+  ],
 
   Notifications: [
     {
