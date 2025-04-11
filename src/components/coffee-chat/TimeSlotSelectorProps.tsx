@@ -93,7 +93,7 @@ const TimeSlotSelector: React.FC<TimeSlotSelectorProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       {/* 요일 탭 */}
       <div className="flex overflow-x-auto p-1 bg-amber-50 border-b-gray-900 scrollbar-thin scrollbar-thumb-gray-300">
         {timeSlots.map((slot) => (
