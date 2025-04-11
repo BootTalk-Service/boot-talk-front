@@ -17,4 +17,5 @@ export const END_POINT = {
   NOTIFICATIONS: "/api/notifications",
   CHAT_ROOM: (roomUuid: string) => `/chat-rooms/${roomUuid}`,
   CHAT_ROOM_LIST: "/api/chat-rooms",
+  ADMIN_CERTIFICATION: "/api/admin/certifications",
 } as const;

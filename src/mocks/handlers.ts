@@ -243,4 +243,24 @@ export const handlers = [
     }
     return HttpResponse.json(chatRoom, {});
   }),
+
+  http.get(END_POINT.ADMIN_CERTIFICATION, () => {
+    return HttpResponse.json({
+      certifications: DB.Certifications,
+    });
+  }),
+
+  http.patch("/api/admin/certifications/:id", ({ request, params }) => {
+    const { id } = params;
+    const url = new URL(request.url);
+    const status = url.searchParams.get("status");
+  
+    const target = DB.Certifications.find(cert => cert.certificationId === Number(id));
+    if (target && status) {
+      target.status = status;
+      return HttpResponse.json({ success: true });
+    }
+  
+    return new HttpResponse("Not Found", { status: 404 });
+  }),
 ];
