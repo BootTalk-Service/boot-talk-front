@@ -1,4 +1,4 @@
-import { MentorInfoData, MentorTimeData } from "./../types/request";
+import { MentorInfoData } from "./../types/request";
 import { END_POINT } from "@/constants/endPoint";
 import { http, HttpResponse } from "msw";
 import { DB } from "./db/db";
@@ -172,5 +172,9 @@ export const handlers = [
       },
       { status: 200 }
     );
+  }),
+
+  http.get(END_POINT.MENTOR_REGISTER, () => {
+    return HttpResponse.json(DB.mentorInfo, {});
   }),
 ];

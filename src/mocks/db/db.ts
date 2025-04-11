@@ -10,6 +10,7 @@ export const DB = {
     profile_image: "/profile-default.png",
     bootcamp_id: [1],
   },
+
   bootcamps: [
     {
       bootcamp_id: 1,
@@ -295,6 +296,22 @@ export const DB = {
       deleted: false,
     },
   ],
+
+  mentorInfo: {
+    mentorType: "FRONTEND",
+    jobType: "PROFESSIONAL",
+    introduction:
+      "안녕하세요. 8년차 프론트엔드 개발자입니다. React, TypeScript 중심의 프로젝트를 주로 진행했으며, 협업과 코드 리뷰에 대한 경험도 풍부합니다. 주니어 개발자 분들이 성장하는 데 도움이 되고 싶어요.",
+    time: {
+      monday: ["10:00", "14:00", "20:00"],
+      tuesday: ["10:00", "14:00", "20:00"],
+      wednesday: ["18:00", "21:00"],
+      thursday: ["18:00", "21:00"],
+      friday: ["10:00", "14:00"],
+      saturday: ["13:00", "16:00"],
+      sunday: [],
+    },
+  },
 
   chat_messages: [
     {
