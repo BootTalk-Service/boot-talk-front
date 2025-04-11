@@ -5,20 +5,10 @@ export interface ProfileFormData {
 }
 
 export interface MentorInfoData {
-  userType: string;
+  mentorType: string;
   jobType: string;
   introduction: string;
-}
-
-export interface MentorTimeData {
-  availableTimes: Record<
-    | "MONDAY"
-    | "TUESDAY"
-    | "WEDNESDAY"
-    | "THURSDAY"
-    | "FRIDAY"
-    | "SATURDAY"
-    | "SUNDAY",
-    string[]
-  >;
+  time: {
+    [key: string]: string[];
+  };
 }

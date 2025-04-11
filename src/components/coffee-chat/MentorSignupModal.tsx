@@ -17,14 +17,28 @@ export interface MentorSignupFormData {
   timeSlots: TimeSlot[];
 }
 
-const jobCategories = [
-  "프론트엔드",
-  "백엔드",
-  "PM",
-  "UI/UX 디자인",
-  "데이터분석",
-  "기타",
-];
+const jobCategoryMapping: Record<string, string> = {
+  FRONTEND: "프론트엔드",
+  BACKEND: "백엔드",
+  PM: "PM",
+  UIUX: "UI/UX 디자인",
+  DATA_ANALYSIS: "데이터분석",
+  ETC: "기타",
+};
+
+const jobCategoryOptions = Object.entries(jobCategoryMapping).map(
+  ([eng, kor]) => ({ value: eng, label: kor })
+);
+
+// 실제 유저정보 로직 구현 예정
+
+interface UserInfo {
+  certifications: number[];
+}
+
+const userInfo = {
+  certifications: [1, 2],
+};
 
 const dayMapping: Record<string, string> = {
   월: "MONDAY",
@@ -40,8 +54,7 @@ const MentorSignupModal: React.FC<MentorSignupModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const { mentorInfoMutation, timeSlotsMutation, isPending } =
-    useMentorRegistration();
+  const { createMentorMutation, isCreatePending } = useMentorRegistration();
 
   const [formData, setFormData] = useState<MentorSignupFormData>({
     jobType: "",
@@ -66,11 +79,22 @@ const MentorSignupModal: React.FC<MentorSignupModalProps> = ({
     });
   };
 
+  const determineUserType = (isChecked: boolean, userInfo: UserInfo) => {
+    if (isChecked) {
+      return "PROFESSIONAL";
+    } else if (userInfo.certifications && userInfo.certifications.length > 0) {
+      return "GRADUATE";
+    } else {
+      return "GENERAL";
+    }
+  };
+
   // 현업자 체크박스 핸들러
   const handleProfessionalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
     setFormData({
       ...formData,
-      userType: e.target.checked ? "PROFESSIONAL" : "GENERAL",
+      userType: determineUserType(isChecked, userInfo),
     });
   };
 
@@ -131,14 +155,13 @@ const MentorSignupModal: React.FC<MentorSignupModalProps> = ({
 
       const mentorInfoData = {
         jobType: formData.jobType,
-        userType: formData.userType || "GENERAL",
+        mentorType: formData.userType,
         introduction: formData.introduction,
+        time: availableTimes,
       };
 
       // 멘토 정보 등록 API 호출
-      await mentorInfoMutation.mutateAsync(mentorInfoData);
-
-      await timeSlotsMutation.mutateAsync(availableTimes);
+      await createMentorMutation.mutateAsync(mentorInfoData);
 
       toast.success("커피챗 멘토로 성공적으로 등록되었습니다!");
       onClose();
@@ -166,9 +189,9 @@ const MentorSignupModal: React.FC<MentorSignupModalProps> = ({
             <option value="" disabled>
               직군을 선택해주세요
             </option>
-            {jobCategories.map((category) => (
-              <option key={category} value={category}>
-                {category}
+            {jobCategoryOptions.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {label}
               </option>
             ))}
           </select>
@@ -196,12 +219,15 @@ const MentorSignupModal: React.FC<MentorSignupModalProps> = ({
             <span className="font-medium">멘토 소개글</span>
           </label>
           <textarea
-            className="textarea textarea-bordered h-24 mt-1"
+            className="textarea textarea-bordered h-24 w-full mt-1"
             placeholder="멘티에게 보여질 자기소개와 도움을 줄 수 있는 영역에 대해 작성해주세요. (최소 10자 이상)"
             value={formData.introduction}
             onChange={handleIntroductionChange}
             required
           />
+          <div className="text-sm text-right text-gray-500 mt-1">
+            {formData.introduction.length} / 500자
+          </div>
         </div>
 
         {/* 요일별 시간 선택 */}
@@ -222,10 +248,10 @@ const MentorSignupModal: React.FC<MentorSignupModalProps> = ({
         <div className="pt-2 flex justify-end">
           <button
             type="submit"
-            className="btn bg-amber-900 w-full hover:bg-amber-950 text-white"
-            disabled={isPending}
+            className="btn bg-amber-900 w-full hover:bg-amber-950 text-white rounded-lg"
+            disabled={isCreatePending}
           >
-            {isPending ? "등록 중..." : "커피챗 멘토로 등록하기"}
+            {isCreatePending ? "등록 중..." : "커피챗 멘토로 등록하기"}
           </button>
         </div>
       </form>

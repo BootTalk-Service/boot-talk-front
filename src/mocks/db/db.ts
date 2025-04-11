@@ -10,6 +10,7 @@ export const DB = {
     profile_image: "/profile-default.png",
     bootcamp_id: [1],
   },
+
   bootcamps: [
     {
       bootcamp_id: 1,
@@ -223,78 +224,98 @@ export const DB = {
     },
   ],
 
-  mentorList: [
-    {
-      coffeeChatInfoId: 1,
-      userId: 101,
-      userName: "김자바",
-      userType: "현업자",
-      jobType: "백엔드",
-      introduction:
-        "Java와 Spring 기반의 마이크로서비스 아키텍처 경험이 풍부합니다.",
-      createdAt: "2024-04-02T10:15:30Z",
-      updated_at: "2024-04-02T10:15:30Z",
-      deleted: false,
+  mentorList: {
+    content: [
+      {
+        coffeeChatInfoId: 1,
+        userId: 101,
+        userName: "김자바",
+        userType: "현업자",
+        jobType: "백엔드",
+        introduction:
+          "Java와 Spring 기반의 마이크로서비스 아키텍처 경험이 풍부합니다.",
+        createdAt: "2024-04-02T10:15:30Z",
+        updated_at: "2024-04-02T10:15:30Z",
+        deleted: false,
+      },
+      {
+        coffeeChatInfoId: 2,
+        userId: 102,
+        userName: "박고",
+        userType: "현업자",
+        jobType: "프론트엔드",
+        introduction:
+          "Go 언어와 gRPC 기반 시스템을 개발하고 운영한 경험이 있습니다.",
+        createdAt: "2024-04-02T11:00:45Z",
+        updatedAt: "2024-04-02T11:00:45Z",
+        deleted: false,
+      },
+      {
+        coffeeChatInfoId: 3,
+        userId: 103,
+        userName: "최노드",
+        userType: "수료자",
+        jobType: "프론트엔드",
+        introduction:
+          "Node.js와 Express를 활용한 RESTful API 개발을 주로 하고 있습니다.",
+        createdAt: "2024-04-02T12:20:15Z",
+        updatedAt: "2024-04-02T12:20:15Z",
+        deleted: false,
+      },
+      {
+        coffeeChatInfoId: 4,
+        userId: 104,
+        userName: "이장고",
+        userType: "수료자",
+        jobType: "백엔드",
+        introduction:
+          "Python과 Django를 이용한 웹 애플리케이션 백엔드 개발을 담당합니다.",
+        createdAt: "2024-04-02T13:45:05Z",
+        updatedAt: "2024-04-02T13:45:05Z",
+        deleted: false,
+      },
+      {
+        coffeeChatInfoId: 5,
+        userId: 105,
+        userName: "유도커",
+        userType: "수료자",
+        jobType: "백엔드",
+        introduction:
+          "Kubernetes와 Docker를 활용한 배포 자동화 경험이 있습니다.",
+        createdAt: "2024-04-02T14:30:22Z",
+        updatedAt: "2024-04-02T14:30:22Z",
+        deleted: false,
+      },
+      {
+        coffeeChatInfoId: 6,
+        userId: 106,
+        userName: "강데이터",
+        userType: "현업자",
+        jobType: "프론트엔드",
+        introduction: "대규모 데이터 처리와 SQL 최적화에 강점이 있습니다.",
+        createdAt: "2024-04-02T15:10:40Z",
+        updatedAt: "2024-04-02T15:10:40Z",
+        deleted: false,
+      },
+    ],
+    pagination: {},
+  },
+
+  mentorInfo: {
+    mentorType: "FRONTEND",
+    jobType: "PROFESSIONAL",
+    introduction:
+      "안녕하세요. 8년차 프론트엔드 개발자입니다. React, TypeScript 중심의 프로젝트를 주로 진행했으며, 협업과 코드 리뷰에 대한 경험도 풍부합니다. 주니어 개발자 분들이 성장하는 데 도움이 되고 싶어요.",
+    time: {
+      monday: ["10:00", "14:00", "20:00"],
+      tuesday: ["10:00", "14:00", "20:00"],
+      wednesday: ["18:00", "21:00"],
+      thursday: ["18:00", "21:00"],
+      friday: ["10:00", "14:00"],
+      saturday: ["13:00", "16:00"],
+      sunday: [],
     },
-    {
-      coffeeChatInfoId: 2,
-      userId: 102,
-      userName: "박고",
-      userType: "현업자",
-      jobType: "프론트엔드",
-      introduction:
-        "Go 언어와 gRPC 기반 시스템을 개발하고 운영한 경험이 있습니다.",
-      createdAt: "2024-04-02T11:00:45Z",
-      updatedAt: "2024-04-02T11:00:45Z",
-      deleted: false,
-    },
-    {
-      coffeeChatInfoId: 3,
-      userId: 103,
-      userName: "최노드",
-      userType: "수료자",
-      jobType: "프론트엔드",
-      introduction:
-        "Node.js와 Express를 활용한 RESTful API 개발을 주로 하고 있습니다.",
-      createdAt: "2024-04-02T12:20:15Z",
-      updatedAt: "2024-04-02T12:20:15Z",
-      deleted: false,
-    },
-    {
-      coffeeChatInfoId: 4,
-      userId: 104,
-      userName: "이장고",
-      userType: "수료자",
-      jobType: "백엔드",
-      introduction:
-        "Python과 Django를 이용한 웹 애플리케이션 백엔드 개발을 담당합니다.",
-      createdAt: "2024-04-02T13:45:05Z",
-      updatedAt: "2024-04-02T13:45:05Z",
-      deleted: false,
-    },
-    {
-      coffeeChatInfoId: 5,
-      userId: 105,
-      userName: "유도커",
-      userType: "수료자",
-      jobType: "백엔드",
-      introduction: "Kubernetes와 Docker를 활용한 배포 자동화 경험이 있습니다.",
-      createdAt: "2024-04-02T14:30:22Z",
-      updatedAt: "2024-04-02T14:30:22Z",
-      deleted: false,
-    },
-    {
-      coffeeChatInfoId: 6,
-      userId: 106,
-      userName: "강데이터",
-      userType: "현업자",
-      jobType: "프론트엔드",
-      introduction: "대규모 데이터 처리와 SQL 최적화에 강점이 있습니다.",
-      createdAt: "2024-04-02T15:10:40Z",
-      updatedAt: "2024-04-02T15:10:40Z",
-      deleted: false,
-    },
-  ],
+  },
 
   chatRoomList: [
     {

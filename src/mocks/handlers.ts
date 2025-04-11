@@ -1,4 +1,4 @@
-import { MentorInfoData, MentorTimeData } from "./../types/request";
+import { MentorInfoData } from "./../types/request";
 import { END_POINT } from "@/constants/endPoint";
 import { http, HttpResponse } from "msw";
 import { DB } from "./db/db";
@@ -139,11 +139,12 @@ export const handlers = [
     return HttpResponse.json({ content: DB.reviews });
   }),
 
-  http.post(END_POINT.MENTOR_INFO, async ({ request }) => {
+  http.post(END_POINT.MENTOR_REGISTER, async ({ request }) => {
     const body = await request.json();
-    const { userType, jobType, introduction } = body as MentorInfoData;
+    const { mentorType, jobType, introduction, time } = body as MentorInfoData;
 
-    if (!userType || !jobType || !introduction) {
+    // 필수 입력 항목 검증
+    if (!mentorType || !jobType || !introduction) {
       return HttpResponse.json(
         {
           message: "필수 입력 항목이 누락되었습니다.",
@@ -152,26 +153,8 @@ export const handlers = [
       );
     }
 
-    // 성공 응답
-    return HttpResponse.json(
-      {
-        userType,
-        jobType,
-        introduction,
-      },
-      { status: 200 }
-    );
-  }),
-
-  http.post(END_POINT.MENTOR_TIME, async ({ request }) => {
-    const body = await request.json();
-    const { availableTimes } = body as MentorTimeData;
-
-    if (
-      !availableTimes ||
-      typeof availableTimes !== "object" ||
-      Object.keys(availableTimes).length === 0
-    ) {
+    // 시간 항목 검증
+    if (!time || typeof time !== "object" || Object.keys(time).length === 0) {
       return HttpResponse.json(
         {
           message: "가능한 시간대를 하나 이상 입력해주세요.",
@@ -179,13 +162,21 @@ export const handlers = [
         { status: 400 }
       );
     }
+
     return HttpResponse.json(
       {
-        availableTimes,
+        mentorType,
+        jobType,
+        introduction,
+        time,
       },
       { status: 200 }
     );
   }),
+
+
+  http.get(END_POINT.MENTOR_REGISTER, () => {
+    return HttpResponse.json(DB.mentorInfo, {}),
 
   // 알림 목록 조회
   http.get(END_POINT.NOTIFICATIONS, ({ request }) => {
