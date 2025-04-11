@@ -74,10 +74,6 @@ const FindMentors = () => {
                     {mentor.userType === "현업자" ? 3 : 1} 포인트
                   </span>
                 </p>
-                <p className="flex justify-between">
-                  <span>가능 날짜:</span>
-                  <span className="font-medium text-gray-800">3일 가능</span>
-                </p>
               </div>
 
               <div className="flex space-x-2 mt-4">
