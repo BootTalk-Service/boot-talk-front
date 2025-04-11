@@ -204,7 +204,84 @@ export const handlers = [
     );
   }),
 
+
   http.get(END_POINT.MENTOR_REGISTER, () => {
-    return HttpResponse.json(DB.mentorInfo, {});
+    return HttpResponse.json(DB.mentorInfo, {}),
+
+  // 알림 목록 조회
+  http.get(END_POINT.NOTIFICATIONS, ({ request }) => {
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get("page") || "1");
+    const limit = Number(url.searchParams.get("limit") || "10");
+
+    const start = (page - 1) * limit;
+    const end = start + limit;
+
+    const slice = DB.Notifications.slice(start, end);
+    const uncheckedCount = DB.Notifications.filter((n) => !n.checked).length;
+
+    return HttpResponse.json({
+      notificationResponseDtoList: slice,
+      uncheckedCount,
+    });
+  }),
+
+  // 알림 읽음 처리
+  http.patch(END_POINT.NOTIFICATIONS, async ({ request }) => {
+    const url = new URL(request.url);
+    const timeParam = url.searchParams.get("time");
+
+    if (!timeParam) {
+      return HttpResponse.json(
+        { message: "time 파라미터가 필요합니다." },
+        { status: 400 }
+      );
+    }
+
+    DB.Notifications.forEach((n) => {
+      if (new Date(n.createdAt) <= new Date(timeParam)) {
+        n.checked = true;
+      }
+    });
+
+    return HttpResponse.json(
+      { message: "알림을 확인하였습니다." },
+      { status: 200 }
+    );
+    
+  http.get(END_POINT.CHAT_ROOM_LIST, () => {
+    return HttpResponse.json(DB.chatRoomList, {});
+  }),
+
+  http.get(END_POINT.CHAT_ROOM(":roomUuid"), ({ params }) => {
+    const roomUuid = params.roomUuid;
+    const chatRoom = DB.chatRoomList.find((c) => c.roomUuid === roomUuid);
+    if (!chatRoom) {
+      return HttpResponse.json(
+        { error: "채팅방을 찾을 수 없습니다." },
+        { status: 404 }
+      );
+    }
+    return HttpResponse.json(chatRoom, {});
+  }),
+
+  http.get(END_POINT.ADMIN_CERTIFICATION, () => {
+    return HttpResponse.json({
+      certifications: DB.Certifications,
+    });
+  }),
+
+  http.patch("/api/admin/certifications/:id", ({ request, params }) => {
+    const { id } = params;
+    const url = new URL(request.url);
+    const status = url.searchParams.get("status");
+  
+    const target = DB.Certifications.find(cert => cert.certificationId === Number(id));
+    if (target && status) {
+      target.status = status;
+      return HttpResponse.json({ success: true });
+    }
+  
+    return new HttpResponse("Not Found", { status: 404 });
   }),
 ];

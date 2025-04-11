@@ -18,3 +18,15 @@ export interface Mentor {
   updatedAt: string;
   deleted: boolean;
 }
+
+export interface ChatRoom {
+  roomUuid: string;
+  mentorName: string;
+  menteeName: string;
+  reservationAt: string;
+  expiresAt: string;
+  endAt: string;
+  isActive: boolean;
+  mentorId: number;
+  menteeId: number;
+}
