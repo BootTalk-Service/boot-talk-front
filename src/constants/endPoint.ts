@@ -13,4 +13,8 @@ export const END_POINT = {
   REVIEWS: "/api/reviews",
   MENTOR_REGISTER: "/api/coffee-chats/register",
   MENTOR_APPLICATION_TIME: "/api/coffee-chats/times/{mentorId}",
+  NOTIFICATIONS: "/api/notifications",
+  CHAT_ROOM: (roomUuid: string) => `/chat-rooms/${roomUuid}`,
+  CHAT_ROOM_LIST: "/api/chat-rooms",
+  ADMIN_CERTIFICATION: "/api/admin/certifications",
 } as const;
