@@ -1,6 +1,6 @@
 import Modal from "@/components/common/modal/CommonModal";
 import { Mentor } from "@/types/response";
-import { Briefcase, Calendar, Coffee, Info, User } from "lucide-react";
+import { Briefcase, Coffee, Info, User } from "lucide-react";
 import React from "react";
 
 interface MentorProfileModalProps {
@@ -42,14 +42,6 @@ const MentorProfileModal: React.FC<MentorProfileModalProps> = ({
           <div>
             <p className="text-gray-500">커피챗 비용</p>
             <p className="font-medium text-gray-700">3 포인트</p>
-          </div>
-        </div>
-
-        <div className="flex items-center space-x-3">
-          <Calendar size={20} />
-          <div>
-            <p className="text-gray-500">가능 날짜</p>
-            <p className="font-medium text-gray-700">3일 가능</p>
           </div>
         </div>
 

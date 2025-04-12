@@ -12,7 +12,8 @@ export const END_POINT = {
   BOOTCAMP_DETAIL: (id: string) => `/bootcamps/${id}`,
   REVIEWS: "/api/reviews",
   MENTOR_REGISTER: "/api/coffee-chats/register",
-  MENTOR_APPLICATION_TIME: "/api/coffee-chats/times/{mentorId}",
+  MENTOR_APPLICATION_TIME: (coffeeChatInfoId: string) =>
+    `/api/coffee-chats/times/${coffeeChatInfoId}`,
   NOTIFICATIONS: "/api/notifications",
   CHAT_ROOM: (roomUuid: string) => `/chat-rooms/${roomUuid}`,
   CHAT_ROOM_LIST: "/api/chat-rooms",
