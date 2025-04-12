@@ -317,7 +317,6 @@ export const DB = {
     },
   },
 
-<<<<<<< HEAD
   mentorApplicationTime: {
     "2025-04-09": ["10:00"],
     "2025-04-14": [
@@ -334,10 +333,7 @@ export const DB = {
     "2025-05-07": ["18:00"],
   },
 
-  chat_messages: [
-=======
   chatRoomList: [
->>>>>>> 70816c6c5ea7884354e0514a1202d21f0250062c
     {
       roomUuid: "550e8400-e29b-41d4-a716-446655440000",
       mentorName: "김멘토",
