@@ -204,9 +204,9 @@ export const handlers = [
     );
   }),
 
-
   http.get(END_POINT.MENTOR_REGISTER, () => {
-    return HttpResponse.json(DB.mentorInfo, {}),
+    return HttpResponse.json(DB.mentorInfo, {});
+  }),
 
   // 알림 목록 조회
   http.get(END_POINT.NOTIFICATIONS, ({ request }) => {
@@ -248,7 +248,8 @@ export const handlers = [
       { message: "알림을 확인하였습니다." },
       { status: 200 }
     );
-    
+  }),
+
   http.get(END_POINT.CHAT_ROOM_LIST, () => {
     return HttpResponse.json(DB.chatRoomList, {});
   }),
@@ -256,12 +257,14 @@ export const handlers = [
   http.get(END_POINT.CHAT_ROOM(":roomUuid"), ({ params }) => {
     const roomUuid = params.roomUuid;
     const chatRoom = DB.chatRoomList.find((c) => c.roomUuid === roomUuid);
+
     if (!chatRoom) {
       return HttpResponse.json(
         { error: "채팅방을 찾을 수 없습니다." },
         { status: 404 }
       );
     }
+
     return HttpResponse.json(chatRoom, {});
   }),
 
@@ -275,13 +278,15 @@ export const handlers = [
     const { id } = params;
     const url = new URL(request.url);
     const status = url.searchParams.get("status");
-  
-    const target = DB.Certifications.find(cert => cert.certificationId === Number(id));
+
+    const target = DB.Certifications.find(
+      (cert) => cert.certificationId === Number(id)
+    );
     if (target && status) {
       target.status = status;
       return HttpResponse.json({ success: true });
     }
-  
+
     return new HttpResponse("Not Found", { status: 404 });
   }),
 ];

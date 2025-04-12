@@ -3,11 +3,10 @@
 import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, MessageCircleCode } from "lucide-react";
+import { Bell, Menu, MessageCircleCode } from "lucide-react";
 import { clearAuthStorage } from "@/lib/logout";
 import MobileDrawerMenu from "@/components/common/MobileDrawerMenu";
 import { useDrawerScrollLock } from "@/hooks/useDrawerScrollLock";
-import NotificationDropdown from "../notification/NotificationDropdown";
 
 const Header = () => {
   const { user, logout } = useAuthStore();
@@ -35,7 +34,7 @@ const Header = () => {
               <Menu size={24} />
             </label>
           </div>
-          
+
           {/* 로고 */}
           <div className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
             <Link href="/">
@@ -92,7 +91,7 @@ const Header = () => {
         </div>
       </header>
 
-     {/* Drawer (모바일) */}
+      {/* Drawer (모바일) */}
       <div className="drawer-side z-50 md:hidden fixed">
         <label htmlFor="mobile-drawer" className="drawer-overlay"></label>
         <MobileDrawerMenu />
