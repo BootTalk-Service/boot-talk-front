@@ -44,7 +44,7 @@ const FindMentors = () => {
           <h3 className="text-lg font-semibold">멘토 리스트</h3>
           <div className="flex flex-warp gap-2">
             {/* 기타 옵션은 필요 시 추가 예정 */}
-            <select defaultValue="all" className="select">
+            <select defaultValue="all" className="select rounded-lg">
               <option value="all">모든 분야</option>
               <option value="프론트엔드">프론트엔드</option>
               <option value="백엔드">백엔드</option>
@@ -73,7 +73,7 @@ const FindMentors = () => {
               </div>
 
               <div className="my-3">
-                <span className="inline-block bg-gray-100 text-gray-700 text-xs font-medium px-2.5 py-1 rounded">
+                <span className="inline-block bg-gray-100 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-lg">
                   {mentor.jobType}
                 </span>
               </div>
@@ -89,13 +89,13 @@ const FindMentors = () => {
 
               <div className="flex space-x-2 mt-4">
                 <button
-                  className="btn flex-1 btn-soft"
+                  className="btn flex-1 btn-soft rounded-lg"
                   onClick={() => handleMentorClick(mentor)}
                 >
                   프로필 보기
                 </button>
                 <button
-                  className="btn flex-1 btn-outline hover:text-amber-900"
+                  className="btn flex-1 btn-outline hover:text-amber-900 rounded-lg"
                   onClick={() => handleChatRequest(mentor)}
                 >
                   신청하기
