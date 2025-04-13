@@ -19,3 +19,8 @@ export interface MentorApplicationData {
   coffeeChatStartTime: string;
   coffeeChatEndTime: string;
 }
+
+export interface CertificationData {
+  courseId: number;
+  fileUrl: string;
+}

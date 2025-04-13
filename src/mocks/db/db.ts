@@ -629,6 +629,46 @@ export const DB = {
     },
   ],
 
+  certification: {
+    courseId: 0,
+    fileUrl: "https://example.com/certificate.jpg",
+  },
+
+  courses: [
+    {
+      courseId: 58,
+      courseName: "스마트 앱개발자 양성과정(백엔드, Node.js)",
+    },
+    {
+      courseId: 96,
+      courseName:
+        "클라우드 데브옵스 프론트엔드&백엔드 자바(JAVA) 풀스택 개발자 취업캠프",
+    },
+    {
+      courseId: 97,
+      courseName:
+        "프로젝트 기반 풀스택(프론트/백엔드) 개발자 취업캠프(리액트,자바,스프링부트)",
+    },
+    {
+      courseId: 99,
+      courseName:
+        "클라우드기반 AI Automation 스마트관리시스템(물류관리,생산관리)자바 백엔드개발",
+    },
+    {
+      courseId: 102,
+      courseName:
+        "AWS 클라우드 환경의 AI 적용 백엔드 API 서버 개발자 양성 과정",
+    },
+    {
+      courseId: 104,
+      courseName: "[이스트캠프]오르미 백엔드 개발(Java, Spring, JPA)",
+    },
+    {
+      courseId: 120,
+      courseName: "프론트엔드 개발자 양성과정(React, Next.js)",
+    },
+  ],
+
   approvedCoffeeChats: [
     {
       coffeeChatAppId: 1,

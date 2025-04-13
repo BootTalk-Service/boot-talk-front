@@ -39,7 +39,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mb-3">
       <div className="relative mb-2">
         <div
           className={`w-32 h-32 rounded-full overflow-hidden border-4 border-base-100 ${
@@ -60,7 +60,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
           )}
         </div>
         <button
-          className="absolute bottom-0 right-0 bg-amber-950 text-white p-2 rounded-full shadow-md cursor-pointer"
+          className="absolute bottom-0 right-0 bg-amber-900 text-white p-2 rounded-full shadow-md cursor-pointer"
           type="button"
           onClick={handleImageClick}
           disabled={isPending}

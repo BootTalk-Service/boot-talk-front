@@ -30,3 +30,8 @@ export interface ChatRoom {
   mentorId: number;
   menteeId: number;
 }
+
+export interface Course {
+  courseId: number;
+  courseName: string;
+}

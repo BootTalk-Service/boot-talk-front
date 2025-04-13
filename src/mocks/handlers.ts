@@ -1,4 +1,8 @@
-import { MentorApplicationData, MentorInfoData } from "./../types/request";
+import {
+  CertificationData,
+  MentorApplicationData,
+  MentorInfoData,
+} from "./../types/request";
 import { END_POINT } from "@/constants/endPoint";
 import { http, HttpResponse } from "msw";
 import { DB } from "./db/db";
@@ -23,6 +27,39 @@ export const handlers = [
 
   http.get(END_POINT.POINT_HISTORY, () => {
     return HttpResponse.json(DB.pointHistory, {});
+  }),
+
+  http.get(END_POINT.COURSES, ({ request }) => {
+    const url = new URL(request.url);
+    const query = url.searchParams.get("query") || "";
+
+    if (!query) {
+      return HttpResponse.json();
+    }
+
+    const filteredCourses = DB.courses.filter((course) =>
+      course.courseName.toLowerCase().includes(query.toLowerCase())
+    );
+
+    return HttpResponse.json(filteredCourses);
+  }),
+
+  http.post(END_POINT.CERTIFICATE, async ({ request }) => {
+    const { courseId, fileUrl } = (await request.json()) as CertificationData;
+    if (!courseId || !fileUrl) {
+      return HttpResponse.json(
+        { message: "코스 ID와 파일 URL은 필수입니다." },
+        { status: 400 }
+      );
+    }
+
+    return HttpResponse.json(
+      {
+        courseId,
+        fileUrl,
+      },
+      { status: 200 }
+    );
   }),
 
   http.get(END_POINT.MENTOR_LIST, () => {
