@@ -14,7 +14,10 @@ export const handlers = [
   }),
 
   http.get(END_POINT.BOOTCAMPS, () => {
-    return HttpResponse.json(DB.bootcamps, {});
+    return HttpResponse.json({
+      data: DB.bootcamps,
+      pagination: DB.pagination
+    });
   }),
 
   http.get(END_POINT.MY_REVIEWS, () => {
@@ -148,7 +151,7 @@ export const handlers = [
 
   http.get(END_POINT.BOOTCAMP_DETAIL(":id"), ({ params }) => {
     const bootcampId = Number(params.id);
-    const bootcamp = DB.bootcamps.find((b) => b.bootcamp_id === bootcampId);
+    const bootcamp = DB.bootcamps.find((b) => b.bootcampId === bootcampId);
 
     if (!bootcamp) {
       return HttpResponse.json(
@@ -288,5 +291,9 @@ export const handlers = [
     }
 
     return new HttpResponse("Not Found", { status: 404 });
+
+  http.get(END_POINT.BOOTCAMP_JOB_ROLES, () => {
+    return HttpResponse.json(DB.bootcampJobRoles, {});
   }),
+
 ];

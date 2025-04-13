@@ -1,19 +1,24 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import SearchSection from "@/components/common/SerchSectioin"
-import FilterButtons from "@/components/feature/main/FilterButtons"
+import { useState } from "react";
+import SearchSection from "@/components/common/SerchSectioin";
+import FilterButtons from "@/components/feature/main/FilterButtons";
 import BootcampList from "@/components/feature/main/BootcampList";
-
+import { useGetBootcampCategories } from "@/hooks/main-page/useGetBootcampCategories";
 
 export default function Home() {
-  const [filters, setFilters] = useState<{ [key: string]: string }>({});
+  const [selectedFilters, setSelectedFilters] = useState<Record<string, string>>({});
+  const { data: categories = [] } = useGetBootcampCategories();
 
   return (
     <main>
       <SearchSection />
-      <FilterButtons onFilterChange={setFilters}/>
-      <BootcampList filters={filters}/>
+      <FilterButtons
+        selectedFilters={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
+        categoryOptions={categories}
+      />
+      <BootcampList filters={selectedFilters} />
     </main>
   );
 }
