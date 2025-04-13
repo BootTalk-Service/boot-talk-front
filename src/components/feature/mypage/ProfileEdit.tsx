@@ -92,9 +92,7 @@ const ProfileEdit = () => {
 
       {/* 관심 직무 섹션 */}
       <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-3 text-base-content">
-          관심 직무
-        </h3>
+        <h3 className="mb-3 font-semibold text-base-content">관심 직무</h3>
         <FormSelect
           options={CAREER_OPTIONS}
           value={watch("desired_career")}
@@ -107,12 +105,10 @@ const ProfileEdit = () => {
 
       {/* 네이버 계정 정보 섹션 */}
       <div className="mb-8">
-        <h3 className="text-lg font-semibold mb-3 text-base-content">
-          계정 정보
-        </h3>
-        <div className="p-4 bg-base-200 rounded-lg border border-base-300">
+        <h3 className="font-semibold mb-3 text-base-content">계정 정보</h3>
+        <div className="p-4 bg-base-200 rounded-md border border-base-300">
           <div className="flex items-center">
-            <div className="w-10 h-10 mr-4 flex-shrink-0 bg-green-500 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 mr-4 flex-shrink-0 bg-green-500 rounded-md flex items-center justify-center">
               <span className="text-white font-bold">N</span>
             </div>
             <div>
@@ -128,12 +124,12 @@ const ProfileEdit = () => {
 
       {/* 수료한 부트캠프 */}
       <div className="mb-8">
-        <h3 className="text-lg font-semibold mb-3 text-base-content">
+        <h3 className="font-semibold mb-3 text-base-content">
           수료한 부트캠프
         </h3>
-        <div className="p-4 bg-base-200 rounded-lg border border-base-300">
+        <div className="p-4 bg-base-200 rounded-md border border-base-300">
           <div className="flex items-center justify-between">
-            <span className="font-medium text-base-content">제로베이스</span>
+            <span>제로베이스</span>
           </div>
         </div>
       </div>
@@ -142,7 +138,7 @@ const ProfileEdit = () => {
       <div className="flex justify-end">
         <button
           type="submit"
-          className="btn bg-amber-950 hover:bg-amber-900 text-white"
+          className="btn bg-amber-900 hover:bg-amber-950 text-white"
           disabled={updateProfileMutation.isPending}
         >
           {updateProfileMutation.isPending ? "저장 중..." : "저장"}

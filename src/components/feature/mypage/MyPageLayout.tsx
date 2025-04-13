@@ -30,10 +30,7 @@ const MyPageLayout = ({
   return (
     <div className="container mx-auto p-4 max-w-6xl">
       {/* 페이지 제목 */}
-      <h1 className="text-3xl font-bold mb-8 text-amber-950 flex items-center">
-        <span className="bg-warning w-2 h-8 inline-block mr-3 rounded"></span>
-        마이페이지
-      </h1>
+      <h1 className="text-2xl font-bold mb-6 flex items-center">마이페이지</h1>
 
       <div className="flex flex-col md:flex-row gap-8">
         {/* 왼쪽 사이드바 */}
@@ -52,11 +49,9 @@ const MyPageLayout = ({
                   />
                 </div>
               </div>
-              <h2 className="text-xl font-bold text-center text-amber-950">
-                {myInfo?.name}
-              </h2>
+              <h2 className="text-xl font-bold text-center">{myInfo?.name}</h2>
               <div className="flex justify-center mt-2">
-                <div className="px-4 py-1 bg-amber-950 text-base-100 rounded-full font-medium flex items-center gap-1 shadow-sm">
+                <div className="px-4 py-1  rounded-full font-medium flex items-center gap-1 shadow-lg">
                   <AwardIcon size={14} className="fill-current" />
                   <span>{myInfo?.current_point} P</span>
                 </div>
@@ -72,8 +67,8 @@ const MyPageLayout = ({
                     key={tab.id}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all ${
                       activeTab === tab.id
-                        ? "bg-amber-950 text-white font-medium shadow-md"
-                        : "text-gray-600 hover:bg-neutral-100"
+                        ? "font-medium"
+                        : "text-gray-600 hover:bg-neutral-100 hover:text-amber-900"
                     }`}
                     onClick={() => onTabChange(tab.id)}
                   >
@@ -96,8 +91,8 @@ const MyPageLayout = ({
 
         {/* 오른쪽 컨텐츠 영역 */}
         <div className="flex-1">
-          <div className="bg-base-100 rounded-xl shadow-md p-6 border border-base-300 min-h-96">
-            <h2 className="text-xl font-bold mb-6 pb-3 border-b border-gray-200 text-amber-950">
+          <div className="bg-base-100 rounded-xl shadow-md p-6 border border-base-300 min-h-143">
+            <h2 className="text-xl font-bold mb-6 pb-3 border-b border-gray-200">
               {tabs.find((tab) => tab.id === activeTab)?.label || ""}
             </h2>
             <div>{children}</div>

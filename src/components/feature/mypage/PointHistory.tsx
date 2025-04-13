@@ -15,46 +15,47 @@ const PointHistory = () => {
     return <div>포인트 내역이 없습니다.</div>;
 
   return (
-    <div>
+    <div className="overflow-x-auto">
       {/* 요약 정보 */}
-      <div className="bg-gray-50 p-4 rounded-lg mb-6">
-        <p className="text-lg font-medium">
+      <div className="bg-base-200 p-4 rounded-xl shadow mb-6">
+        <p className="text-md font-medium">
           현재 포인트:{" "}
-          <span className="text-blue-600 font-bold">
+          <span className="font-bold">
             {pointHistory[pointHistory.length - 1].current_points}P
           </span>
         </p>
       </div>
 
-      {/* 포인트 리스트 */}
-      <div className="space-y-3">
-        {pointHistory.map((point) => (
-          <div
-            key={point.point_id}
-            className="border rounded-lg border-gray-200 p-4 shadow-sm"
-          >
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="font-medium text-lg">{point.event_type}</p>
-                <p className="text-gray-500 text-sm">
-                  {new Date(point.created_at).toLocaleString()}
-                </p>
-              </div>
-              <div
-                className={`font-bold text-lg ${
+      {/* 테이블 포인트 리스트 */}
+      <table className="table w-full">
+        <thead>
+          <tr className="text-base-content">
+            <th>이벤트</th>
+            <th>날짜</th>
+            <th className="text-right">변동</th>
+            <th className="text-right">잔여 포인트</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pointHistory.map((point) => (
+            <tr key={point.point_id}>
+              <td className="font-medium">{point.event_type}</td>
+              <td>{new Date(point.created_at).toLocaleString()}</td>
+              <td
+                className={`text-right font-bold ${
                   point.type === "EARN" ? "text-blue-600" : "text-red-600"
                 }`}
               >
                 {point.type === "EARN" ? "+" : ""}
                 {point.changed_points}P
-              </div>
-            </div>
-            <div className="mt-2 pt-2 border-t border-gray-200 text-sm text-gray-500">
-              <p>잔여 포인트: {point.current_points}P</p>
-            </div>
-          </div>
-        ))}
-      </div>
+              </td>
+              <td className="text-right text-sm text-gray-600">
+                {point.current_points}P
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
