@@ -1,6 +1,7 @@
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import { useQuery } from "@tanstack/react-query";
+import type { Bootcamp } from "@/types/Bootcamp";
 
 const getBootcamp = async () => {
   const response = await axiosDefault.get(END_POINT.BOOTCAMPS);

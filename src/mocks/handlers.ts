@@ -1,3 +1,4 @@
+import { MentorApplicationData, MentorInfoData } from "./../types/request";
 import { END_POINT } from "@/constants/endPoint";
 import { http, HttpResponse } from "msw";
 import { DB } from "./db/db";
@@ -25,12 +26,18 @@ export const handlers = [
   }),
 
   http.get(END_POINT.MENTOR_LIST, () => {
-    return HttpResponse.json(DB.mentors, {});
+    return HttpResponse.json(DB.mentorList, {});
   }),
 
-  http.get(END_POINT.ACCEPTED_COFFEE_CHATS, () => {
-    return HttpResponse.json(DB.acceptedCoffeeChats, {});
-  }),
+  http.get(
+    END_POINT.MENTOR_APPLICATION_TIME(":coffeeChatInfoId"),
+    ({ params }) => {
+      const { coffeeChatInfoId } = params;
+      console.log(coffeeChatInfoId);
+
+      return HttpResponse.json(DB.mentorApplicationTime, {});
+    }
+  ),
 
   http.put(END_POINT.MY_INFO, async ({ request }) => {
     try {
@@ -105,5 +112,181 @@ export const handlers = [
         { status: 500 }
       );
     }
+  }),
+
+  http.get(END_POINT.APPROVED_COFFEE_CHATS, () => {
+    return HttpResponse.json(DB.approvedCoffeeChats, {});
+  }),
+
+  http.get(END_POINT.SENT_COFFEE_CHATS, () => {
+    return HttpResponse.json(DB.sentCoffeeChats, {});
+  }),
+
+  http.post(END_POINT.SENT_COFFEE_CHATS, async ({ request }) => {
+    const body = await request.json();
+    const {
+      coffeeChatEndTime,
+      coffeeChatInfoId,
+      coffeeChatStartTime,
+      content,
+    } = body as MentorApplicationData;
+
+    return HttpResponse.json(
+      {
+        coffeeChatEndTime,
+        coffeeChatInfoId,
+        coffeeChatStartTime,
+        content,
+      },
+      { status: 200 }
+    );
+  }),
+
+  http.get(END_POINT.RECEIVED_COFFEE_CHATS, () => {
+    return HttpResponse.json(DB.receivedCoffeeChats, {});
+  }),
+
+  http.get(END_POINT.BOOTCAMP_DETAIL(":id"), ({ params }) => {
+    const bootcampId = Number(params.id);
+    const bootcamp = DB.bootcamps.find((b) => b.bootcamp_id === bootcampId);
+
+    if (!bootcamp) {
+      return HttpResponse.json(
+        { error: "부트캠프를 찾을 수 없습니다." },
+        { status: 404 }
+      );
+    }
+
+    const reviews = DB.reviews.filter((r) => r.reviewId === bootcampId);
+
+    return HttpResponse.json({
+      ...bootcamp,
+      reviews,
+    });
+  }),
+
+  http.get(END_POINT.REVIEWS, () => {
+    return HttpResponse.json({ content: DB.reviews });
+  }),
+
+  http.post(END_POINT.MENTOR_REGISTER, async ({ request }) => {
+    const body = await request.json();
+    const { mentorType, jobType, introduction, time } = body as MentorInfoData;
+
+    // 필수 입력 항목 검증
+    if (!mentorType || !jobType || !introduction) {
+      return HttpResponse.json(
+        {
+          message: "필수 입력 항목이 누락되었습니다.",
+        },
+        { status: 400 }
+      );
+    }
+
+    // 시간 항목 검증
+    if (!time || typeof time !== "object" || Object.keys(time).length === 0) {
+      return HttpResponse.json(
+        {
+          message: "가능한 시간대를 하나 이상 입력해주세요.",
+        },
+        { status: 400 }
+      );
+    }
+
+    return HttpResponse.json(
+      {
+        mentorType,
+        jobType,
+        introduction,
+        time,
+      },
+      { status: 200 }
+    );
+  }),
+
+  http.get(END_POINT.MENTOR_REGISTER, () => {
+    return HttpResponse.json(DB.mentorInfo, {});
+  }),
+
+  // 알림 목록 조회
+  http.get(END_POINT.NOTIFICATIONS, ({ request }) => {
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get("page") || "1");
+    const limit = Number(url.searchParams.get("limit") || "10");
+
+    const start = (page - 1) * limit;
+    const end = start + limit;
+
+    const slice = DB.Notifications.slice(start, end);
+    const uncheckedCount = DB.Notifications.filter((n) => !n.checked).length;
+
+    return HttpResponse.json({
+      notificationResponseDtoList: slice,
+      uncheckedCount,
+    });
+  }),
+
+  // 알림 읽음 처리
+  http.patch(END_POINT.NOTIFICATIONS, async ({ request }) => {
+    const url = new URL(request.url);
+    const timeParam = url.searchParams.get("time");
+
+    if (!timeParam) {
+      return HttpResponse.json(
+        { message: "time 파라미터가 필요합니다." },
+        { status: 400 }
+      );
+    }
+
+    DB.Notifications.forEach((n) => {
+      if (new Date(n.createdAt) <= new Date(timeParam)) {
+        n.checked = true;
+      }
+    });
+
+    return HttpResponse.json(
+      { message: "알림을 확인하였습니다." },
+      { status: 200 }
+    );
+  }),
+
+  http.get(END_POINT.CHAT_ROOM_LIST, () => {
+    return HttpResponse.json(DB.chatRoomList, {});
+  }),
+
+  http.get(END_POINT.CHAT_ROOM(":roomUuid"), ({ params }) => {
+    const roomUuid = params.roomUuid;
+    const chatRoom = DB.chatRoomList.find((c) => c.roomUuid === roomUuid);
+
+    if (!chatRoom) {
+      return HttpResponse.json(
+        { error: "채팅방을 찾을 수 없습니다." },
+        { status: 404 }
+      );
+    }
+
+    return HttpResponse.json(chatRoom, {});
+  }),
+
+  http.get(END_POINT.ADMIN_CERTIFICATION, () => {
+    return HttpResponse.json({
+      certifications: DB.Certifications,
+    });
+  }),
+
+  http.patch("/api/admin/certifications/:id", ({ request, params }) => {
+    const { id } = params;
+    const url = new URL(request.url);
+    const status = url.searchParams.get("status");
+
+    const target = DB.Certifications.find(
+      (cert) => cert.certificationId === Number(id)
+    );
+    if (target && status) {
+      target.status = status;
+      return HttpResponse.json({ success: true });
+    }
+
+    return new HttpResponse("Not Found", { status: 404 });
   }),
 ];

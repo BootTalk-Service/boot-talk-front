@@ -4,6 +4,8 @@ import "./globals.css";
 import QueryProvider from "@/provider/QueryProvider";
 import Header from "@/components/common/Header";
 import Nav from "@/components/common/Nav";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: "Boot Talk App",
@@ -22,6 +24,7 @@ export default function RootLayout({
           <Header />
           <Nav />
           {children}
+          <ToastContainer position="top-center" autoClose={3000} />
         </QueryProvider>
       </body>
     </html>

@@ -1,5 +1,6 @@
 "use client";
 
+import RequireAuth from "@/components/common/RequireAuth";
 import Certificates from "@/components/feature/mypage/Certificates";
 import MyPageLayout from "@/components/feature/mypage/MyPageLayout";
 import MyReviews from "@/components/feature/mypage/MyReviews";
@@ -26,8 +27,10 @@ export default function Mypage() {
   };
 
   return (
-    <MyPageLayout activeTab={activeTab} onTabChange={setActiveTab}>
-      {renderTabContent()}
-    </MyPageLayout>
+    <RequireAuth>
+      <MyPageLayout activeTab={activeTab} onTabChange={setActiveTab}>
+        {renderTabContent()}
+      </MyPageLayout>
+    </RequireAuth>
   );
 }

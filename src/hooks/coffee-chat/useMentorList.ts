@@ -1,20 +1,12 @@
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
+import { Mentor } from "@/types/response";
 import { useQuery } from "@tanstack/react-query";
-
-interface Mentor {
-  t_user_id: number;
-  user_type: string;
-  name: string;
-  career: string;
-  introduction: string;
-  coffee_chat_schedule: string[];
-}
 
 const fetchMentorList = async () => {
   try {
     const response = await axiosDefault.get(END_POINT.MENTOR_LIST, {});
-    return response.data.data;
+    return response.data.content;
   } catch (error) {
     console.error("Failed to fetch mentor list:", error);
     throw error;

@@ -1,11 +1,14 @@
-import CoffeeChatContainer from "@/components/coffee-chat/CoffeeChatContainer";
+"use client";
 
-const CoffeeChatPage = () => {
-  return (
-    <div className="max-w-7xl mx-auto mt-5 p-4  min-h-screen">
-      <CoffeeChatContainer />
-    </div>
-  );
+import React from "react";
+import FindMentors from "@/components/coffee-chat/mentor/FindMentors";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
+
+const MentorPage = () => {
+  const { user } = useAuthGuard();
+  if (!user) return null;
+
+  return <FindMentors />;
 };
 
-export default CoffeeChatPage;
+export default MentorPage;
