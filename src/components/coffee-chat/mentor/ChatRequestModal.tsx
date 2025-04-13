@@ -151,7 +151,7 @@ const ChatRequestModal: React.FC<ChatRequestModalProps> = ({
             <span>궁금한 점이나 이야기하고 싶은 주제를 적어주세요!</span>
           </label>
           <textarea
-            className="textarea textarea-bordered h-24 w-full mt-1"
+            className="textarea textarea-bordered h-24 w-full mt-1 rounded-lg"
             placeholder="예: 커리어 방향이 고민돼요"
             maxLength={500}
             required
@@ -165,7 +165,7 @@ const ChatRequestModal: React.FC<ChatRequestModalProps> = ({
         {/* 제출 버튼 */}
         <div className="form-control text-right">
           <button
-            className="btn bg-amber-900 text-white btn-md"
+            className="btn bg-amber-900 text-white btn-md rounded-lg"
             type="submit"
             disabled={isLoading || isSubmitting}
           >

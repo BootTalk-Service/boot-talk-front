@@ -172,7 +172,7 @@ const MentorSignupModal: React.FC<MentorSignupModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="멘토 등록" size="lg">
+    <Modal isOpen={isOpen} onClose={onClose} title="커피챗 멘토 등록" size="lg">
       <form className="space-y-4 " onSubmit={handleSubmit}>
         {/* 직군 선택 */}
         <div className="form-control">
@@ -181,7 +181,7 @@ const MentorSignupModal: React.FC<MentorSignupModalProps> = ({
             <span className="font-medium">직군 선택</span>
           </label>
           <select
-            className="select select-bordered w-full"
+            className="select select-bordered w-full rounded-lg"
             value={formData.jobType}
             onChange={handleJobCategoryChange}
             required
@@ -219,7 +219,7 @@ const MentorSignupModal: React.FC<MentorSignupModalProps> = ({
             <span className="font-medium">멘토 소개글</span>
           </label>
           <textarea
-            className="textarea textarea-bordered h-24 w-full mt-1"
+            className="textarea textarea-bordered h-24 w-full mt-1 rounded-lg"
             placeholder="멘티에게 보여질 자기소개와 도움을 줄 수 있는 영역에 대해 작성해주세요. (최소 10자 이상)"
             value={formData.introduction}
             onChange={handleIntroductionChange}
@@ -248,10 +248,10 @@ const MentorSignupModal: React.FC<MentorSignupModalProps> = ({
         <div className="pt-2 flex justify-end">
           <button
             type="submit"
-            className="btn bg-amber-900 w-full hover:bg-amber-950 text-white rounded-lg"
+            className="btn bg-amber-900  text-white rounded-lg"
             disabled={isCreatePending}
           >
-            {isCreatePending ? "등록 중..." : "커피챗 멘토로 등록하기"}
+            {isCreatePending ? "등록 중..." : "등록하기"}
           </button>
         </div>
       </form>

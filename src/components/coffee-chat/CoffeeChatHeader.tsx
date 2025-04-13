@@ -21,7 +21,7 @@ const CoffeeChatHeader: React.FC = () => {
           className="px-4 py-2 bg-amber-900 text-white rounded-lg hover:bg-amber-950 transition-colors"
           onClick={openModal}
         >
-          커피챗 등록
+          멘토 등록
         </button>
       </div>
 
