@@ -5,7 +5,6 @@ import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import { Bootcamp } from "@/types/Bootcamp";
 
-// API 응답 타입 정의
 interface BootcampResponse {
   data: Bootcamp[];
   pagination: {
@@ -14,7 +13,6 @@ interface BootcampResponse {
   };
 }
 
-// ✅ UI에서 선택한 값을 API 요청용 값으로 변환
 const transformFilterValue = (key: string, value: string): string => {
   if (key === "duration") {
     const valueMap: Record<string, string> = {
@@ -37,7 +35,6 @@ const transformFilterValue = (key: string, value: string): string => {
   return value;
 };
 
-// ✅ filters를 모두 변환한 버전 생성 (mock용)
 const getTransformedFilters = (filters: Record<string, string>) => {
   const result: Record<string, string> = {};
   Object.entries(filters).forEach(([key, value]) => {
@@ -53,7 +50,7 @@ const getWeeksBetween = (startDateStr: string, endDateStr: string): number => {
   const diffInMs = end.getTime() - start.getTime();
   const diffInWeeks = diffInMs / (1000 * 60 * 60 * 24 * 7);
 
-  return Math.ceil(diffInWeeks); // 소수점 올림
+  return Math.ceil(diffInWeeks);
 };
 
 
@@ -64,7 +61,6 @@ const applyFilters = (data: Bootcamp[], filters: Record<string, string>) => {
     if (region && !bootcamp.bootcampRegion.includes(region)) return false;
     if (category && bootcamp.bootcampCategory !== category) return false;
 
-    // ⬇️ 평점 필터: 해당 점수대만 허용
     if (minRating) {
       const rating = Number(minRating);
       const nextRating = rating + 1;

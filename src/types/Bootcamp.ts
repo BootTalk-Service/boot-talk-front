@@ -12,6 +12,7 @@ export interface Bootcamp {
   bootcampEndDate: string;
   courseAverageRating: number;
   courseReviewCount: number;
+  training_center_url: string;
 }
 
 export interface BootcampDetail extends Bootcamp {

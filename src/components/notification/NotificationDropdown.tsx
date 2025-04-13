@@ -48,14 +48,14 @@ const NotificationDropdown = () => {
   }, [isOpen]);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative z-[99]" ref={dropdownRef}>
       <div onClick={() => setIsOpen((prev) => !prev)}>
         <NotificationBell isActive={isOpen} />
       </div>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-96 max-h-[400px] bg-white rounded-2xl shadow-2xl z-50 overflow-y-auto scrollbar-thin pr-1">
-          <div className="sticky top-0 p-4 text-lg font-bold bg-gray-100 text-gray-700 border-b border-gray-300 z-10">
+        <div className="absolute right-0 mt-2 w-96 max-h-[400px] bg-white rounded-2xl shadow-2xl z-[50] overflow-y-auto scrollbar-thin pr-1">
+          <div className="sticky top-0 p-4 text-lg font-bold text-left bg-gray-100 text-gray-700 border-b border-gray-300 z-10">
             알림
           </div>
 

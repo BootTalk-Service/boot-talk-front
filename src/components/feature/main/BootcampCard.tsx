@@ -1,7 +1,9 @@
 "use client"
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { Bootcamp } from "@/types/Bootcamp";
+import BootcampMobile from "./BootcampMobile";
+import clsx from "clsx";
 
 const BootcampCard = ({
   bootcampId,
@@ -14,44 +16,81 @@ const BootcampCard = ({
   bootcampCapacity,
   courseAverageRating,
   courseReviewCount,
+  bootcampLink,
 }: Bootcamp) => {
+  const router = useRouter();
   const primaryRegion = bootcampRegion.split(" ")[0];
 
+  const wrapperClass = clsx(
+    "relative bg-white text-sm transition-colors",
+    "flex flex-col lg:grid lg:grid-cols-6 lg:items-center",
+    "px-4 py-3 sm:pb-4 gap-2 lg:gap-4",
+    "border border-base-200 rounded-xl shadow-sm",
+    "hover:shadow-md hover:bg-white",
+    "lg:rounded-none lg:shadow-none lg:border-0 lg:border-b lg:border-base-300",
+    "lg:hover:shadow-none lg:hover:bg-gray-50"
+  );
+
   return (
-    <Link href={`/bootcamps/${bootcampId}`}>
-      <div className="grid grid-cols-6 gap-4 px-4 py-6 border-b border-slate-300 text-sm items-center hover:bg-gray-50 transition-colors">
-        {/* 교육 기관명 + 교육 과정명 */}
-        <div className="flex flex-col">
-          <span className="text-xs text-gray-500">{trainingCenterName}</span>
-          <span className="font-semibold line-clamp-2 break-words text-ellipsis overflow-hidden">
-            {bootcampName}
-          </span>
-        </div>
+    <div
+      className={clsx(wrapperClass, "mb-3 md:mb-4 lg:mb-0")}
+      onClick={() => router.push(`/bootcamps/${bootcampId}`)}
+    >
 
-        {/* 학습 기간 */}
-        <div>
-          {bootcampStartDate} ~ {bootcampEndDate}
-        </div>
+    {/* 교육 기관명 + 교육 과정명 */}
+    <div className="flex flex-col">
+      <span className="text-xs text-gray-500">{trainingCenterName}</span>
+      <span className="text-sm leading-snug font-semibold line-clamp-2 break-words text-ellipsis overflow-hidden">
+        {bootcampName}
+      </span>
+    </div>
 
-        {/* 프로그램 과정 */}
-        <div className="flex justify-start pl-10">
-          <span className="px-2 py-1 bg-gray-100 rounded">{bootcampCategory}</span>
-        </div>
+    {/* 학습 기간 */}
+    <div>
+    <p className="text-sm whitespace-nowrap">
+      {bootcampStartDate} ~ {bootcampEndDate}
+    </p>
+    </div>
 
-        {/* 지역 */}
-        <div className="flex justify-start pl-14">
-          <span className="px-2 py-1 bg-gray-100 rounded">{primaryRegion}</span>
-        </div>
+    {/* 프로그램 과정 */}
+    <div className="hidden lg:flex justify-start pl-10">
+      <span className="px-2 py-1 bg-gray-100 rounded line-clamp-1 max-w-[180px] max-h-[26px] text-ellipsis overflow-hidden">{bootcampCategory}</span>
+    </div>
 
-        {/* 정원 */}
-        <div className="flex justify-start pl-14">{bootcampCapacity}명</div>
+    {/* 지역 */}
+    <div className="hidden lg:flex justify-start pl-10">
+      <span className="px-2 py-1 bg-gray-100 rounded">{primaryRegion}</span>
+    </div>
 
-        {/* 평점 및 리뷰 */}
-        <div className="flex items-center gap-1 text-xs text-gray-600">
-        ⭐{courseAverageRating.toFixed(1)} | {courseReviewCount}개의 리뷰
-        </div>
-      </div>
-    </Link>
+    {/* 정원 */}
+    <div className="hidden lg:flex justify-start pl-10">{bootcampCapacity}명</div>
+
+    <BootcampMobile
+      category={bootcampCategory}
+      region={primaryRegion}
+      capacity={bootcampCapacity}
+    />
+    
+    {/* 평점 및 리뷰 */}
+    <div className="flex items-center gap-1 text-xs text-gray-600">
+    ⭐{courseAverageRating.toFixed(1)} | {courseReviewCount}개의 리뷰
+    </div>
+
+    {/* 태블릿 전용 홈페이지 버튼 */}
+    <a
+      href={bootcampLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
+      className={clsx(
+        "hidden md:inline-block lg:hidden absolute right-4 top-1/2 -translate-y-1/2 z-30",
+        "text-sm px-4 py-2 rounded-full bg-gray-100 hover:bg-amber-900 hover:text-white border-none",
+        "transition-colors duration-200"
+      )}
+    >
+      홈페이지 바로 가기
+    </a>
+  </div>
   );
 };
 

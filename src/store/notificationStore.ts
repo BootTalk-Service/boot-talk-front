@@ -1,5 +1,9 @@
 import { create } from "zustand";
 import { NotificationItem } from "@/types/Notification";
+import { axiosDefault } from "@/api/axiosInstance";
+
+const getUnreadCount = (notifications: NotificationItem[]) =>
+  notifications.filter((n) => !n.checked).length;
 
 interface NotificationState {
   notifications: NotificationItem[];
@@ -25,9 +29,14 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
   page: 1,
 
   setNotifications: (notifications) => {
-    if (!Array.isArray(notifications)) return;
-    const unread = notifications.filter((n) => !n.checked).length;
-    set({ notifications, unreadCount: unread });
+    if (!Array.isArray(notifications)) {
+      console.warn("Invalid notification data:", notifications);
+      return;
+    }
+    set({
+      notifications,
+      unreadCount: getUnreadCount(notifications),
+    });
   },
 
   loadNextPage: async () => {
@@ -35,37 +44,45 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
 
     set({ isLoading: true });
 
-    const res = await fetch(`/api/notifications?page=${page}&limit=10`);
-    const data = await res.json();
+    try {
+      const response = await axiosDefault.get(`/api/notifications`, {
+        params: { page, limit: 10 }
+      });
+      const data = response.data;
 
-    const nextList = data?.notificationResponseDtoList ?? [];
-    const merged = [...notifications, ...nextList];
-    const unique = Array.from(
-      new Map(merged.map((n) => [n.notificationId, n])).values()
-    );
+      const nextList = data?.notificationResponseDtoList ?? [];
+      const merged = [...notifications, ...nextList];
+      const unique = Array.from(
+        new Map(merged.map((n) => [n.notificationId, n])).values()
+      );
 
-    set({
-      notifications: unique,
-      unreadCount: data.uncheckedCount ?? 0,
-      hasMore: nextList.length > 0,
-      page: page + 1,
-      isLoading: false,
-    });
+      set({
+        notifications: unique,
+        unreadCount: data.uncheckedCount ?? getUnreadCount(unique),
+        hasMore: nextList.length > 0,
+        page: page + 1,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error("알림 목록 불러오기 실패:", error);
+      set({ isLoading: false });
+    }
   },
 
   setHasOpened: (hasOpened) => set({ hasOpened }),
 
   updateCheckedNotifications: (time) => {
-    set((state) => ({
-      notifications: state.notifications.map((n) =>
+    set((state) => {
+      const updated = state.notifications.map((n) =>
         new Date(n.createdAt) <= new Date(time)
           ? { ...n, checked: true }
           : n
-      ),
-      unreadCount: state.notifications.filter(
-        (n) => new Date(n.createdAt) > new Date(time) && !n.checked
-      ).length,
-    }));
+      );
+      return {
+        notifications: updated,
+        unreadCount: getUnreadCount(updated),
+      };
+    });
   },
 
   markAsReadById: (id) => {
@@ -73,9 +90,10 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
       const updated = state.notifications.map((n) =>
         n.notificationId === id ? { ...n, checked: true } : n
       );
-      const unread = updated.filter((n) => !n.checked).length;
-
-      return { notifications: updated, unreadCount: unread };
+      return {
+        notifications: updated,
+        unreadCount: getUnreadCount(updated),
+      };
     });
   },
 }));

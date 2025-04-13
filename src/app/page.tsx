@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import SearchSection from "@/components/common/SerchSectioin";
+import SearchSection from "@/components/common/SearchSection";
 import FilterButtons from "@/components/feature/main/FilterButtons";
 import BootcampList from "@/components/feature/main/BootcampList";
 import { useGetBootcampCategories } from "@/hooks/main-page/useGetBootcampCategories";

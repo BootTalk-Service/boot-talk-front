@@ -211,18 +211,23 @@ export const handlers = [
     return HttpResponse.json(DB.mentorInfo, {});
   }),
 
-  // 알림 목록 조회
   http.get(END_POINT.NOTIFICATIONS, ({ request }) => {
     const url = new URL(request.url);
     const page = Number(url.searchParams.get("page") || "1");
     const limit = Number(url.searchParams.get("limit") || "10");
-
     const start = (page - 1) * limit;
     const end = start + limit;
-
+  
+    if (!DB.Notifications || DB.Notifications.length === 0) {
+      return HttpResponse.json({
+        notificationResponseDtoList: [],
+        uncheckedCount: 0,
+      });
+    }
+  
     const slice = DB.Notifications.slice(start, end);
     const uncheckedCount = DB.Notifications.filter((n) => !n.checked).length;
-
+  
     return HttpResponse.json({
       notificationResponseDtoList: slice,
       uncheckedCount,
@@ -291,9 +296,26 @@ export const handlers = [
     }
 
     return new HttpResponse("Not Found", { status: 404 });
-
+  }),
+  
   http.get(END_POINT.BOOTCAMP_JOB_ROLES, () => {
     return HttpResponse.json(DB.bootcampJobRoles, {});
+  }),
+
+  http.get(END_POINT.BOOTCAMPS_AUTOCOMPLETE, ({ request }) => {
+    const url = new URL(request.url);
+    const query = url.searchParams.get("query")?.toLowerCase() ?? "";
+
+    const results = DB.bootcamps
+      .filter((bootcamp) =>
+        bootcamp.bootcampName.toLowerCase().includes(query)
+      )
+      .map(({ bootcampId, bootcampName }) => ({
+        bootcampId,
+        bootcampName,
+      }));
+
+    return HttpResponse.json(results);
   }),
 
 ];

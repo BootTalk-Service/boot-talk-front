@@ -789,23 +789,23 @@ export const DB = {
   Notifications: [
     {
       notificationId: 10,
-      type: "COFFEE_CHAT_MESSAGE_RECEIVED",
+      notificationType: "COFFEE_CHAT_MESSAGE_RECEIVED",
       message: "새로운 메세지가 도착했습니다.",
-      url: "/coffee-chat/my/chat",
+      url: "/chat",
       checked: false,
       createdAt: "2025-04-07T20:50:00.000Z",
     },
     {
       notificationId: 9,
-      type: "COFFEE_CHAT_MESSAGE_RECEIVED",
+      notificationType: "COFFEE_CHAT_MESSAGE_RECEIVED",
       message: "새로운 메세지가 도착했습니다.",
-      url: "/coffee-chat/my/chat",
+      url: "/chat",
       checked: false,
       createdAt: "2025-04-04T20:50:00.000Z",
     },
     {
       notificationId: 8,
-      type: "COFFEE_CHAT_CONFIRMED",
+      notificationType: "COFFEE_CHAT_CONFIRMED",
       message: "커피챗 일정이 확정되었습니다.",
       url: "/coffee-chat/my",
       checked: false,
@@ -813,7 +813,7 @@ export const DB = {
     },
     {
       notificationId: 7,
-      type: "COFFEE_CHAT_REQUEST_RECEIVED",
+      notificationType: "COFFEE_CHAT_REQUEST_RECEIVED",
       message: "커피챗 요청이 도착했습니다.",
       url: "/coffee-chat/my/received",
       checked: false,
@@ -821,7 +821,7 @@ export const DB = {
     },
     {
       notificationId: 6,
-      type: "COFFEE_CHAT_CONFIRMED",
+      notificationType: "COFFEE_CHAT_CONFIRMED",
       message: "커피챗 일정이 확정되었습니다.",
       url: "/coffee-chat/my",
       checked: true,
@@ -829,7 +829,7 @@ export const DB = {
     },
     {
       notificationId: 5,
-      type: "COFFEE_CHAT_CONFIRMED",
+      notificationType: "COFFEE_CHAT_CONFIRMED",
       message: "커피챗 일정이 확정되었습니다.",
       url: "/coffee-chat/my",
       checked: true,
@@ -837,7 +837,7 @@ export const DB = {
     },
     {
       notificationId: 4,
-      type: "COFFEE_CHAT_REQUEST_RECEIVED",
+      notificationType: "COFFEE_CHAT_REQUEST_RECEIVED",
       message: "커피챗 요청이 도착했습니다.",
       url: "/coffee-chat/my/received",
       checked: true,
@@ -845,7 +845,7 @@ export const DB = {
     },
     {
       notificationId: 3,
-      type: "COFFEE_CHAT_REQUEST_RECEIVED",
+      notificationType: "COFFEE_CHAT_REQUEST_RECEIVED",
       message: "커피챗 요청이 도착했습니다.",
       url: "/coffee-chat/my/received",
       checked: true,
@@ -853,7 +853,7 @@ export const DB = {
     },
     {
       notificationId: 2,
-      type: "MENTOR_REGISTERED",
+      notificationType: "MENTOR_REGISTERED",
       message: "멘토 등록이 완료되었습니다.",
       url: "/coffee-chat",
       checked: true,
@@ -861,7 +861,7 @@ export const DB = {
     },
     {
       notificationId: 1,
-      type: "CERTIFICATION_APPROVED",
+      notificationType: "CERTIFICATION_APPROVED",
       message: "수료증 인증이 완료되었습니다.",
       url: "/mypage",
       checked: true,

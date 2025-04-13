@@ -11,9 +11,10 @@ export const useNotificationEffect = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const res = await axiosDefault.get(END_POINT.NOTIFICATIONS);
-        const data = res.data;
-        setNotifications(data?.notificationResponseDtoList ?? []);
+        const res = await axiosDefault.get(`${END_POINT.NOTIFICATIONS}`, {
+          params: { page: 1, limit: 10 },
+        });
+        setNotifications(res.data?.notificationResponseDtoList ?? []);
       } catch (error) {
         console.error("알림 로딩 실패:", error);
         setNotifications([]);

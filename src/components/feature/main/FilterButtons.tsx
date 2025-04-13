@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { STATIC_FILTER_OPTIONS } from "./bootcampFilters";
 import { RotateCcw } from "lucide-react";
+import clsx from "clsx";
 
 interface FilterButtonsProps {
   categoryOptions: string[];
@@ -15,18 +16,15 @@ const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const dropdownRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  // URL에서 현재 선택된 필터 값 가져오기
   const getFiltersFromURL = () => {
     const params = new URLSearchParams(searchParams.toString());
     const filters: Record<string, string> = {};
     
-    // 정적 필터 키 처리
     STATIC_FILTER_OPTIONS.forEach(filter => {
       const value = params.get(filter.key);
       if (value) filters[filter.key] = value;
     });
     
-    // 직무 필터 처리
     const category = params.get('category');
     if (category) filters.category = category;
     
@@ -38,20 +36,18 @@ const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
   const handleSelect = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
     
-    // 이미 선택된 값과 같으면 필터 제거, 아니면 필터 추가
     if (params.get(key) === value) {
       params.delete(key);
     } else {
       params.set(key, value);
     }
     
-    // URL 업데이트
     router.push(`?${params.toString()}`);
     setOpenDropdown(null);
   };
 
   const clearAllFilters = () => {
-    router.push('/'); // 모든 쿼리 파라미터 제거
+    router.push('/');
     setOpenDropdown(null);
   };
 
@@ -69,7 +65,6 @@ const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [openDropdown]);
 
-  // 정적 필터와 동적 직무 필터 결합
   const allFilters = [
     ...STATIC_FILTER_OPTIONS,
     { key: "category", label: "직무", options: categoryOptions || [] },
@@ -92,28 +87,41 @@ const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
               onClick={() =>
                 setOpenDropdown(openDropdown === filter.label ? null : filter.label)
               }
-              className={`btn btn-sm rounded-full min-w-[90px] whitespace-nowrap pt-1 ${
+              className={clsx(
+                "btn btn-sm rounded-full min-w-[72px] sm:min-w-[90px]",
                 selectedFilters?.[filter.key]
                   ? "bg-amber-900 text-white"
                   : "btn-outline border-neutral-400"
-              }`}
+              )}
             >
               {selectedFilters?.[filter.key] || filter.label}
             </div>
 
             {openDropdown === filter.label && (
-              <ul className="absolute top-full left-0 mt-1 menu p-2 shadow bg-white rounded-box w-40 z-50">
-                {filter.options.map((option) => (
-                  <li key={option}>
-                    <a onClick={() => handleSelect(filter.key, option)}>{option}</a>
-                  </li>
-                ))}
-              </ul>
+              <div
+              className={clsx(
+                "absolute top-full left-0 mt-1 shadow bg-white rounded-lg z-50 max-h-60 overflow-y-auto overflow-x-hidden",
+                filter.label === "직무" ? "w-44 sm:w-52" : "w-36 sm:w-40"
+              )}
+            >
+                <ul className="menu menu-compact p-2">
+                  {filter.options.map((option) => (
+                    <li key={option}>
+                    <a
+                      onClick={() => handleSelect(filter.key, option)}
+                      className="text-sm py-2 px-4 hover:bg-gray-100 rounded-md truncate"
+                    >
+                      {option}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         ))}
 
-        {/* 초기화 버튼 (같은 라인 내 마지막 요소로 배치) */}
+        {/* 초기화 버튼 */}
         <div className="flex items-center">
           <button
             onClick={clearAllFilters}

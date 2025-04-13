@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import { ReviewFilterButtons } from "@/components/feature/review/ReviewFilterButtons";
 import type { ReviewPage, Bootcamp } from "@/types/Bootcamp";
-import SearchSection from "@/components/common/SerchSectioin";
+import SearchSection from "@/components/common/SearchSection";
 import ReviewModal from "@/components/feature/review/ReviewModal";
 import { useUserStore } from "@/store/user";
 import { toast } from "react-toastify";
 import ReviewList from "@/components/feature/review/ReviewList";
+import { axiosDefault } from "@/api/axiosInstance";
 
 export default function ReviewPage() {
   const [reviews, setReviews] = useState<ReviewPage[]>([]);
@@ -18,7 +19,6 @@ export default function ReviewPage() {
   const user = useUserStore((state) => state.user);
   const canWriteReview = (user?.bootcamps ?? []).length > 0;
 
-  // 로그인한 유저만 모달 열림
   const handleReviewClick = () => {
     if (!user) {
       toast.error("로그인 후, 작성 부탁드립니다");
@@ -36,17 +36,9 @@ export default function ReviewPage() {
 
   useEffect(() => {
     const init = async () => {
-      if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
-        const { worker } = await import("@/mocks/browser");
-        await worker.start();
-        await new Promise((resolve) => setTimeout(resolve, 200));
-      }
-
       try {
-        const res = await fetch("/api/reviews");
-        if (!res.ok) throw new Error("리뷰 데이터를 불러올 수 없습니다.");
-        const data = await res.json();
-        setReviews(data.content);
+        const response = await axiosDefault.get("/api/reviews");
+        setReviews(response.data?.content ?? []);
       } catch (err) {
         if (err instanceof Error) setError(err.message);
         else setError("알 수 없는 오류가 발생했습니다.");
@@ -86,7 +78,7 @@ export default function ReviewPage() {
         </div>
 
         <main>
-        <ReviewList reviews={reviews} error={error} />
+          <ReviewList reviews={reviews} error={error} />
         </main>
       </section>
 

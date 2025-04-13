@@ -3,10 +3,11 @@
 import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import Link from "next/link";
-import { Bell, Menu, MessageCircleCode } from "lucide-react";
+import { Menu, MessageCircleCode } from "lucide-react";
 import { clearAuthStorage } from "@/lib/logout";
 import MobileDrawerMenu from "@/components/common/MobileDrawerMenu";
 import { useDrawerScrollLock } from "@/hooks/useDrawerScrollLock";
+import NotificationDropdown from "../notification/NotificationDropdown";
 
 const Header = () => {
   const { user, logout } = useAuthStore();
@@ -26,7 +27,7 @@ const Header = () => {
         type="checkbox"
         className="drawer-toggle hidden"
       />
-      <header className="bg-base-100 shadow-md">
+      <header className="sticky top-0 z-60 shadow-m bg-base-100 shadow-md">
         <div className="navbar container mx-auto px-4 relative justify-between">
           {/* 햄버거 (모바일) */}
           <div className="flex md:hidden items-center">
@@ -50,10 +51,10 @@ const Header = () => {
 
           {/* 로그인 상태 */}
           <div className="hidden md:flex items-center gap-4">
-            {user ? (
+          {user ? (
               <div className="flex items-center gap-3">
                 <button className="btn btn-ghost btn-circle" aria-label="알림">
-                  <Bell />
+                  <NotificationDropdown/>
                 </button>
                 <Link href="/chat" className="btn btn-ghost btn-circle">
                   <button
@@ -64,7 +65,7 @@ const Header = () => {
                   </button>
                 </Link>
 
-                <Link href="/mypage" className={userTextStyle}>
+                <Link href="/mypage" className={`${userTextStyle} hover:underline`}>
                   {`${user.name}님`}
                 </Link>
 
