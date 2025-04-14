@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import FindMentors from "@/components/coffee-chat/mentor/FindMentors";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
+import FindMentors from "@/components/feature/coffee-chat/mentor/FindMentors";
 
 const MentorPage = () => {
   const { user } = useAuthGuard();

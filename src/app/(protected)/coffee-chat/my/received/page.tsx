@@ -1,4 +1,4 @@
-import ReceivedListTab from "@/components/coffee-chat/my-chat/ReceivedListTab";
+import ReceivedListTab from "@/components/feature/coffee-chat/my-chat/ReceivedListTab";
 import React from "react";
 
 const ReceivedPage = () => {
