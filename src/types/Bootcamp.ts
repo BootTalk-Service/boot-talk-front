@@ -1,6 +1,5 @@
 export interface Bootcamp {
   bootcampId: number;
-  trainingCenterName: string;
   bootcampName: string;
   bootcampRegion: string;
   bootcampCost: boolean;
@@ -12,32 +11,19 @@ export interface Bootcamp {
   bootcampEndDate: string;
   courseAverageRating: number;
   courseReviewCount: number;
-  training_center_url: string;
+  trainingCenterId: number;
+  trainingCenterName: string;
+  trainingCenterPhoneNumber: string;
+  trainingCenterEmail: string;
+  trainingCenterAddress: string;
+  trainingCenterUrl: string;
 }
 
 export interface BootcampDetail extends Bootcamp {
-  training_center_name: string;
-  training_center_address: string;
-  training_center_phone_number: string;
-  training_center_email: string;
-  training_center_url: string;
   reviews: Review[];
 }
 
-
 export interface Review {
-  t_review_id: number;
-  reviewId: number;
-  userName: string;
-  review_id: string;
-  t_user_id: number;
-  rating: number;
-  content: string;
-  created_at: string;
-  trainingProgramId: string;
-}
-
-export type ReviewPage = {
   reviewId: number;
   trainingProgramId: string;
   courseName: string;
@@ -46,8 +32,7 @@ export type ReviewPage = {
   rating: number;
   createdAt: string;
   updatedAt: string;
-
-};
+}
 
 export interface CourseSuggestion {
   bootcampId: number;

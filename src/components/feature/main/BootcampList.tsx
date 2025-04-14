@@ -42,7 +42,7 @@ const BootcampList = () => {
         <span>교육과정명</span>
         <span>학습기간</span>
         <span className="flex justify-start pl-10">프로그램 과정</span>
-        <span className="flex justify-start pl-10">지역</span>
+        <span className="flex justify-start pl-16">지역</span>
         <span className="flex justify-start pl-10">정원</span>
         <span>평점 및 리뷰</span>
       </div>

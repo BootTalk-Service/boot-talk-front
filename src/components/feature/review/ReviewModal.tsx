@@ -30,13 +30,13 @@ export default function ReviewModal({ isOpen, onClose, bootcamp }: ReviewModalPr
     <Modal isOpen={isOpen} onClose={onClose} title="리뷰 작성" size="lg">
       <div className="space-y-4 text-gray-700">
         <div className="grid grid-cols-2 gap-4">
-          <input className="input input-bordered w-full" disabled value={bootcamp.training_center_name} />
-          <input className="input input-bordered w-full" disabled value={bootcamp.bootcamp_category} />
-          <input className="input input-bordered w-full" disabled value={`${bootcamp.bootcamp_degree}기`} />
+          <input className="input input-bordered w-full" disabled value={bootcamp.bootcampName} />
+          <input className="input input-bordered w-full" disabled value={bootcamp.bootcampCategory} />
+          <input className="input input-bordered w-full" disabled value={`${bootcamp.bootcampDegree}기`} />
           <input
             className="input input-bordered w-full"
             disabled
-            value={`${bootcamp.bootcamp_start_date} ~ ${bootcamp.bootcamp_end_date}`}
+            value={`${bootcamp.bootcampStartDate} ~ ${bootcamp.bootcampEndDate}`}
           />
         </div>
 
