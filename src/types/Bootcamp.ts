@@ -1,23 +1,18 @@
 export interface Bootcamp {
-  bootcamp_id: number;
-  bootcamp_name: string;
-  training_center_name: string;
-  bootcamp_region: string;
-  bootcamp_cost: boolean;
-  bootcamp_link: string;
-  bootcamp_category: string;
-  bootcamp_degree: number;
-  bootcamp_capacity: number;
-  bootcamp_start_date: string;
-  bootcamp_end_date: string;
-  bootcamp_rating: number;
-  bootcamp_review_count: number;
-  ncs_yn: string;
-  ncs_name: string;
-  training_manager: string;
-  training_manager_tel: string;
-  training_manager_email: string;
-  bootcampIds: number;
+  bootcampId: number;
+  trainingCenterName: string;
+  bootcampName: string;
+  bootcampRegion: string;
+  bootcampCost: boolean;
+  bootcampLink: string;
+  bootcampCategory: string;
+  bootcampDegree: number;
+  bootcampCapacity: number;
+  bootcampStartDate: string;
+  bootcampEndDate: string;
+  courseAverageRating: number;
+  courseReviewCount: number;
+  training_center_url: string;
 }
 
 export interface BootcampDetail extends Bootcamp {
@@ -53,3 +48,8 @@ export type ReviewPage = {
   updatedAt: string;
 
 };
+
+export interface CourseSuggestion {
+  bootcampId: number;
+  bootcampName: string;
+}

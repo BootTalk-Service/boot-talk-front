@@ -2,6 +2,9 @@ export const END_POINT = {
   EXAMPLE: "/api/example",
   MY_INFO: "/api/users/me",
   BOOTCAMPS: "/api/bootcamps",
+  BOOTCAMP_CATEGORIES : "/api/bootcamps/categories",
+  BOOTCAMP_JOB_ROLES : "/api/job-roles",
+  COURSES_AUTOCOMPLETE: "/api/courses/autocomplete",
   MY_REVIEWS: "/api/reviews/my",
   POINT_HISTORY: "api/points/me",
   COURSES: "api/courses/autocomplete",
@@ -20,4 +23,5 @@ export const END_POINT = {
   CHAT_ROOM: (roomUuid: string) => `/chat-rooms/${roomUuid}`,
   CHAT_ROOM_LIST: "/api/chat-rooms",
   ADMIN_CERTIFICATION: "/api/admin/certifications",
+  BOOTCAMPS_AUTOCOMPLETE: "/api/bootcamps/autocomplete",
 } as const;

@@ -1,3 +1,5 @@
 export interface FilterButtonsProps {
-  onFilterChange: (filters: { [key: string]: string }) => void;
+  selectedFilters: Record<string, string>;
+  setSelectedFilters: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  categoryOptions: string[];
 }

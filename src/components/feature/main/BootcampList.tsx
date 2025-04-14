@@ -1,57 +1,80 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { useGetBootcamps } from "@/hooks/main-page/useGetBootcamps";
 import BootcampCard from "./BootcampCard";
-import { Bootcamp} from "@/types/Bootcamp"
 
-interface BootcampListProps {
-  filters: { [key: string]: string };
-}
+const BootcampList = () => {
+  const searchParams = useSearchParams();
+  const filters = Object.fromEntries(searchParams.entries());
+  const { bootcamps, fetchNextPage, hasNextPage, isLoading, isError } = useGetBootcamps(filters);
+  
+  const observerRef = useRef<HTMLDivElement>(null);
 
-const BootcampList = ({ filters }: BootcampListProps) => {
-  const { bootcamps } = useGetBootcamps();
-
-  const filtered = bootcamps?.filter((camp: Bootcamp) => {
-    if (filters["지역"] && !camp.bootcamp_region.startsWith(filters["지역"])) return false;
-    if (filters["직무"] && !(camp.bootcamp_category || "").includes(filters["직무"])) return false;
-    if (filters["기간"]) {
-      const start = new Date(camp.bootcamp_start_date);
-      const end = new Date(camp.bootcamp_end_date);
+  useEffect(() => {
     
-      if (isNaN(start.getTime()) || isNaN(end.getTime())) return false;
-    
-      const diffWeeks = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 7);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1, rootMargin: "100px" } 
+    );
 
-      if (filters["기간"] === "4주 미만" && diffWeeks >= 4) return false;
-      if (filters["기간"] === "4~12주" && (diffWeeks < 4 || diffWeeks > 12)) return false;
-      if (filters["기간"] === "12주 이상" && diffWeeks <= 12) return false;
-    }
-    if (filters["평점"]) {
-      const rating = parseFloat(filters["평점"].split(" ")[0]);
-      if (camp.bootcamp_rating < rating) return false;
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
     }
 
-    return true;
-  });
+    return () => {
+      observer.disconnect();
+    };
+  }, [fetchNextPage, hasNextPage, bootcamps.length]);
+
+  if (isLoading && bootcamps.length === 0) return <div className="text-center py-8">로딩 중...</div>;
+  if (isError) return <div className="text-center py-8 text-red-500">데이터를 불러오는데 실패했습니다.</div>;
+  if (!bootcamps || bootcamps.length === 0) return <div className="text-center py-8">검색 결과가 없습니다.</div>;
 
   return (
-    <section className="px-28 py-6">
-      {/* 헤더 라벨 */}
-      <div className="grid grid-cols-6 gap-4 px-4 py-2 font-semibold text-sm text-gray-600 border-b border-t border-slate-300 bg-slate-50">
+    <section className="px-4 sm:px-8 md:px-20 lg:px-28 pt-6 pb-2">
+      <div className="hidden lg:grid grid-cols-6 gap-4 px-4 py-2 font-semibold text-sm text-gray-600 border-b border-t border-slate-300 bg-slate-50">
         <span>교육과정명</span>
         <span>학습기간</span>
         <span className="flex justify-start pl-10">프로그램 과정</span>
-        <span className="flex justify-start pl-14">지역</span>
-        <span className="flex justify-start pl-14">정원</span>
+        <span className="flex justify-start pl-10">지역</span>
+        <span className="flex justify-start pl-10">정원</span>
         <span>평점 및 리뷰</span>
       </div>
-      <ul >
-        {filtered?.map((camp) => (
-          <BootcampCard key={camp.bootcamp_id} {...camp} />
+
+      {/* 모바일 전용 */}
+      <div className="sm:hidden px-4 pt-4 pb-2 border-b border-gray-300 mb-4">
+        <h1 className="text-gray-800 text-2xl font-bold">교육과정 리스트</h1>
+        <p className="text-gray-600 text-sm mt-1">
+          나에게 맞는 부트캠프를 비교하고 찾아보세요.
+        </p>
+      </div>
+
+      <ul>
+        {bootcamps.map((bootcamp, index) => (
+          <li key={`${bootcamp.bootcampId}-${index}`}>
+            <BootcampCard {...bootcamp} />
+          </li>
         ))}
       </ul>
+
+       {/* 무한 스크롤 감지 */}
+      <div 
+        ref={observerRef}
+        className="py-4 text-center"
+      >
+        {hasNextPage && (
+          <div className="w-8 h-8 mx-auto border-t-2 border-b-2 border-amber-950 rounded-full animate-spin"></div>
+        )}
+      </div>
     </section>
   );
 };
+
 
 export default BootcampList;
