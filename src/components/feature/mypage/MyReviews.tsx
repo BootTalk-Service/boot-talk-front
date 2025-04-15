@@ -28,19 +28,19 @@ const MyReviews = () => {
         <div className="space-y-4">
           {myReviews?.map((review) => (
             <div
-              key={review.t_user_id}
+              key={review.reviewId}
               className="bg-white p-4 rounded-lg shadow border border-gray-200"
             >
               <div className="mb-2">
-                <div>
-                  <h2 className="font-bold mb-2 ">{review.bootcampName}</h2>
-                  <p className="text-sm text-gray-600">{review.created_at}</p>
-                </div>
+                <h2 className="text-sm">{review.courseName}</h2>
               </div>
-
-              <div className="mb-2">{renderStars(review.rating)}</div>
-
-              <p className="text-sm text-gray-700 ">{review.content}</p>
+              <div className="flex items-center mb-2">
+                <span className="text-xs">{renderStars(review.rating)}</span>
+                <span className="text-xs ml-2 text-gray-700">
+                  {new Date(review.createdAt).toLocaleDateString()}
+                </span>
+              </div>
+              <p className="text-sm">{review.content}</p>
             </div>
           ))}
         </div>

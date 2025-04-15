@@ -7,7 +7,7 @@ const fetchFileUpload = async (file: File) => {
   formData.append("file", file);
 
   const response = await axiosDefault.post(END_POINT.FILE_UPLOAD, formData);
-  return response.data.fileUrl;
+  return response.data.url;
 };
 
 export const useFileUpload = () => {

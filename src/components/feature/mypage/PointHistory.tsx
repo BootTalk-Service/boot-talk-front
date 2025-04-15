@@ -14,15 +14,15 @@ const PointHistory = () => {
   if (!pointHistory || pointHistory.length === 0)
     return <div>포인트 내역이 없습니다.</div>;
 
+  console.log(pointHistory);
+
   return (
     <div className="overflow-x-auto">
       {/* 요약 정보 */}
       <div className="bg-base-200 p-4 rounded-xl shadow mb-6">
         <p className="text-md font-medium">
           현재 포인트:{" "}
-          <span className="font-bold">
-            {pointHistory[pointHistory.length - 1].current_points}P
-          </span>
+          <span className="font-bold">{pointHistory[0].currentPoint}P</span>
         </p>
       </div>
 
@@ -38,19 +38,21 @@ const PointHistory = () => {
         </thead>
         <tbody>
           {pointHistory.map((point) => (
-            <tr key={point.point_id}>
-              <td className="font-medium">{point.event_type}</td>
-              <td>{new Date(point.created_at).toLocaleString()}</td>
+            <tr key={point.pointHistoryId}>
+              <td className="font-medium">{point.eventTypeName}</td>
+              <td>{new Date(point.createdAt).toLocaleString()}</td>
               <td
                 className={`text-right font-bold ${
-                  point.type === "EARN" ? "text-blue-600" : "text-red-600"
+                  point.pointTypeName === "EARNED"
+                    ? "text-blue-600"
+                    : "text-red-600"
                 }`}
               >
-                {point.type === "EARN" ? "+" : ""}
-                {point.changed_points}P
+                {point.pointTypeName === "EARNED" ? "+" : ""}
+                {point.changedPoint}P
               </td>
               <td className="text-right text-sm text-gray-600">
-                {point.current_points}P
+                {point.currentPoint}P
               </td>
             </tr>
           ))}

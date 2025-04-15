@@ -1,7 +1,7 @@
 import { useFileUpload } from "@/hooks/my-page/useFileUpload";
 import { Pencil } from "lucide-react";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface ProfileImageUploadProps {
   setImage: (imageUrl: string | null) => void;
@@ -18,6 +18,10 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
   );
 
   const { uploadFileAsync, isPending } = useFileUpload();
+
+  useEffect(() => {
+    setPreviewUrl(initialImageUrl || null);
+  }, [initialImageUrl]);
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -42,7 +46,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
     <div className="flex flex-col items-center mb-3">
       <div className="relative mb-2">
         <div
-          className={`w-32 h-32 rounded-full overflow-hidden border-4 border-base-100 ${
+          className={`w-32 h-32 rounded-full overflow-hidden shadow-lg${
             isPending ? "opacity-70" : ""
           }`}
         >
