@@ -83,9 +83,9 @@ export const handlers = [
     try {
       const body = await request.json();
       console.log("받은 요청 데이터:", body);
-      const { name, profile_image, desired_career } = body as ProfileFormData;
+      const { profileImage, desiredCareer } = body as ProfileFormData;
 
-      if (!profile_image || !desired_career || !name) {
+      if (!profileImage || !desiredCareer) {
         return HttpResponse.json(
           { error: "필수 입력값이 누락되었습니다." },
           { status: 400 }
@@ -103,9 +103,8 @@ export const handlers = [
 
       DB.myInfo = {
         ...DB.myInfo,
-        profile_image,
-        desired_career,
-        name,
+        profileImage,
+        desiredCareer,
       };
 
       return HttpResponse.json({

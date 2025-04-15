@@ -3,18 +3,18 @@ import { END_POINT } from "@/constants/endPoint";
 import { useQuery } from "@tanstack/react-query";
 
 interface Review {
-  t_user_id: number;
-  bootcampId: number;
-  bootcampName: string;
+  reviewId: number;
+  courseName: string;
   rating: number;
   content: string;
-  created_at: string;
+  createdAt: string;
+  trainingProgramId: string;
 }
 
 const fetchMyReviews = async () => {
   try {
     const response = await axiosDefault.get(END_POINT.MY_REVIEWS);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error("Failed to fetch my reviews:", error);
     throw error;

@@ -1,15 +1,7 @@
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
+import { UserInfo } from "@/types/response";
 import { useQuery } from "@tanstack/react-query";
-
-interface UserInfo {
-  t_user_id: number;
-  email: string;
-  name: string;
-  desired_career: string;
-  current_point: number;
-  profile_image: string | null;
-}
 
 const fetchMyInfo = async () => {
   try {

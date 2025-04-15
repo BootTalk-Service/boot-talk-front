@@ -3,18 +3,18 @@ import { END_POINT } from "@/constants/endPoint";
 import { useQuery } from "@tanstack/react-query";
 
 interface Point {
-  point_id: string | number;
-  event_type: string;
-  created_at: string;
-  type: "EARN" | "USE";
-  changed_points: number;
-  current_points: number;
+  pointHistoryId: number;
+  eventTypeName: string;
+  createdAt: string;
+  pointTypeName: "EARNED" | "USED";
+  changedPoint: number;
+  currentPoint: number;
 }
 
 const fetchPointHistory = async () => {
   try {
     const response = await axiosDefault.get(END_POINT.POINT_HISTORY);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.log("Failed to fetch my point's history:", error);
     throw error;
