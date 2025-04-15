@@ -108,11 +108,8 @@ const ProfileEdit = () => {
         <h3 className="font-semibold mb-3 text-base-content">계정 정보</h3>
         <div className="p-4 bg-base-200 rounded-md border border-base-300">
           <div className="flex items-center">
-            <div className="w-10 h-10 mr-4 flex-shrink-0 bg-green-500 rounded-md flex items-center justify-center">
-              <span className="text-white font-bold">N</span>
-            </div>
             <div>
-              <p className="font-medium text-base-content">{myInfo?.name}</p>
+              <p className="text-sm text-base-content">{myInfo?.name}</p>
               <p className="text-sm text-gray-500">{myInfo?.email}</p>
               <p className="text-xs text-gray-400 mt-1">
                 네이버 계정으로 로그인됨
@@ -128,7 +125,7 @@ const ProfileEdit = () => {
           수료한 부트캠프
         </h3>
         <div className="p-4 bg-base-200 rounded-md border border-base-300">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between text-sm">
             <span>제로베이스</span>
           </div>
         </div>

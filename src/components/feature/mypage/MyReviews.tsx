@@ -21,7 +21,7 @@ const MyReviews = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="mx-auto">
       {myReviews?.length === 0 ? (
         <p className="text-gray-500">작성된 리뷰가 없습니다.</p>
       ) : (
@@ -33,16 +33,14 @@ const MyReviews = () => {
             >
               <div className="mb-2">
                 <div>
-                  <h2 className="font-bold text-lg mb-2 ">
-                    {review.bootcampName}
-                  </h2>
+                  <h2 className="font-bold mb-2 ">{review.bootcampName}</h2>
                   <p className="text-sm text-gray-600">{review.created_at}</p>
                 </div>
               </div>
 
               <div className="mb-2">{renderStars(review.rating)}</div>
 
-              <p className="text-gray-700 ">{review.content}</p>
+              <p className="text-sm text-gray-700 ">{review.content}</p>
             </div>
           ))}
         </div>
