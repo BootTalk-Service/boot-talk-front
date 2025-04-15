@@ -21,25 +21,30 @@ const BootcampDetailClient = ({ id }: Props) => {
     <main className="max-w-screen-xl min-w-[320px] mx-auto px-6 py-10">
       {/* 제목 영역 */}
       <div className="mb-8 mt-6 overflow-hidden">
-        <h1 className="text-3xl font-bold text-amber-950 truncate">{data.training_center_name}</h1>
+        <h1 className="text-2xl font-bold text-amber-950 break-words">
+          <span className="block sm:hidden line-clamp-2 text-balance">
+            {data.bootcampName}
+          </span>
+          <span className="hidden sm:inline truncate">{data.bootcampName}</span>
+        </h1>
         <div className="border-t border-amber-600 mt-4" />
       </div>
 
       {/* 상세 정보 카드 */}
       <BootcampDetailInfo
-        bootcamp_name={data.bootcamp_name}
-        training_center_address={data.training_center_address}
-        training_center_phone_number={data.training_center_phone_number}
-        training_center_email={data.training_center_email}
-        training_center_url={data.training_center_url}
+        trainingCenterName={data.trainingCenterName}
+        trainingCenterAddress={data.trainingCenterAddress}
+        trainingCenterPhoneNumber={data.trainingCenterPhoneNumber || "-"}
+        trainingCenterEmail={data.trainingCenterEmail  || "-"}
+        trainingCenterUrl={data.trainingCenterUrl}
       />
 
       <BootcampSchedule
-        bootcamp_start_date={data.bootcamp_start_date}
-        bootcamp_end_date={data.bootcamp_end_date}
-        bootcamp_capacity={data.bootcamp_capacity}
-        bootcamp_degree={data.bootcamp_degree}
-        bootcamp_cost={data.bootcamp_cost}
+        bootcampStartDate={data.bootcampStartDate}
+        bootcampEndDate={data.bootcampEndDate}
+        bootcampCapacity={data.bootcampCapacity}
+        bootcampDegree={data.bootcampDegree}
+        bootcampCost={data.bootcampCost}
       />
 
       <BootcampIntro />

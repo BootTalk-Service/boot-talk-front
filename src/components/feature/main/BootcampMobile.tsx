@@ -9,7 +9,7 @@ interface BootcampTagsMobileProps {
 const BootcampTagsMobile = ({ category, region, capacity }: BootcampTagsMobileProps) => {
   return (
     <div className="flex gap-2 flex-wrap lg:hidden text-xs mt-2">
-      <span className="badge bg-gray-100px-3 py-1 rounded-full max-w-[120px] truncate">
+      <span className="badge bg-gray-100 px-3 py-1 rounded-full max-w-[200px] truncate">
         {category}
       </span>
       <span className="badge bg-gray-100 px-3 py-1 rounded-full">{region}</span>

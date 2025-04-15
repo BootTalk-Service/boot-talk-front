@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import type { Bootcamp } from "@/types/Bootcamp";
 import BootcampMobile from "./BootcampMobile";
 import clsx from "clsx";
+import { Star } from "lucide-react";
 
 const BootcampCard = ({
   bootcampId,
@@ -16,7 +17,7 @@ const BootcampCard = ({
   bootcampCapacity,
   courseAverageRating,
   courseReviewCount,
-  bootcampLink,
+  trainingCenterUrl,
 }: Bootcamp) => {
   const router = useRouter();
   const primaryRegion = bootcampRegion.split(" ")[0];
@@ -54,11 +55,11 @@ const BootcampCard = ({
 
     {/* 프로그램 과정 */}
     <div className="hidden lg:flex justify-start pl-10">
-      <span className="px-2 py-1 bg-gray-100 rounded line-clamp-1 max-w-[180px] max-h-[26px] text-ellipsis overflow-hidden">{bootcampCategory}</span>
+      <span className="px-2 py-1 bg-gray-100 rounded">{bootcampCategory}</span>
     </div>
 
     {/* 지역 */}
-    <div className="hidden lg:flex justify-start pl-10">
+    <div className="hidden lg:flex justify-start pl-16">
       <span className="px-2 py-1 bg-gray-100 rounded">{primaryRegion}</span>
     </div>
 
@@ -73,12 +74,13 @@ const BootcampCard = ({
     
     {/* 평점 및 리뷰 */}
     <div className="flex items-center gap-1 text-xs text-gray-600">
-    ⭐{courseAverageRating.toFixed(1)} | {courseReviewCount}개의 리뷰
+      <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
+      {courseAverageRating.toFixed(1)} | {courseReviewCount}개의 리뷰
     </div>
 
     {/* 태블릿 전용 홈페이지 버튼 */}
     <a
-      href={bootcampLink}
+      href={trainingCenterUrl}
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
