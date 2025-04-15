@@ -1,4 +1,3 @@
-// components/ChatRequestModal.tsx
 import React, { useState } from "react";
 import { Mentor } from "@/types/response";
 import Modal from "@/components/common/modal/CommonModal";
@@ -8,7 +7,7 @@ import { CalendarDays, Clock, MessageCircle } from "lucide-react";
 import { useMentorApplication } from "@/hooks/coffee-chat/useMentorApplication";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
-import styles from "@/components/coffee-chat/mentor/ChatRequestModal.module.css";
+import styles from "@/components/feature/coffee-chat/mentor/ChatRequestModal.module.css";
 import { MentorApplicationData } from "@/types/request";
 
 interface ChatRequestModalProps {
@@ -158,7 +157,7 @@ const ChatRequestModal: React.FC<ChatRequestModalProps> = ({
             onChange={(e) => setMessage(e.target.value)}
           />
           <div className="text-sm text-right text-gray-500 mt-1">
-            {} / 500자
+            {message.length} / 500자
           </div>
         </div>
 

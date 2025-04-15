@@ -86,7 +86,7 @@ const ApprovedListTab = () => {
               </div>
               <div className="flex items-center text-xs text-gray-500 gap-4">
                 <p className="text-xs text-gray-600">
-                  멘토: {approved.mentoName}
+                  멘토: {approved.mentorName}
                 </p>
                 <p className="text-xs text-gray-500">
                   신청일: {formatDate(approved.coffeeChatStartTime)}
