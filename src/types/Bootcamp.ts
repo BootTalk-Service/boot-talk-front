@@ -26,18 +26,6 @@ export interface BootcampDetail extends Bootcamp {
 
 
 export interface Review {
-  t_review_id: number;
-  reviewId: number;
-  userName: string;
-  review_id: string;
-  t_user_id: number;
-  rating: number;
-  content: string;
-  created_at: string;
-  trainingProgramId: string;
-}
-
-export type ReviewPage = {
   reviewId: number;
   trainingProgramId: string;
   courseName: string;
@@ -45,9 +33,18 @@ export type ReviewPage = {
   content: string;
   rating: number;
   createdAt: string;
-  updatedAt: string;
+  updatedAt: string | null;
+}
 
-};
+export interface ReviewResponse {
+  content: Review[];
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+}
+
 
 export interface CourseSuggestion {
   bootcampId: number;

@@ -24,10 +24,6 @@ export const handlers = [
     });
   }),
 
-  http.get(END_POINT.MY_REVIEWS, () => {
-    return HttpResponse.json(DB.myReviews, {});
-  }),
-
   http.get(END_POINT.POINT_HISTORY, () => {
     return HttpResponse.json(DB.pointHistory, {});
   }),
@@ -205,8 +201,29 @@ export const handlers = [
     });
   }),
 
-  http.get(END_POINT.REVIEWS, () => {
-    return HttpResponse.json({ content: DB.reviews });
+  http.get(END_POINT.REVIEWS, ({ request }) => {
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get("page") || "0");
+    const size = Number(url.searchParams.get("size") || "10");
+  
+    const start = page * size;
+    const end = start + size;
+  
+    const totalItems = DB.reviews.length;
+    const totalPages = Math.ceil(totalItems / size);
+    const pagedData = DB.reviews.slice(start, end);
+  
+    return HttpResponse.json({
+      content: pagedData,
+      number: page,
+      totalPages: totalPages,
+      totalElements: totalItems,
+      last: page + 1 >= totalPages,
+      size: size,
+      pageable: {
+        pageNumber: page,
+      },
+    });
   }),
 
   http.post(END_POINT.MENTOR_REGISTER, async ({ request }) => {
@@ -355,4 +372,8 @@ export const handlers = [
     return HttpResponse.json(results);
   }),
 
+  http.get(END_POINT.NAVER_REDIRECT, () => {
+    return HttpResponse.redirect("/social-login?userId=mock_user")
+  }),
+  
 ];

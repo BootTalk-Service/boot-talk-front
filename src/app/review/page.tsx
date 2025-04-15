@@ -74,7 +74,6 @@ export default function ReviewPage() {
               console.log("필터 선택됨:", filters);
             }}
           />
-          <span className="text-sm text-gray-400">총 {reviews.length}개</span>
         </div>
 
         <main>

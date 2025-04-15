@@ -1,6 +1,6 @@
 export const END_POINT = {
   EXAMPLE: "/api/example",
-  MY_INFO: "/api/users/me",
+  MY_INFO: "/api/users/my",
   BOOTCAMPS: "/api/bootcamps",
   BOOTCAMP_CATEGORIES : "/api/bootcamps/categories",
   BOOTCAMP_JOB_ROLES : "/api/job-roles",
@@ -24,4 +24,5 @@ export const END_POINT = {
   CHAT_ROOM_LIST: "/api/chat-rooms",
   ADMIN_CERTIFICATION: "/api/admin/certifications",
   BOOTCAMPS_AUTOCOMPLETE: "/api/bootcamps/autocomplete",
+  NAVER_REDIRECT: "/api/oauth2/authorization/naver",
 } as const;

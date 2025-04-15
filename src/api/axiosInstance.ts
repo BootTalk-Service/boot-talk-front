@@ -12,7 +12,8 @@ export const axiosDefault = axios.create({
   baseURL: getBaseURL(),
 
   headers: {
-    // "Content-Type": "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzZXJ2aWNlVXNlcklkIjoiOTA2NSIsInVzZXJOYW1lIjoi6rmA6rCc67CcIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NDQ3MzQyNDAsImV4cCI6MTc0NDgyMDY0MH0.kbe2kZ4fMARW8sUgEcxinli-A2bO1lwIPlNo5sfpANU",
   },
   withCredentials: true,
 });

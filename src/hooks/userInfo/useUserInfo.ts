@@ -1,44 +1,38 @@
-'use client';
+"use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import { useAuthStore } from "@/store/authStore";
-import { useEffect } from "react";
+import { useUserStore } from "@/store/user";
+import type { UserStoreUser } from "@/types/user";
+import { transformToAuthUser } from "@/store/authStore";
 
-const fetchUserInfo = async () => {
-  const token = localStorage.getItem("access_token");
-  if (!token) throw new Error("로그인이 필요합니다.");
-
-  const res = await fetch(END_POINT.MY_INFO, {
-    headers: { Authorization: `Bearer ${token}`},
-  });
-
-  if (!res.ok) throw new Error("로그인되어 있지 않습니다.");
-  return res.json();
-};
-
-export const useUserInfo = () => {
-  const setUser = useAuthStore((state) => state.setUser);
-  const user = useAuthStore((state) => state.user);
-
-  const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["userInfo"],
-    queryFn: fetchUserInfo,
-    retry: false,
-    enabled: false,
-  });
+export function useUserInfo() {
+  const [loading, setLoading] = useState(true);
+  const { login } = useAuthStore();
+  const { setUser } = useUserStore();
 
   useEffect(() => {
-    if (typeof window !== "undefined") refetch();
-  }, [refetch]);
+    const fetchUserInfo = async () => {
+      try {
+        // 토큰은 쿠키에 담겨져 자동으로 요청
+        const res = await axiosDefault.get<UserStoreUser>(END_POINT.MY_INFO);
 
-  useEffect(() => {
-    if (data) setUser(data)}, [data, setUser]);
+        const user = res.data;
+        setUser(user);
 
-  useEffect(() => {
-    if (error) setUser(null)}, [error, setUser]);
+        // 로그인 상태 유지용
+        login(transformToAuthUser(user));
+      } catch (err) {
+        console.error("유저 정보 로딩 실패:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  return {
-    user, isLoading, error,
-  };
-};
+    fetchUserInfo();
+  }, [login, setUser]);
+
+  return { loading };
+}
