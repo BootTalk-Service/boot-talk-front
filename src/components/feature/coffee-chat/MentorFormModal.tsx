@@ -16,9 +16,11 @@ interface MentorFormModalProps {
 }
 
 export interface MentorFormFormData {
-  jobType: string;
-  mentorType: string;
-  introduction: string;
+  info: {
+    jobType: string;
+    mentorType: string;
+    introduction: string;
+  };
   timeSlots: TimeSlot[];
 }
 
@@ -63,9 +65,11 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
   };
 
   const [formData, setFormData] = useState<MentorFormFormData>({
-    jobType: "",
-    mentorType: "",
-    introduction: "",
+    info: {
+      jobType: "",
+      mentorType: "",
+      introduction: "",
+    },
     timeSlots: createDefaultTimeSlots(),
   });
 
@@ -81,17 +85,21 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
       });
 
       setFormData({
-        jobType: initialData.jobType || "",
-        mentorType: initialData.mentorType || "",
-        introduction: initialData.introduction || "",
+        info: {
+          jobType: initialData.jobType || "",
+          mentorType: initialData.mentorType || "",
+          introduction: initialData.introduction || "",
+        },
         timeSlots: timeSlots,
       });
     } else {
       // 생성 모드일 때는 초기화
       setFormData({
-        jobType: "",
-        mentorType: "",
-        introduction: "",
+        info: {
+          jobType: "",
+          mentorType: "",
+          introduction: "",
+        },
         timeSlots: createDefaultTimeSlots(),
       });
     }
@@ -101,7 +109,10 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
   const handleJobCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormData({
       ...formData,
-      jobType: e.target.value,
+      info: {
+        ...formData.info,
+        jobType: e.target.value,
+      },
     });
   };
 
@@ -120,7 +131,10 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
     const isChecked = e.target.checked;
     setFormData({
       ...formData,
-      mentorType: determineUserType(isChecked, userInfo),
+      info: {
+        ...formData.info,
+        mentorType: determineUserType(isChecked, userInfo),
+      },
     });
   };
 
@@ -130,7 +144,10 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
   ) => {
     setFormData({
       ...formData,
-      introduction: e.target.value,
+      info: {
+        ...formData.info,
+        introduction: e.target.value,
+      },
     });
   };
 
@@ -157,7 +174,7 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
       }
 
       // 소개글 길이 확인
-      if (formData.introduction.trim().length < 10) {
+      if (formData.info.introduction.trim().length < 10) {
         toast.error("소개글은 최소 10자 이상 작성해주세요.");
         return;
       }
@@ -180,9 +197,11 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
       });
 
       const mentorInfoData = {
-        jobType: formData.jobType,
-        mentorType: formData.mentorType,
-        introduction: formData.introduction,
+        info: {
+          jobType: formData.info.jobType,
+          mentorType: formData.info.mentorType,
+          introduction: formData.info.introduction,
+        },
         time: availableTimes,
       };
 
@@ -227,7 +246,7 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
           </label>
           <select
             className="select select-bordered w-full rounded-lg"
-            value={formData.jobType}
+            value={formData.info.jobType}
             onChange={handleJobCategoryChange}
             required
           >
@@ -248,7 +267,7 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
             <input
               type="checkbox"
               className="checkbox checkbox-xs checkbox-neutral"
-              checked={formData.mentorType === "PROFESSIONAL"}
+              checked={formData.info.mentorType === "PROFESSIONAL"}
               onChange={handleProfessionalChange}
             />
             <span className="font-medium text-black">
@@ -266,12 +285,12 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
           <textarea
             className="textarea textarea-bordered h-24 w-full mt-1 rounded-lg"
             placeholder="멘티에게 보여질 자기소개와 도움을 줄 수 있는 영역에 대해 작성해주세요. (최소 10자 이상)"
-            value={formData.introduction}
+            value={formData.info.introduction}
             onChange={handleIntroductionChange}
             required
           />
           <div className="text-sm text-right text-gray-500 mt-1">
-            {formData.introduction.length} / 500자
+            {formData.info.introduction.length} / 500자
           </div>
         </div>
 
