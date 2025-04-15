@@ -31,8 +31,19 @@ export interface Review {
   content: string;
   rating: number;
   createdAt: string;
+  updatedAt: string | null;
+}
+
+export interface ReviewResponse {
+  content: Review[];
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
   updatedAt: string;
 }
+
 
 export interface CourseSuggestion {
   bootcampId: number;

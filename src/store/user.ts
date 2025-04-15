@@ -1,20 +1,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Bootcamp } from "@/types/Bootcamp";
-
-export interface User {
-  t_user_id: number;
-  name: string;
-  email: string;
-  profile_image: string;
-  desired_career: string;
-  current_point: number;
-  bootcamps: Bootcamp[];
-}
+import type { UserStoreUser } from "@/types/user";
 
 interface UserStore {
-  user: User | null;
-  setUser: (user: User) => void;
+  user: UserStoreUser | null;
+  setUser: (user: UserStoreUser) => void;
   logout: () => void;
 }
 
@@ -31,8 +21,7 @@ export const useUserStore = create<UserStore>()(
       },
     }),
     {
-      // localStorage key
-      name: "user-storage", 
+      name: "user-storage",
     }
   )
 );

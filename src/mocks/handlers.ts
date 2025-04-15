@@ -23,7 +23,7 @@ export const handlers = [
   http.get(END_POINT.MY_REVIEWS, () => {
     return HttpResponse.json(DB.myReviews, {});
   }),
-
+  
   http.get(END_POINT.POINT_HISTORY, () => {
     return HttpResponse.json(DB.pointHistory, {});
   }),
@@ -173,8 +173,29 @@ export const handlers = [
     });
   }),
 
-  http.get(END_POINT.REVIEWS, () => {
-    return HttpResponse.json({ content: DB.reviews });
+  http.get(END_POINT.REVIEWS, ({ request }) => {
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get("page") || "0");
+    const size = Number(url.searchParams.get("size") || "10");
+  
+    const start = page * size;
+    const end = start + size;
+  
+    const totalItems = DB.reviews.length;
+    const totalPages = Math.ceil(totalItems / size);
+    const pagedData = DB.reviews.slice(start, end);
+  
+    return HttpResponse.json({
+      content: pagedData,
+      number: page,
+      totalPages: totalPages,
+      totalElements: totalItems,
+      last: page + 1 >= totalPages,
+      size: size,
+      pageable: {
+        pageNumber: page,
+      },
+    });
   }),
 
   // 멘토등록
@@ -360,6 +381,11 @@ export const handlers = [
     return HttpResponse.json(results);
   }),
 
+
+  http.get(END_POINT.NAVER_REDIRECT, () => {
+    return HttpResponse.redirect("/social-login?userId=mock_user")
+  }),
+  
   http.post("/api/test/users/signup", async ({ request }) => {
     const formData = await request.formData();
   
@@ -383,4 +409,39 @@ export const handlers = [
       data: newUser,
     }, { status: 200 });
   }),
+
+http.get(END_POINT.COURSES, ({ request }) => {
+joo93 marked this conversation as resolved.
+    const url = new URL(request.url);
+    const query = url.searchParams.get("query")  "";
+
+    if (!query) {
+      return HttpResponse.json();
+    }
+
+    const filteredCourses = DB.courses.filter((course) =>
+      course.courseName.toLowerCase().includes(query.toLowerCase())
+    );
+
+    return HttpResponse.json(filteredCourses);
+  }),
+
+  http.post(END_POINT.CERTIFICATE, async ({ request }) => {
+    const { courseId, fileUrl } = (await request.json()) as CertificationData;
+    if (!courseId  !fileUrl) {
+      return HttpResponse.json(
+        { message: "코스 ID와 파일 URL은 필수입니다." },
+        { status: 400 }
+      );
+    }
+
+    return HttpResponse.json(
+      {
+        courseId,
+        fileUrl,
+      },
+      { status: 200 }
+    );
+  }),
+  
 ];

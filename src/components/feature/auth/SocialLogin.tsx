@@ -1,27 +1,19 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import AuthCard from "@/components/common/AuthCard";
-import { DB } from "@/mocks/db/db";
-import { transformUser } from "@/mocks/db/transformUser";
-import { useUserStore } from "@/store/user";
-import { useAuthStore } from "@/store/authStore";
 import { toast } from "react-toastify";
+import { END_POINT } from "@/constants/endPoint";
 
 const SocialLogin = () => {
-  const router = useRouter();
-  const { login } = useAuthStore();
-  const { setUser } = useUserStore();
 
   const handleNaverLogin = () => {
-    const mockUserFromDB = DB.myInfo;
-    const user = transformUser(mockUserFromDB);
-
-    setUser(user);
-    login(user, "mock_token");
-    toast.success("로그인 성공! 환영합니다.");
-    router.push("/");
+    try {
+      window.location.href = END_POINT.NAVER_REDIRECT;
+    } catch (error) {
+      console.error("소셜 로그인 오류:", error);
+      toast.error("로그인 실패. 관리자에게 문의하세요.");
+    }
   };
 
   return (
@@ -40,9 +32,9 @@ const SocialLogin = () => {
           너희들의 미래를 담당하지
         </p>
         <button
+          onClick={handleNaverLogin}
           style={{ backgroundColor: "#03C75A" }}
           className="btn text-white text-base min-w-[180px] min-h-[44px] mb-10 rounded-lg"
-          onClick={handleNaverLogin}
         >
           네이버로 로그인
         </button>
