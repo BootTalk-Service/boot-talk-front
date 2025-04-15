@@ -2,17 +2,27 @@
 
 import RequireAuth from "@/components/common/RequireAuth";
 import Certificates from "@/components/feature/mypage/Certificates";
+import MentorProfile from "@/components/feature/mypage/MentorProfile";
 import MyPageLayout from "@/components/feature/mypage/MyPageLayout";
 import MyReviews from "@/components/feature/mypage/MyReviews";
 import PointHistory from "@/components/feature/mypage/PointHistory";
 import ProfileEdit from "@/components/feature/mypage/ProfileEdit";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Mypage() {
-  const [activeTab, setActiveTab] = useState("profile");
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
+  const tab = (searchParams.get("tab") as string) ?? "profile";
+
+  const handleTabChange = (newTab: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", newTab);
+
+    router.push(`/mypage?${params.toString()}`);
+  };
   const renderTabContent = () => {
-    switch (activeTab) {
+    switch (tab) {
       case "profile":
         return <ProfileEdit />;
       case "reviews":
@@ -21,6 +31,8 @@ export default function Mypage() {
         return <Certificates />;
       case "points":
         return <PointHistory />;
+      case "mentor":
+        return <MentorProfile />;
       default:
         return <ProfileEdit />;
     }
@@ -28,7 +40,7 @@ export default function Mypage() {
 
   return (
     <RequireAuth>
-      <MyPageLayout activeTab={activeTab} onTabChange={setActiveTab}>
+      <MyPageLayout activeTab={tab} onTabChange={handleTabChange}>
         {renderTabContent()}
       </MyPageLayout>
     </RequireAuth>

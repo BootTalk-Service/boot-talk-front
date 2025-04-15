@@ -1,6 +1,14 @@
 import Image from "next/image";
 import React from "react";
-import { User, Edit, Award, CreditCard, LogOut, AwardIcon } from "lucide-react";
+import {
+  User,
+  Edit,
+  Award,
+  CreditCard,
+  LogOut,
+  AwardIcon,
+  GraduationCap,
+} from "lucide-react";
 import { useGetMyInfo } from "@/hooks/my-page/useGetMyInfo";
 
 interface MyPageLayoutProps {
@@ -24,6 +32,11 @@ const MyPageLayout = ({
     { id: "reviews", label: "내가 쓴 리뷰", icon: <Edit size={18} /> },
     { id: "certificates", label: "수료증 인증", icon: <Award size={18} /> },
     { id: "points", label: "포인트 사용내역", icon: <CreditCard size={18} /> },
+    {
+      id: "mentor",
+      label: "멘토 프로필 관리",
+      icon: <GraduationCap size={18} />,
+    },
   ];
   console.log("레이아웃 이미지", myInfo?.profile_image);
 

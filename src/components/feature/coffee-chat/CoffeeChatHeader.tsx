@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import MentorSignupModal from "./MentorSignupModal";
+import MentorFormModal from "./MentorFormModal";
 
 const CoffeeChatHeader: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -26,7 +26,11 @@ const CoffeeChatHeader: React.FC = () => {
       </div>
 
       {/* 커피챗 멘토 등록 모달 */}
-      <MentorSignupModal isOpen={isModalOpen} onClose={closeModal} />
+      <MentorFormModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        mode={"create"}
+      />
     </>
   );
 };

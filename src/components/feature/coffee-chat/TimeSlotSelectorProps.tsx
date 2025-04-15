@@ -124,7 +124,7 @@ const TimeSlotSelector: React.FC<TimeSlotSelectorProps> = ({
             <Clock size={18} className="text-black mr-2" />
             <span className="font-medium text-gray-700">시간 선택</span>
           </div>
-          <div className="relative rounded-md">
+          <div className="flex">
             <DatePicker
               selected={selectedDate}
               onChange={handleTimeChange}
