@@ -3,7 +3,7 @@ export interface CoffeeChat {
   content: string;
   status: string;
   menteeName: string;
-  mentoName: string;
+  mentorName: string;
   coffeeChatStartTime: string;
 }
 
