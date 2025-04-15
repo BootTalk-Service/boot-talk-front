@@ -1,13 +1,14 @@
 export interface ProfileFormData {
-  name: string;
-  profile_image?: string | null;
-  desired_career: string;
+  profileImage?: string | null;
+  desiredCareer: string;
 }
 
 export interface MentorInfoData {
-  mentorType: string;
-  jobType: string;
-  introduction: string;
+  info: {
+    mentorType: string;
+    jobType: string;
+    introduction: string;
+  };
   time: Record<string, string[]>;
 }
 

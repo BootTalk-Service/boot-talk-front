@@ -7,7 +7,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 const fetchMentorApplicationTime = async (coffeeChatInfoId: string) => {
   const url = END_POINT.MENTOR_APPLICATION_TIME(coffeeChatInfoId);
   const response = await axiosDefault.get(url);
-  return response.data;
+  return response.data.availableChatTimes;
 };
 
 // 커피챗 신청 함수

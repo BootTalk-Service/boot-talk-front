@@ -1,3 +1,17 @@
+export interface UserInfo {
+  email: string;
+  name: string;
+  desiredCareer: string;
+  currentPoint: number;
+  profileImage: string | null;
+  certifications: Certification[];
+}
+
+export interface Certification {
+  categoryName: string;
+  courseName: string;
+}
+
 export interface CoffeeChat {
   coffeeChatAppId: string;
   content: string;
