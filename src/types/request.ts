@@ -8,9 +8,12 @@ export interface MentorInfoData {
   mentorType: string;
   jobType: string;
   introduction: string;
-  time: {
-    [key: string]: string[];
-  };
+  time: Record<string, string[]>;
+}
+
+export interface TimeSlot {
+  day: string;
+  times: string[];
 }
 
 export interface MentorApplicationData {

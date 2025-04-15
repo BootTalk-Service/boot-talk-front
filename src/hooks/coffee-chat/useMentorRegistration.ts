@@ -1,7 +1,7 @@
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import { MentorInfoData } from "@/types/request";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // 멘토 정보 가져오기
 const fetchMentorData = async () => {
@@ -33,16 +33,22 @@ const deleteMentorInfo = async () => {
 };
 
 export const useMentorRegistration = (options = { enabled: true }) => {
+  const queryClient = useQueryClient();
+
   // 멘토 정보 조회 쿼리
   const mentorDataQuery = useQuery({
     queryKey: ["mentorData"],
     queryFn: fetchMentorData,
     enabled: options.enabled, // 조건부 실행을 위한 옵션
+    retry: 1,
   });
 
   // 멘토 기본 정보 등록 뮤테이션
   const createMentorMutation = useMutation({
     mutationFn: createMentorInfo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["mentorData"] });
+    },
     onError: (error) => {
       console.error("멘토 정보 등록 오류:", error);
     },
@@ -51,6 +57,9 @@ export const useMentorRegistration = (options = { enabled: true }) => {
   // 멘토 정보 수정 뮤테이션
   const updateMentorMutation = useMutation({
     mutationFn: updateMentorInfo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["mentorData"] });
+    },
     onError: (error) => {
       console.error("멘토 정보 수정 오류:", error);
     },
@@ -59,6 +68,9 @@ export const useMentorRegistration = (options = { enabled: true }) => {
   // 멘토 등록 삭제 뮤테이션
   const deleteMentorMutation = useMutation({
     mutationFn: deleteMentorInfo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["mentorData"] });
+    },
     onError: (error) => {
       console.error("멘토 등록 삭제 오류:", error);
     },
@@ -66,6 +78,7 @@ export const useMentorRegistration = (options = { enabled: true }) => {
 
   return {
     mentorData: mentorDataQuery.data,
+    isLoading: mentorDataQuery.isLoading,
     createMentorMutation,
     updateMentorMutation,
     deleteMentorMutation,
