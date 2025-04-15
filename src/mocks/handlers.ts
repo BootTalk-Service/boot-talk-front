@@ -1,8 +1,4 @@
-import {
-  CertificationData,
-  MentorApplicationData,
-  MentorInfoData,
-} from "./../types/request";
+import { MentorApplicationData, MentorInfoData } from "./../types/request";
 import { END_POINT } from "@/constants/endPoint";
 import { http, HttpResponse } from "msw";
 import { DB } from "./db/db";
@@ -20,45 +16,12 @@ export const handlers = [
   http.get(END_POINT.BOOTCAMPS, () => {
     return HttpResponse.json({
       data: DB.bootcamps,
-      pagination: DB.pagination
+      pagination: DB.pagination,
     });
   }),
 
   http.get(END_POINT.POINT_HISTORY, () => {
     return HttpResponse.json(DB.pointHistory, {});
-  }),
-
-  http.get(END_POINT.COURSES, ({ request }) => {
-    const url = new URL(request.url);
-    const query = url.searchParams.get("query") || "";
-
-    if (!query) {
-      return HttpResponse.json();
-    }
-
-    const filteredCourses = DB.courses.filter((course) =>
-      course.courseName.toLowerCase().includes(query.toLowerCase())
-    );
-
-    return HttpResponse.json(filteredCourses);
-  }),
-
-  http.post(END_POINT.CERTIFICATE, async ({ request }) => {
-    const { courseId, fileUrl } = (await request.json()) as CertificationData;
-    if (!courseId || !fileUrl) {
-      return HttpResponse.json(
-        { message: "코스 ID와 파일 URL은 필수입니다." },
-        { status: 400 }
-      );
-    }
-
-    return HttpResponse.json(
-      {
-        courseId,
-        fileUrl,
-      },
-      { status: 200 }
-    );
   }),
 
   http.get(END_POINT.MENTOR_LIST, () => {
@@ -79,9 +42,9 @@ export const handlers = [
     try {
       const body = await request.json();
       console.log("받은 요청 데이터:", body);
-      const { name, profile_image, desired_career } = body as ProfileFormData;
+      const { profileImage, desiredCareer } = body as ProfileFormData;
 
-      if (!profile_image || !desired_career || !name) {
+      if (!profileImage || !desiredCareer) {
         return HttpResponse.json(
           { error: "필수 입력값이 누락되었습니다." },
           { status: 400 }
@@ -99,9 +62,8 @@ export const handlers = [
 
       DB.myInfo = {
         ...DB.myInfo,
-        profile_image,
-        desired_career,
-        name,
+        profileImage,
+        desiredCareer,
       };
 
       return HttpResponse.json({
@@ -193,10 +155,16 @@ export const handlers = [
       );
     }
 
-    const reviews = DB.reviews.filter((r) => r.reviewId === bootcampId);
-
+    const center = DB.trainingCenters.find(
+      (c) => c.trainingCenterName === bootcamp.trainingCenterName
+    );
+    const reviews = DB.reviews.filter(
+      (r) => r.trainingCenterName === bootcamp.trainingCenterName
+    );
+    
     return HttpResponse.json({
       ...bootcamp,
+      ...center,
       reviews,
     });
   }),
@@ -226,6 +194,7 @@ export const handlers = [
     });
   }),
 
+  // 멘토등록
   http.post(END_POINT.MENTOR_REGISTER, async ({ request }) => {
     const body = await request.json();
     const { mentorType, jobType, introduction, time } = body as MentorInfoData;
@@ -265,23 +234,61 @@ export const handlers = [
     return HttpResponse.json(DB.mentorInfo, {});
   }),
 
+  http.delete(END_POINT.MENTOR_REGISTER, () => {
+    DB.mentorInfo = {
+      mentorType: "",
+      jobType: "",
+      introduction: "",
+      time: {
+        MONDAY: [],
+        TUESDAY: [],
+        WEDNESDAY: [],
+        THURSDAY: [],
+        FRIDAY: [],
+      },
+    };
+    return new HttpResponse(null, { status: 200 });
+  }),
+
+  http.put(END_POINT.MENTOR_REGISTER, async ({ request }) => {
+    // 요청 바디에서 업데이트할 멘토 정보 가져오기
+    const requestBody = (await request.json()) as MentorInfoData;
+
+    // DB에 멘토 정보 업데이트
+    DB.mentorInfo = {
+      mentorType: requestBody.mentorType || DB.mentorInfo.mentorType,
+      jobType: requestBody.jobType || DB.mentorInfo.jobType,
+      introduction: requestBody.introduction || DB.mentorInfo.introduction,
+      time: {
+        MONDAY: requestBody.time?.MONDAY || DB.mentorInfo.time.MONDAY,
+        TUESDAY: requestBody.time?.TUESDAY || DB.mentorInfo.time.TUESDAY,
+        WEDNESDAY: requestBody.time?.WEDNESDAY || DB.mentorInfo.time.WEDNESDAY,
+        THURSDAY: requestBody.time?.THURSDAY || DB.mentorInfo.time.THURSDAY,
+        FRIDAY: requestBody.time?.FRIDAY || DB.mentorInfo.time.FRIDAY,
+      },
+    };
+
+    // 업데이트된 정보 반환
+    return HttpResponse.json(DB.mentorInfo, { status: 200 });
+  }),
+
   http.get(END_POINT.NOTIFICATIONS, ({ request }) => {
     const url = new URL(request.url);
     const page = Number(url.searchParams.get("page") || "1");
     const limit = Number(url.searchParams.get("limit") || "10");
     const start = (page - 1) * limit;
     const end = start + limit;
-  
+
     if (!DB.Notifications || DB.Notifications.length === 0) {
       return HttpResponse.json({
         notificationResponseDtoList: [],
         uncheckedCount: 0,
       });
     }
-  
+
     const slice = DB.Notifications.slice(start, end);
     const uncheckedCount = DB.Notifications.filter((n) => !n.checked).length;
-  
+
     return HttpResponse.json({
       notificationResponseDtoList: slice,
       uncheckedCount,
@@ -351,7 +358,7 @@ export const handlers = [
 
     return new HttpResponse("Not Found", { status: 404 });
   }),
-  
+
   http.get(END_POINT.BOOTCAMP_JOB_ROLES, () => {
     return HttpResponse.json(DB.bootcampJobRoles, {});
   }),
@@ -361,9 +368,7 @@ export const handlers = [
     const query = url.searchParams.get("query")?.toLowerCase() ?? "";
 
     const results = DB.bootcamps
-      .filter((bootcamp) =>
-        bootcamp.bootcampName.toLowerCase().includes(query)
-      )
+      .filter((bootcamp) => bootcamp.bootcampName.toLowerCase().includes(query))
       .map(({ bootcampId, bootcampName }) => ({
         bootcampId,
         bootcampName,
@@ -372,8 +377,33 @@ export const handlers = [
     return HttpResponse.json(results);
   }),
 
+
   http.get(END_POINT.NAVER_REDIRECT, () => {
     return HttpResponse.redirect("/social-login?userId=mock_user")
+  }),
+  
+  http.post("/api/test/users/signup", async ({ request }) => {
+    const formData = await request.formData();
+  
+    const job = formData.get("desired_career")?.toString() || "";
+    const file = formData.get("profile_image") as File | null;
+  
+    if (!job) {
+      return HttpResponse.json({ message: "직무 선택은 필수입니다" }, { status: 400 });
+    }
+  
+    const newUser = {
+      ...DB.myInfo,
+      desired_career: job,
+      profile_image: file?.name || null,
+    };
+  
+    // DB.myInfo = newUser; // mock db에 반영
+
+    return HttpResponse.json({
+      message: "회원가입 완료",
+      data: newUser,
+    }, { status: 200 });
   }),
   
 ];

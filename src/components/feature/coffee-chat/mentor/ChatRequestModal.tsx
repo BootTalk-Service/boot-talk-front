@@ -157,7 +157,7 @@ const ChatRequestModal: React.FC<ChatRequestModalProps> = ({
             onChange={(e) => setMessage(e.target.value)}
           />
           <div className="text-sm text-right text-gray-500 mt-1">
-            {} / 500자
+            {message.length} / 500자
           </div>
         </div>
 

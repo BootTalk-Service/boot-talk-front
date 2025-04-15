@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 const fetchMentorList = async () => {
   try {
     const response = await axiosDefault.get(END_POINT.MENTOR_LIST, {});
-    return response.data.content;
+    return response.data.data;
   } catch (error) {
     console.error("Failed to fetch mentor list:", error);
     throw error;

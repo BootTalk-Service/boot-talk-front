@@ -1,6 +1,14 @@
 import Image from "next/image";
 import React from "react";
-import { User, Edit, Award, CreditCard, LogOut, AwardIcon } from "lucide-react";
+import {
+  User,
+  Edit,
+  Award,
+  CreditCard,
+  LogOut,
+  AwardIcon,
+  GraduationCap,
+} from "lucide-react";
 import { useGetMyInfo } from "@/hooks/my-page/useGetMyInfo";
 
 interface MyPageLayoutProps {
@@ -24,8 +32,13 @@ const MyPageLayout = ({
     { id: "reviews", label: "내가 쓴 리뷰", icon: <Edit size={18} /> },
     { id: "certificates", label: "수료증 인증", icon: <Award size={18} /> },
     { id: "points", label: "포인트 사용내역", icon: <CreditCard size={18} /> },
+    {
+      id: "mentor",
+      label: "멘토 프로필 관리",
+      icon: <GraduationCap size={18} />,
+    },
   ];
-  console.log("레이아웃 이미지", myInfo?.profile_image);
+  console.log("레이아웃 이미지", myInfo?.profileImage);
 
   return (
     <div className="container mx-auto p-4 max-w-6xl">
@@ -39,9 +52,9 @@ const MyPageLayout = ({
             {/* 프로필 정보 */}
             <div className="p-6">
               <div className="flex items-center justify-center mb-4">
-                <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-base-100 shadow-lg">
+                <div className="w-28 h-28 rounded-full overflow-hidden shadow-lg">
                   <Image
-                    src={myInfo?.profile_image || "/profile-default.png"}
+                    src={myInfo?.profileImage || "/profile-default.png"}
                     alt="프로필 사진"
                     width={150}
                     height={150}
@@ -53,7 +66,7 @@ const MyPageLayout = ({
               <div className="flex justify-center mt-2">
                 <div className="px-4 py-1  rounded-full font-medium flex items-center gap-1 shadow-lg">
                   <AwardIcon size={14} className="fill-current" />
-                  <span>{myInfo?.current_point} P</span>
+                  <span>{myInfo?.currentPoint} P</span>
                 </div>
               </div>
             </div>
