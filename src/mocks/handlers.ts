@@ -20,6 +20,10 @@ export const handlers = [
     });
   }),
 
+  http.get(END_POINT.MY_REVIEWS, () => {
+    return HttpResponse.json(DB.myReviews, {});
+  }),
+  
   http.get(END_POINT.POINT_HISTORY, () => {
     return HttpResponse.json(DB.pointHistory, {});
   }),
