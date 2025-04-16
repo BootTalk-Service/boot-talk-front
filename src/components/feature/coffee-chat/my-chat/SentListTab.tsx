@@ -89,7 +89,7 @@ const SentListTab = () => {
                 {getStatusBadge(sent.status)}
               </div>
               <div className="flex items-center text-xs text-gray-500 gap-4 mb-2">
-                <p>멘토: {sent.mentoName}</p>
+                <p>멘토: {sent.mentorName}</p>
                 <p>신청일: {formatDate(sent.coffeeChatStartTime)}</p>
               </div>
               {(sent.status === "APPROVED" || sent.status === "PENDING") && (

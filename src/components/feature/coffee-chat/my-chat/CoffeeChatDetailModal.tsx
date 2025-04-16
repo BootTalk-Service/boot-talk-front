@@ -46,7 +46,7 @@ const CoffeeChatDetailModal: React.FC<CoffeeChatDetailModalProps> = ({
           <span className="mr-2 font-medium">
             {isSent ? "멘토" : "신청자"}:
           </span>
-          <span>{isSent ? coffeeChat.mentoName : coffeeChat.menteeName}</span>
+          <span>{isSent ? coffeeChat.mentorName : coffeeChat.menteeName}</span>
         </div>
 
         {/* 날짜 및 시간 정보 */}
