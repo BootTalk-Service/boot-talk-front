@@ -4,6 +4,8 @@ import useMentorRegistration from "@/hooks/coffee-chat/useMentorRegistration";
 import React, { useState } from "react";
 import MentorFormModal from "../coffee-chat/MentorFormModal";
 import { TimeSlot } from "@/types/request";
+import { jobCategoryMapping } from "@/constants/jobCategory";
+import { mentorCategory } from "@/constants/mentorCategory";
 
 const MentorProfile = () => {
   const { mentorData, deleteMentorMutation, isDeletePending, isLoading } =
@@ -54,7 +56,7 @@ const MentorProfile = () => {
   }
 
   // 멘토 정보가 없거나 삭제된 경우
-  if (!mentorData.introduction || isDeleted) {
+  if (!mentorData.info.coffeeChatInfoId || isDeleted) {
     return (
       <div className="text-center  bg-base-100">
         <h2 className="text-xl font-semibold text-gray-800 mb-2 mt-6">
@@ -85,11 +87,17 @@ const MentorProfile = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-base-200 p-4 rounded">
             <p className="text-sm text-gray-500">멘토 유형</p>
-            <p className="text-sm">{mentorData.jobType}</p>
+            <p className="text-sm">
+              {mentorCategory[mentorData.info.mentorType] ||
+                mentorData.info.mentorType}
+            </p>
           </div>
           <div className="bg-base-200 p-4 rounded">
             <p className="text-sm text-gray-500">직무 분야</p>
-            <p className="text-sm">{mentorData.mentorType}</p>
+            <p className="text-sm">
+              {jobCategoryMapping[mentorData.info.jobType] ||
+                mentorData.info.jobType}
+            </p>
           </div>
         </div>
       </div>
@@ -98,7 +106,7 @@ const MentorProfile = () => {
         <h3 className="font-medium text-gray-900 mb-2">멘토 소개글</h3>
         <div className="bg-base-200 p-4 rounded max-h-40 overflow-y-auto">
           <p className="whitespace-pre-line text-sm">
-            {mentorData.introduction}
+            {mentorData.info.introduction}
           </p>
         </div>
       </div>

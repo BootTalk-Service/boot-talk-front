@@ -86,9 +86,9 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
 
       setFormData({
         info: {
-          jobType: initialData.jobType || "",
-          mentorType: initialData.mentorType || "",
-          introduction: initialData.introduction || "",
+          jobType: initialData.info.jobType || "",
+          mentorType: initialData.info.mentorType || "",
+          introduction: initialData.info.introduction || "",
         },
         timeSlots: timeSlots,
       });
