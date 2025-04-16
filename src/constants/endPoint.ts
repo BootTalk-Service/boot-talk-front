@@ -14,7 +14,7 @@ export const END_POINT = {
   FILE_UPLOAD: "/api/file/upload",
   SENT_COFFEE_CHATS: "/api/coffee-chats/applications",
   RECEIVED_COFFEE_CHATS: "/api/coffee-chats/applications/received",
-  BOOTCAMP_DETAIL: (id: string) => `/bootcamps/${id}`,
+  BOOTCAMP_DETAIL: (id: string) => `/api/bootcamps/${id}`,
   REVIEWS: "/api/reviews",
   MENTOR_REGISTER: "/api/coffee-chats",
   MENTOR_APPLICATION_TIME: (coffeeChatInfoId: string) =>
@@ -24,5 +24,5 @@ export const END_POINT = {
   CHAT_ROOM_LIST: "/api/chat-rooms",
   ADMIN_CERTIFICATION: "/api/admin/certifications",
   BOOTCAMPS_AUTOCOMPLETE: "/api/bootcamps/autocomplete",
-  NAVER_REDIRECT: "/api/oauth2/authorization/naver",
+  NAVER_REDIRECT: "/api/oauth2/authorization",
 } as const;
