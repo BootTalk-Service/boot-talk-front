@@ -1,7 +1,13 @@
 import BootcampDetailClient from "@/components/feature/detail/BootcampDetailClient";
 
-const BootcampDetailPage = ({ params }: { params: { id: string } }) => {
-  return <BootcampDetailClient id={params.id} />;
+interface PageProps {
+  params: { id: string };
+}
+
+const BootcampDetailPage = async ({ params }: PageProps) => {
+  const resolvedParams = await params;
+  return <BootcampDetailClient id={resolvedParams.id} />;
 };
+
 
 export default BootcampDetailPage;
