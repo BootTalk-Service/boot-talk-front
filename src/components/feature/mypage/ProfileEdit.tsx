@@ -116,7 +116,7 @@ const ProfileEdit = () => {
               </div>
             ))
           ) : (
-            <div className="text-sm text-gray-500 text-center">
+            <div className="p-3 text-sm text-gray-500 shadow-sm">
               수료한 부트캠프가 없습니다.
             </div>
           )}

@@ -1,4 +1,8 @@
-import { MentorApplicationData, MentorInfoData } from "./../types/request";
+import {
+  CertificationData,
+  MentorApplicationData,
+  MentorInfoData,
+} from "./../types/request";
 import { END_POINT } from "@/constants/endPoint";
 import { http, HttpResponse } from "msw";
 import { DB } from "./db/db";
@@ -15,32 +19,52 @@ export const handlers = [
 
   http.get(END_POINT.BOOTCAMPS, () => {
     return HttpResponse.json({
-      data: DB.bootcamps,
-      pagination: DB.pagination,
+      data: DB.bootcamps.data,
+      pagination: DB.bootcamps.pagination,
     });
+  }),
+
+  // 마이페이지 핸들러 ------------------------------------------------------------
+  http.get(END_POINT.COURSES, ({ request }) => {
+    const url = new URL(request.url);
+    const query = url.searchParams.get("query");
+
+    if (!query) {
+      return HttpResponse.json();
+    }
+
+    const filteredCourses = DB.courses.filter((course) =>
+      course.courseName.toLowerCase().includes(query.toLowerCase())
+    );
+
+    return HttpResponse.json(filteredCourses);
+  }),
+
+  http.post(END_POINT.CERTIFICATE, async ({ request }) => {
+    const { courseId, fileUrl } = (await request.json()) as CertificationData;
+    if (!courseId || !fileUrl) {
+      return HttpResponse.json(
+        { message: "코스 ID와 파일 URL은 필수입니다." },
+        { status: 400 }
+      );
+    }
+
+    return HttpResponse.json(
+      {
+        courseId,
+        fileUrl,
+      },
+      { status: 200 }
+    );
   }),
 
   http.get(END_POINT.MY_REVIEWS, () => {
     return HttpResponse.json(DB.myReviews, {});
   }),
-  
+
   http.get(END_POINT.POINT_HISTORY, () => {
     return HttpResponse.json(DB.pointHistory, {});
   }),
-
-  http.get(END_POINT.MENTOR_LIST, () => {
-    return HttpResponse.json(DB.mentorList, {});
-  }),
-
-  http.get(
-    END_POINT.MENTOR_APPLICATION_TIME(":coffeeChatInfoId"),
-    ({ params }) => {
-      const { coffeeChatInfoId } = params;
-      console.log(coffeeChatInfoId);
-
-      return HttpResponse.json(DB.mentorApplicationTime, {});
-    }
-  ),
 
   http.put(END_POINT.MY_INFO, async ({ request }) => {
     try {
@@ -116,95 +140,12 @@ export const handlers = [
     }
   }),
 
-  http.get(END_POINT.APPROVED_COFFEE_CHATS, () => {
-    return HttpResponse.json(DB.approvedCoffeeChats, {});
-  }),
-
-  http.get(END_POINT.SENT_COFFEE_CHATS, () => {
-    return HttpResponse.json(DB.sentCoffeeChats, {});
-  }),
-
-  http.post(END_POINT.SENT_COFFEE_CHATS, async ({ request }) => {
-    const body = await request.json();
-    const {
-      coffeeChatEndTime,
-      coffeeChatInfoId,
-      coffeeChatStartTime,
-      content,
-    } = body as MentorApplicationData;
-
-    return HttpResponse.json(
-      {
-        coffeeChatEndTime,
-        coffeeChatInfoId,
-        coffeeChatStartTime,
-        content,
-      },
-      { status: 200 }
-    );
-  }),
-
-  http.get(END_POINT.RECEIVED_COFFEE_CHATS, () => {
-    return HttpResponse.json(DB.receivedCoffeeChats, {});
-  }),
-
-  http.get(END_POINT.BOOTCAMP_DETAIL(":id"), ({ params }) => {
-    const bootcampId = Number(params.id);
-    const bootcamp = DB.bootcamps.find((b) => b.bootcampId === bootcampId);
-
-    if (!bootcamp) {
-      return HttpResponse.json(
-        { error: "부트캠프를 찾을 수 없습니다." },
-        { status: 404 }
-      );
-    }
-
-    const center = DB.trainingCenters.find(
-      (c) => c.trainingCenterName === bootcamp.trainingCenterName
-    );
-    const reviews = DB.reviews.filter(
-      (r) => r.trainingCenterName === bootcamp.trainingCenterName
-    );
-    
-    return HttpResponse.json({
-      ...bootcamp,
-      ...center,
-      reviews,
-    });
-  }),
-
-  http.get(END_POINT.REVIEWS, ({ request }) => {
-    const url = new URL(request.url);
-    const page = Number(url.searchParams.get("page") || "0");
-    const size = Number(url.searchParams.get("size") || "10");
-  
-    const start = page * size;
-    const end = start + size;
-  
-    const totalItems = DB.reviews.length;
-    const totalPages = Math.ceil(totalItems / size);
-    const pagedData = DB.reviews.slice(start, end);
-  
-    return HttpResponse.json({
-      content: pagedData,
-      number: page,
-      totalPages: totalPages,
-      totalElements: totalItems,
-      last: page + 1 >= totalPages,
-      size: size,
-      pageable: {
-        pageNumber: page,
-      },
-    });
-  }),
-
-  // 멘토등록
   http.post(END_POINT.MENTOR_REGISTER, async ({ request }) => {
     const body = await request.json();
-    const { mentorType, jobType, introduction, time } = body as MentorInfoData;
+    const { info, time } = body as MentorInfoData;
 
     // 필수 입력 항목 검증
-    if (!mentorType || !jobType || !introduction) {
+    if (!info.mentorType || !info.jobType || !info.introduction) {
       return HttpResponse.json(
         {
           message: "필수 입력 항목이 누락되었습니다.",
@@ -225,9 +166,7 @@ export const handlers = [
 
     return HttpResponse.json(
       {
-        mentorType,
-        jobType,
-        introduction,
+        info,
         time,
       },
       { status: 200 }
@@ -260,9 +199,9 @@ export const handlers = [
 
     // DB에 멘토 정보 업데이트
     DB.mentorInfo = {
-      mentorType: requestBody.mentorType || DB.mentorInfo.mentorType,
-      jobType: requestBody.jobType || DB.mentorInfo.jobType,
-      introduction: requestBody.introduction || DB.mentorInfo.introduction,
+      mentorType: requestBody.info.mentorType || DB.mentorInfo.mentorType,
+      jobType: requestBody.info.jobType || DB.mentorInfo.jobType,
+      introduction: requestBody.info.introduction || DB.mentorInfo.introduction,
       time: {
         MONDAY: requestBody.time?.MONDAY || DB.mentorInfo.time.MONDAY,
         TUESDAY: requestBody.time?.TUESDAY || DB.mentorInfo.time.TUESDAY,
@@ -276,6 +215,123 @@ export const handlers = [
     return HttpResponse.json(DB.mentorInfo, { status: 200 });
   }),
 
+  // 커피챗페이지 핸들러 ------------------------------------------------------------
+  http.get(END_POINT.MENTOR_LIST, () => {
+    return HttpResponse.json(DB.mentorList, {});
+  }),
+
+  http.get(
+    END_POINT.MENTOR_APPLICATION_TIME(":coffeeChatInfoId"),
+    ({ params }) => {
+      const { coffeeChatInfoId } = params;
+      console.log(coffeeChatInfoId);
+
+      return HttpResponse.json(DB.mentorApplicationTime, {});
+    }
+  ),
+
+  http.get(END_POINT.APPROVED_COFFEE_CHATS, () => {
+    return HttpResponse.json(DB.approvedCoffeeChats, {});
+  }),
+
+  http.get(END_POINT.SENT_COFFEE_CHATS, () => {
+    return HttpResponse.json(DB.sentCoffeeChats, {});
+  }),
+
+  http.post(END_POINT.SENT_COFFEE_CHATS, async ({ request }) => {
+    const body = await request.json();
+    const {
+      coffeeChatEndTime,
+      coffeeChatInfoId,
+      coffeeChatStartTime,
+      content,
+    } = body as MentorApplicationData;
+
+    return HttpResponse.json(
+      {
+        coffeeChatEndTime,
+        coffeeChatInfoId,
+        coffeeChatStartTime,
+        content,
+      },
+      { status: 200 }
+    );
+  }),
+
+  http.get(END_POINT.RECEIVED_COFFEE_CHATS, () => {
+    return HttpResponse.json(DB.receivedCoffeeChats, {});
+  }),
+
+  // 부트캠프 페이지 핸들러 ------------------------------------------------------------
+  http.get(END_POINT.BOOTCAMP_DETAIL(":id"), ({ params }) => {
+    const bootcampId = Number(params.id);
+    const bootcamp = DB.bootcamps.data.find((b) => b.bootcampId === bootcampId);
+
+    if (!bootcamp) {
+      return HttpResponse.json(
+        { error: "부트캠프를 찾을 수 없습니다." },
+        { status: 404 }
+      );
+    }
+
+    const center = DB.trainingCenters.find(
+      (c) => c.trainingCenterName === bootcamp.trainingCenterName
+    );
+    const reviews = DB.reviews.filter(
+      (r) => r.trainingCenterName === bootcamp.trainingCenterName
+    );
+
+    return HttpResponse.json({
+      ...bootcamp,
+      ...center,
+      reviews,
+    });
+  }),
+
+  http.get(END_POINT.BOOTCAMP_JOB_ROLES, () => {
+    return HttpResponse.json(DB.bootcampJobRoles, {});
+  }),
+
+  http.get(END_POINT.BOOTCAMPS_AUTOCOMPLETE, ({ request }) => {
+    const url = new URL(request.url);
+    const query = url.searchParams.get("query")?.toLowerCase() ?? "";
+
+    const results = DB.bootcamps.data
+      .filter((bootcamp) => bootcamp.bootcampName.toLowerCase().includes(query))
+      .map(({ bootcampId, bootcampName }) => ({
+        bootcampId,
+        bootcampName,
+      }));
+
+    return HttpResponse.json(results);
+  }),
+
+  // 리뷰 페이지 핸들러 ------------------------------------------------------------
+  http.get(END_POINT.REVIEWS, ({ request }) => {
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get("page") || "0");
+    const size = Number(url.searchParams.get("size") || "10");
+
+    const start = page * size;
+    const end = start + size;
+
+    const totalItems = DB.reviews.length;
+    const totalPages = Math.ceil(totalItems / size);
+    const pagedData = DB.reviews.slice(start, end);
+
+    return HttpResponse.json({
+      content: pagedData,
+      number: page,
+      totalPages: totalPages,
+      totalElements: totalItems,
+      last: page + 1 >= totalPages,
+      size: size,
+      pageable: {
+        pageNumber: page,
+      },
+    });
+  }),
+
   http.get(END_POINT.NOTIFICATIONS, ({ request }) => {
     const url = new URL(request.url);
     const page = Number(url.searchParams.get("page") || "1");
@@ -283,15 +339,15 @@ export const handlers = [
     const start = (page - 1) * limit;
     const end = start + limit;
 
-    if (!DB.Notifications || DB.Notifications.length === 0) {
+    if (!DB.notifications || DB.notifications.length === 0) {
       return HttpResponse.json({
         notificationResponseDtoList: [],
         uncheckedCount: 0,
       });
     }
 
-    const slice = DB.Notifications.slice(start, end);
-    const uncheckedCount = DB.Notifications.filter((n) => !n.checked).length;
+    const slice = DB.notifications.slice(start, end);
+    const uncheckedCount = DB.notifications.filter((n) => !n.checked).length;
 
     return HttpResponse.json({
       notificationResponseDtoList: slice,
@@ -311,7 +367,7 @@ export const handlers = [
       );
     }
 
-    DB.Notifications.forEach((n) => {
+    DB.notifications.forEach((n) => {
       if (new Date(n.createdAt) <= new Date(timeParam)) {
         n.checked = true;
       }
@@ -323,6 +379,7 @@ export const handlers = [
     );
   }),
 
+  // 1:1 채팅 페이지 핸들러 ------------------------------------------------------------
   http.get(END_POINT.CHAT_ROOM_LIST, () => {
     return HttpResponse.json(DB.chatRoomList, {});
   }),
@@ -341,9 +398,10 @@ export const handlers = [
     return HttpResponse.json(chatRoom, {});
   }),
 
+  // 관리자 페이지 핸들러 ------------------------------------------------------------
   http.get(END_POINT.ADMIN_CERTIFICATION, () => {
     return HttpResponse.json({
-      certifications: DB.Certifications,
+      certifications: DB.certifications,
     });
   }),
 
@@ -352,7 +410,7 @@ export const handlers = [
     const url = new URL(request.url);
     const status = url.searchParams.get("status");
 
-    const target = DB.Certifications.find(
+    const target = DB.certifications.find(
       (cert) => cert.certificationId === Number(id)
     );
     if (target && status) {
@@ -363,85 +421,82 @@ export const handlers = [
     return new HttpResponse("Not Found", { status: 404 });
   }),
 
-  http.get(END_POINT.BOOTCAMP_JOB_ROLES, () => {
-    return HttpResponse.json(DB.bootcampJobRoles, {});
-  }),
-
-  http.get(END_POINT.BOOTCAMPS_AUTOCOMPLETE, ({ request }) => {
-    const url = new URL(request.url);
-    const query = url.searchParams.get("query")?.toLowerCase() ?? "";
-
-    const results = DB.bootcamps
-      .filter((bootcamp) => bootcamp.bootcampName.toLowerCase().includes(query))
-      .map(({ bootcampId, bootcampName }) => ({
-        bootcampId,
-        bootcampName,
-      }));
-
-    return HttpResponse.json(results);
-  }),
-
-
+  // 로그인 페이지 핸들러 ------------------------------------------------------------
   http.get(END_POINT.NAVER_REDIRECT, () => {
-    return HttpResponse.redirect("/social-login?userId=mock_user")
+    console.log("MSW 핸들러: 네이버 리다이렉트 요청 수신");
+    const mockCode = "mocked_code_" + Date.now();
+    const mockState = "mocked_state_" + Date.now();
+
+    // 리다이렉트 응답
+    return Response.redirect(
+      `${END_POINT.NAVER_CALLBACK}?code=${mockCode}&state=${mockState}`,
+      302
+    );
   }),
-  
+
+  http.get(END_POINT.NAVER_CALLBACK, ({ request }) => {
+    const url = new URL(request.url);
+    const code = url.searchParams.get("code");
+    const state = url.searchParams.get("state");
+
+    console.log("Mock 서버: 네이버 콜백 요청 수신", { code, state });
+
+    if (!code) {
+      return new HttpResponse(
+        JSON.stringify({ message: "인증 코드가 없습니다." }),
+        { status: 400 }
+      );
+    }
+
+    // 모의 네이버 로그인 성공 응답
+    return new HttpResponse(
+      JSON.stringify({
+        success: true,
+        accessToken: "mock-naver-token-xyz123",
+        refreshToken: "mock-refresh-token-abc456",
+        user: {
+          id: "naver_user_123",
+          name: "테스트 사용자",
+          email: "test@example.com",
+          profileImage: "https://via.placeholder.com/150",
+        },
+      }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }),
+
   http.post("/api/test/users/signup", async ({ request }) => {
     const formData = await request.formData();
-  
+
     const job = formData.get("desired_career")?.toString() || "";
     const file = formData.get("profile_image") as File | null;
-  
+
     if (!job) {
-      return HttpResponse.json({ message: "직무 선택은 필수입니다" }, { status: 400 });
+      return HttpResponse.json(
+        { message: "직무 선택은 필수입니다" },
+        { status: 400 }
+      );
     }
-  
+
     const newUser = {
       ...DB.myInfo,
       desired_career: job,
       profile_image: file?.name || null,
     };
-  
+
     // DB.myInfo = newUser; // mock db에 반영
-
-    return HttpResponse.json({
-      message: "회원가입 완료",
-      data: newUser,
-    }, { status: 200 });
-  }),
-
-http.get(END_POINT.COURSES, ({ request }) => {
-joo93 marked this conversation as resolved.
-    const url = new URL(request.url);
-    const query = url.searchParams.get("query")  "";
-
-    if (!query) {
-      return HttpResponse.json();
-    }
-
-    const filteredCourses = DB.courses.filter((course) =>
-      course.courseName.toLowerCase().includes(query.toLowerCase())
-    );
-
-    return HttpResponse.json(filteredCourses);
-  }),
-
-  http.post(END_POINT.CERTIFICATE, async ({ request }) => {
-    const { courseId, fileUrl } = (await request.json()) as CertificationData;
-    if (!courseId  !fileUrl) {
-      return HttpResponse.json(
-        { message: "코스 ID와 파일 URL은 필수입니다." },
-        { status: 400 }
-      );
-    }
 
     return HttpResponse.json(
       {
-        courseId,
-        fileUrl,
+        message: "회원가입 완료",
+        data: newUser,
       },
       { status: 200 }
     );
   }),
-  
 ];
