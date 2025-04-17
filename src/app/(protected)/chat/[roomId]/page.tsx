@@ -12,6 +12,7 @@ interface ChatRoomPageProps {
 interface ChatMessage {
   id?: number;
   roomUuid: string;
+  chatRoomId: number;
   senderId: number;
   senderName: string;
   receiverId: number;
@@ -25,7 +26,10 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   // const userId = localStorage.getItem("USER_ID");
-  const userId = "8056"; // 유저id
+  const userId = 8050; // 유저id
+  const amIMentee = selectedChat.mentee.userId === userId;
+  const mentorName = selectedChat.mentor.name;
+  const menteeName = selectedChat.mentee.name;
 
   // 새 메시지가 추가될 때마다 스크롤을 아래로 이동
   useEffect(() => {
@@ -34,6 +38,7 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
 
   const { sendMessage, connected } = useWebSocket({
     roomUuid: selectedChat.roomUuid,
+    userId: userId.toString(),
     onMessage: (msg: ChatMessage) => {
       setMessages((prev) => [...prev, msg]);
       console.log("받은 메시지:", msg);
@@ -54,16 +59,15 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
     if (message.trim() === "" || !selectedChat) return;
 
     const msg = {
+      chatRoomId: selectedChat.chatRoomId,
       roomUuid: selectedChat.roomUuid,
-      senderId: 8056, // 로그인한 사용자 ID
-      senderName:
-        selectedChat.mentorId === Number(userId)
-          ? selectedChat.mentorName
-          : selectedChat.menteeName, // 사용자 이름 (추가 로직: 로그인한 사용자 이름)
-      receiverId:
-        selectedChat.mentorId === Number(userId)
-          ? selectedChat.menteeId
-          : selectedChat.mentorId, // 상대방 ID (추가 로직: 멘토가 나라면 멘티 이름)
+      senderId: userId,
+      senderName: amIMentee
+        ? selectedChat.mentee.name
+        : selectedChat.mentor.name,
+      receiverId: amIMentee
+        ? selectedChat.mentee.userId
+        : selectedChat.mentor.userId,
       message: message,
       type: "TEXT",
     };
@@ -86,7 +90,7 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
       {/* 채팅방 헤더 */}
       <div className="p-3 border-b flex justify-between items-center">
         <div>
-          <h3 className="font-medium">{selectedChat.mentorName}</h3>
+          <h3 className="font-medium">{amIMentee ? mentorName : menteeName}</h3>
         </div>
         <div className="text-xs text-gray-500">
           {getRemainingMinutes(selectedChat.expiresAt)}분 남음

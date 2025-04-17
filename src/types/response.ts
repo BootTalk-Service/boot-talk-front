@@ -32,14 +32,21 @@ export interface Mentor {
 
 export interface ChatRoom {
   roomUuid: string;
-  mentorName: string;
-  menteeName: string;
+  chatRoomId: number;
+  mentor: {
+    userId: number;
+    name: string;
+    profileImage: string;
+  };
+  mentee: {
+    userId: number;
+    name: string;
+    profileImage: string;
+  };
   reservationAt: string;
   expiresAt: string;
   endAt: string;
   isActive: boolean;
-  mentorId: number;
-  menteeId: number;
 }
 
 export interface Course {

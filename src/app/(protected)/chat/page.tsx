@@ -32,6 +32,8 @@ const getStatusText = (chatRoom: ChatRoom) => {
   return "현재 진행 중입니다.";
 };
 
+const userId = 8050; // 유저id
+
 const ChatPage = () => {
   const { chatRoomList = [] } = useGetChatList();
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
@@ -67,7 +69,9 @@ const ChatPage = () => {
                   >
                     <div className="flex justify-between items-center mb-2">
                       <h4 className="font-medium text-sm">
-                        {chatRoom.mentorName}
+                        {chatRoom.mentor.userId === userId
+                          ? chatRoom.mentee.name
+                          : chatRoom.mentor.name}
                       </h4>
                       <span
                         className={`text-xs ${
