@@ -1,8 +1,8 @@
-import type { ReviewPage } from "@/types/Bootcamp";
+import type { Review } from "@/types/Bootcamp";
 import { RatingStars } from "@/components/common/RatingStars";
 
 interface ReviewItemProps {
-  review: ReviewPage;
+  review: Review;
 }
 
 export default function ReviewItem({ review }: ReviewItemProps) {

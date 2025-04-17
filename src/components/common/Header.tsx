@@ -8,17 +8,43 @@ import { clearAuthStorage } from "@/lib/logout";
 import MobileDrawerMenu from "@/components/common/MobileDrawerMenu";
 import { useDrawerScrollLock } from "@/hooks/useDrawerScrollLock";
 import NotificationDropdown from "../notification/NotificationDropdown";
+import { useEffect } from "react";
+import { axiosDefault } from "@/api/axiosInstance";
+import { END_POINT } from "@/constants/endPoint";
 
 const Header = () => {
-  const { user, logout } = useAuthStore();
+  const { user, logout, setUser } = useAuthStore();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await axiosDefault.post(END_POINT.LOGOUT, {}, { withCredentials: true }); // 백엔드에서 쿠키 제거
+    } catch (err) {
+      console.warn("❗서버 로그아웃 실패:", err);
+    }
+  
     logout();
     clearAuthStorage();
   };
 
-  const userTextStyle = "text-sm font-medium";
   useDrawerScrollLock();
+  const userTextStyle = "text-sm font-medium";
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axiosDefault.get("/api/users/my", {
+          withCredentials: true,
+        });
+        setUser(res.data);
+      } catch (error) {
+        console.log("로그인 상태 아님 또는 쿠키 만료됨", error);
+      }
+    };
+
+    if (!user) {
+      fetchUser();
+    }
+  }, [user, setUser]);
 
   return (
     <>
@@ -51,10 +77,10 @@ const Header = () => {
 
           {/* 로그인 상태 */}
           <div className="hidden md:flex items-center gap-4">
-          {user ? (
+            {user ? (
               <div className="flex items-center gap-3">
                 <button className="btn btn-ghost btn-circle" aria-label="알림">
-                  <NotificationDropdown/>
+                  <NotificationDropdown />
                 </button>
                 <Link href="/chat" className="btn btn-ghost btn-circle">
                   <button
@@ -65,7 +91,10 @@ const Header = () => {
                   </button>
                 </Link>
 
-                <Link href="/mypage" className={`${userTextStyle} hover:underline`}>
+                <Link
+                  href="/mypage"
+                  className={`${userTextStyle} hover:underline`}
+                >
                   {`${user.name}님`}
                 </Link>
 
@@ -102,3 +131,4 @@ const Header = () => {
 };
 
 export default Header;
+

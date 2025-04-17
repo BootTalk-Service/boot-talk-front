@@ -27,4 +27,5 @@ export const END_POINT = {
   ADMIN_CERTIFICATION: "/api/admin/certifications",
   BOOTCAMPS_AUTOCOMPLETE: "/api/bootcamps/autocomplete",
   NAVER_REDIRECT: "/api/oauth2/authorization",
+  LOGOUT: "/api/logout"
 } as const;

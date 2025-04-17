@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getBaseURL = () => {
   const isDev = process.env.NODE_ENV === "development";
-  const useMock = process.env.NEXT_PUBLIC_USE_MOCK === "false";
+  const useMock = process.env.NEXT_PUBLIC_USE_MOCK === "true";
 
   if (isDev && useMock) return process.env.NEXT_PUBLIC_API_MOCKING;
   return process.env.NEXT_PUBLIC_API_URL;
@@ -10,10 +10,15 @@ const getBaseURL = () => {
 
 export const axiosDefault = axios.create({
   baseURL: getBaseURL(),
-
-  headers: {
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzZXJ2aWNlVXNlcklkIjoiODA1MCIsInVzZXJOYW1lIjoidGVzdDIiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc0NDcxNzY2MCwiZXhwIjoxNzQ0ODA0MDYwfQ.c74rWAsODEuEPkddKENsXVNgSqkFQcMAmszlcF8xvCE",
-  },
   withCredentials: true,
+});
+
+axiosDefault.interceptors.request.use((config) => {
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+  return config;
 });
