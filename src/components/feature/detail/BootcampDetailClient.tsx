@@ -21,11 +21,11 @@ const BootcampDetailClient = ({ id }: Props) => {
     <main className="max-w-screen-xl min-w-[320px] mx-auto px-6 py-10">
       {/* 제목 영역 */}
       <div className="mb-8 mt-6 overflow-hidden">
-        <h1 className="text-2xl font-bold text-amber-950 break-words">
-          <span className="block sm:hidden line-clamp-2 text-balance">
+        <h1 className="text-2xl font-bold text-amber-950 max-w-full sm:max-w-[700px]">
+          <span className="block sm:hidden line-clamp-2 break-keep">
             {data.bootcampName}
           </span>
-          <span className="hidden sm:inline truncate">{data.bootcampName}</span>
+          <span className="hidden sm:block line-clamp-2 break-keep">{data.bootcampName}</span>
         </h1>
         <div className="border-t border-amber-600 mt-4" />
       </div>
