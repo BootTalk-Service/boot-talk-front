@@ -35,7 +35,7 @@ const CoffeeChatActionModal: React.FC<CoffeeChatActionModalProps> = ({
         <p className="mb-4">
           {actionType === "APPROVE" && "커피챗을 승인하시겠습니까?"}
           {actionType === "REJECT" && "커피챗을 거절하시겠습니까?"}
-          {actionType === "CANCEL" && "승인된 커피챗을 취소하시겠습니까?"}
+          {actionType === "CANCEL" && "커피챗을 취소하시겠습니까?"}
         </p>
 
         {/* 패널티 경고 메시지 */}
@@ -43,9 +43,11 @@ const CoffeeChatActionModal: React.FC<CoffeeChatActionModalProps> = ({
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             <p className="font-bold">주의!</p>
             {isMentor ? (
-              <p>시작 1일 전 취소 시 패널티가 부여됩니다.</p>
+              <p>
+                커피챗 시작 1일 전 이후 취소 시, 멘토 활동이 1개월간 제한됩니다.
+              </p>
             ) : (
-              <p>시작 1일 전 취소 시 환불이 불가능합니다.</p>
+              <p>커피챗 시작 1일 전 이후 취소 시, 환불이 불가합니다.</p>
             )}
           </div>
         )}
