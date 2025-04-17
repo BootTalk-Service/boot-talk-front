@@ -71,7 +71,7 @@ const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
   ];
 
   return (
-    <div className="flex justify-center w-full relative z-10">
+    <div className="flex justify-center w-full relative z-50">
       
       <div className="flex flex-wrap gap-3 items-center justify-center px-4 py-6">
         {allFilters.map((filter) => (

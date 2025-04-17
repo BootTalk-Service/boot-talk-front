@@ -26,5 +26,5 @@ export const END_POINT = {
   CHAT_ROOM_LIST: "/api/chat-rooms",
   ADMIN_CERTIFICATION: "/api/admin/certifications",
   BOOTCAMPS_AUTOCOMPLETE: "/api/bootcamps/autocomplete",
-  NAVER_REDIRECT: "/api/oauth2/authorization/naver",
+  NAVER_REDIRECT: "/api/oauth2/authorization",
 } as const;
