@@ -3,6 +3,8 @@ import MentorProfileModal from "./MentorProfileModal";
 import { useMentorList } from "@/hooks/coffee-chat/useMentorList";
 import { Mentor } from "@/types/response";
 import ChatRequestModal from "./ChatRequestModal";
+import { mentorCategory } from "@/constants/mentorCategory";
+import { jobCategoryMapping } from "@/constants/jobCategory";
 
 const FindMentors = () => {
   const { mentorList, isLoading, isError } = useMentorList();
@@ -56,25 +58,25 @@ const FindMentors = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {mentorList?.map((mentor) => (
             <div
-              key={mentor.userId}
+              key={mentor.mentorUserId}
               className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow h-full flex flex-col"
             >
               <div className="flex justify-between">
-                <h4 className="font-semibold text-lg">{mentor.userName}</h4>
+                <h4 className="font-semibold text-lg">{mentor.mentorName}</h4>
                 <span
                   className={`text-sm px-3 py-1 rounded-full ${
-                    mentor.userType === "현업자"
+                    mentor.mentorType === "PROFESSIONAL"
                       ? "bg-gray-100 text-gray-800"
                       : "bg-gray-50 text-gray-700"
                   }`}
                 >
-                  {mentor.userType}
+                  {mentorCategory[mentor.mentorType] || mentor.mentorType}
                 </span>
               </div>
 
               <div className="my-3">
                 <span className="inline-block bg-gray-100 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-lg">
-                  {mentor.jobType}
+                  {jobCategoryMapping[mentor.jobType] || mentor.jobType}
                 </span>
               </div>
 
@@ -82,7 +84,7 @@ const FindMentors = () => {
                 <p className="flex justify-between">
                   <span>커피챗 비용:</span>
                   <span className="font-medium text-gray-800">
-                    {mentor.userType === "현업자" ? 3 : 1} 포인트
+                    {mentor.mentorType === "현업자" ? 3 : 1} 포인트
                   </span>
                 </p>
               </div>
@@ -107,18 +109,22 @@ const FindMentors = () => {
       </div>
 
       {/* 프로필 상세보기 모달 */}
-      <MentorProfileModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        mentorProfile={selectedMentor}
-      />
+      {selectedMentor && (
+        <MentorProfileModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          mentorProfile={selectedMentor}
+        />
+      )}
 
       {/* 커피챗 신청 모달 */}
-      <ChatRequestModal
-        isOpen={isChatModalOpen}
-        onClose={closeChatModal}
-        mentor={selectedMentor}
-      />
+      {isChatModalOpen && (
+        <ChatRequestModal
+          isOpen={true}
+          onClose={closeChatModal}
+          mentor={selectedMentor}
+        />
+      )}
     </>
   );
 };

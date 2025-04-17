@@ -7,6 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import CoffeeChatDetailModal from "./CoffeeChatDetailModal";
 import { getStatusBadge } from "./getStatusBadge";
+import { useCoffeeChatActions } from "@/hooks/coffee-chat/useCoffeeChatActions";
+import CoffeeChatActionModal from "./CoffeeChatActionModal";
 
 const ReceivedListTab = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,9 +23,21 @@ const ReceivedListTab = () => {
     queryKey: ["receivedList"],
     queryFn: async () => {
       const response = await axiosDefault.get(END_POINT.RECEIVED_COFFEE_CHATS);
-      return response.data;
+      return response.data.data;
     },
   });
+
+  const {
+    handleApprove,
+    handleReject,
+    handleCancel,
+    isApproving,
+    isRejecting,
+    isCanceling,
+    modalState,
+    closeModal,
+    confirmAction,
+  } = useCoffeeChatActions();
 
   const handleCoffeeChatClick = (coffeechat: CoffeeChat) => {
     setSelectedCoffeeChat(coffeechat);
@@ -45,6 +59,8 @@ const ReceivedListTab = () => {
       hour12: false,
     });
   };
+
+  const isNow = new Date();
 
   if (isLoading) {
     return (
@@ -100,33 +116,36 @@ const ReceivedListTab = () => {
                   <>
                     <button
                       className="px-3 py-1.5 bg-emerald-600 text-white rounded text-xs font-medium hover:bg-emerald-700 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
+                      onClick={(e) =>
+                        handleApprove(received.coffeeChatAppId, e)
+                      }
                     >
                       승인하기
                     </button>
                     <button
                       className="px-3 py-1.5 bg-red-500 text-white rounded text-xs font-medium hover:bg-red-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
+                      onClick={(e) => handleReject(received.coffeeChatAppId, e)}
                     >
                       거절하기
                     </button>
                   </>
                 )}
 
-                {received.status === "APPROVED" && (
-                  <button
-                    className="px-3 py-1.5 bg-gray-500 text-white rounded text-xs font-medium hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    취소하기
-                  </button>
-                )}
+                {received.status === "APPROVED" &&
+                  isNow < new Date(received.coffeeChatStartTime) && (
+                    <button
+                      className="px-3 py-1.5 bg-gray-500 text-white rounded text-xs font-medium hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1"
+                      onClick={(e) =>
+                        handleCancel(
+                          received.coffeeChatAppId,
+                          received.coffeeChatStartTime,
+                          e
+                        )
+                      }
+                    >
+                      취소하기
+                    </button>
+                  )}
               </div>
             </div>
           ))}
@@ -142,6 +161,17 @@ const ReceivedListTab = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         coffeeChat={selectedCoffeeChat}
+      />
+
+      {/* 확인 모달 렌더링 */}
+      <CoffeeChatActionModal
+        isOpen={modalState.isOpen}
+        actionType={modalState.actionType}
+        isPenalty={modalState.isPenalty}
+        onClose={closeModal}
+        onConfirm={confirmAction}
+        isLoading={isApproving || isRejecting || isCanceling}
+        isMentor={true}
       />
     </div>
   );

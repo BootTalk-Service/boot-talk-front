@@ -7,6 +7,8 @@ import Modal from "@/components/common/modal/CommonModal";
 import { jobCategoryMapping } from "@/constants/jobCategory";
 import { dayMapping } from "@/constants/dayMapping";
 import { MentorInfoData } from "@/types/request";
+import { useUserInfo } from "@/hooks/userInfo/useUserInfo";
+import { UserInfo } from "@/types/response";
 
 interface MentorFormModalProps {
   isOpen: boolean;
@@ -28,16 +30,6 @@ const jobCategoryOptions = Object.entries(jobCategoryMapping).map(
   ([eng, kor]) => ({ value: eng, label: kor })
 );
 
-// 실제 유저정보 로직 구현 예정
-
-interface UserInfo {
-  certifications: number[];
-}
-
-const userInfo = {
-  certifications: [1, 2],
-};
-
 const MentorFormModal: React.FC<MentorFormModalProps> = ({
   isOpen,
   onClose,
@@ -50,6 +42,15 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
     isCreatePending,
     isUpdatePending,
   } = useMentorRegistration();
+
+  const { userInfo } = useUserInfo();
+
+  const getDefaultMentorType = (userInfo: UserInfo | undefined) => {
+    if (userInfo?.certifications && userInfo.certifications.length > 0) {
+      return "GRADUATE";
+    }
+    return "GENERAL";
+  };
 
   // 기본 타임슬롯 생성 함수
   const createDefaultTimeSlots = (): TimeSlot[] => {
@@ -67,7 +68,7 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
   const [formData, setFormData] = useState<MentorFormFormData>({
     info: {
       jobType: "",
-      mentorType: "",
+      mentorType: getDefaultMentorType(userInfo),
       introduction: "",
     },
     timeSlots: createDefaultTimeSlots(),
@@ -87,7 +88,8 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
       setFormData({
         info: {
           jobType: initialData.info.jobType || "",
-          mentorType: initialData.info.mentorType || "",
+          mentorType:
+            initialData.info.mentorType || getDefaultMentorType(userInfo),
           introduction: initialData.info.introduction || "",
         },
         timeSlots: timeSlots,
@@ -97,13 +99,13 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
       setFormData({
         info: {
           jobType: "",
-          mentorType: "",
+          mentorType: getDefaultMentorType(userInfo),
           introduction: "",
         },
         timeSlots: createDefaultTimeSlots(),
       });
     }
-  }, [initialData, mode, isOpen]);
+  }, [initialData, mode, isOpen, userInfo]);
 
   // 직군 선택 핸들러
   const handleJobCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -116,16 +118,6 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
     });
   };
 
-  const determineUserType = (isChecked: boolean, userInfo: UserInfo) => {
-    if (isChecked) {
-      return "PROFESSIONAL";
-    } else if (userInfo.certifications && userInfo.certifications.length > 0) {
-      return "GRADUATE";
-    } else {
-      return "GENERAL";
-    }
-  };
-
   // 현업자 체크박스 핸들러
   const handleProfessionalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -133,7 +125,7 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
       ...formData,
       info: {
         ...formData.info,
-        mentorType: determineUserType(isChecked, userInfo),
+        mentorType: isChecked ? "PROFESSIONAL" : getDefaultMentorType(userInfo),
       },
     });
   };
