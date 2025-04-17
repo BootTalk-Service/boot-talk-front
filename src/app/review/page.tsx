@@ -1,52 +1,32 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { ReviewFilterButtons } from "@/components/feature/review/ReviewFilterButtons";
-import type { ReviewPage, Bootcamp } from "@/types/Bootcamp";
-import SearchSection from "@/components/common/SearchSection";
-import ReviewModal from "@/components/feature/review/ReviewModal";
-import { useUserStore } from "@/store/user";
-import { toast } from "react-toastify";
-import ReviewList from "@/components/feature/review/ReviewList";
-import { axiosDefault } from "@/api/axiosInstance";
+import { useState } from 'react';
+import type { Bootcamp } from '@/types/Bootcamp';
+import SearchSection from '@/components/common/SearchSection';
+import ReviewModal from '@/components/feature/review/ReviewModal';
+import { useUserStore } from '@/store/user';
+import { toast } from 'react-toastify';
+import ReviewList from '@/components/feature/review/ReviewList';
 
 export default function ReviewPage() {
-  const [reviews, setReviews] = useState<ReviewPage[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bootcamp, setBootcamp] = useState<Bootcamp | null>(null);
-
   const user = useUserStore((state) => state.user);
   const canWriteReview = (user?.bootcamps ?? []).length > 0;
 
   const handleReviewClick = () => {
     if (!user) {
-      toast.error("로그인 후, 작성 부탁드립니다");
+      toast.error('로그인 후, 작성 부탁드립니다');
       return;
     }
-
     if (!canWriteReview) {
-      toast.error("작성 가능한 부트캠프가 없습니다");
+      toast.error('작성 가능한 부트캠프가 없습니다');
       return;
     }
 
     setBootcamp(user.bootcamps[0]);
     setIsModalOpen(true);
   };
-
-  useEffect(() => {
-    const init = async () => {
-      try {
-        const response = await axiosDefault.get("/api/reviews");
-        setReviews(response.data?.content ?? []);
-      } catch (err) {
-        if (err instanceof Error) setError(err.message);
-        else setError("알 수 없는 오류가 발생했습니다.");
-      }
-    };
-
-    init();
-  }, []);
 
   return (
     <>
@@ -67,21 +47,11 @@ export default function ReviewPage() {
           </button>
         </div>
 
-        {/* 필터 */}
-        <div className="flex justify-between items-center mb-6">
-          <ReviewFilterButtons
-            onFilterChange={(filters) => {
-              console.log("필터 선택됨:", filters);
-            }}
-          />
-        </div>
-
         <main>
-          <ReviewList reviews={reviews} error={error} />
+          <ReviewList />
         </main>
       </section>
 
-      {/* 로그인 유저이면서 모달 오픈 시에만 */}
       {user && bootcamp && isModalOpen && (
         <ReviewModal
           isOpen={isModalOpen}

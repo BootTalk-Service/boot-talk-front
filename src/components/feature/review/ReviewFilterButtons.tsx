@@ -1,74 +1,186 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { DropDownFilter } from '@/components/common/DropDownFilter';
+import { useEffect, useState, useRef } from 'react';
+import { axiosDefault } from '@/api/axiosInstance';
+import { END_POINT } from '@/constants/endPoint';
+import clsx from 'clsx';
+import { ChevronDown, RotateCcw } from 'lucide-react';
 
-const HARDCODED_JOB_ROLES = [
-  "응용sw엔지니어링",
-  "스마트설계제어",
-  "정보보호 관리·운영",
-  "SW제품기획",
-  "빅데이터분석",
-  "인공지능서비스개발",
-  "UI/UX엔지니어링",
-  "보안엔지니어링",
-  "직무용응기기하드웨어개발",
-  "디지털비즈니스지원서비스",
-  "반도체개발",
-  "클라우드인프라스트럭처엔지니어링",
-  "빅데이터플랫폼구축",
-  "DB엔지니어링",
-  "클라우드솔루션아키텍처",
-  "IoT시스템통합"
-];
+interface FilterType {
+  category?: string;
+  date?: string;
+}
 
-const DATE_OPTIONS = ["최신순", "오래된순"];
+export const ReviewFilterButtons = ({
+  onFilterChange,
+  totalCount = 0,
+}: {
+  onFilterChange: (updater: (prev: FilterType) => FilterType) => void;
+  totalCount?: number;
+}) => {
+  const [jobRoles, setJobRoles] = useState<string[]>([]);
+  const [openDropdown, setOpenDropdown] = useState<'category' | 'date' | null>(null);
+  const [selectedFilters, setSelectedFilters] = useState<FilterType>({});
+  const dropdownRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-type FilterMap = { [key: string]: string };
-type Props = { onFilterChange: (filters: FilterMap) => void };
+  useEffect(() => {
+    const fetchJobRoles = async () => {
+      try {
+        const res = await axiosDefault.get(END_POINT.BOOTCAMP_JOB_ROLES);
+        setJobRoles(res.data || []);
+      } catch (error) {
+        console.error('직무 데이터 로드 실패:', error);
+      }
+    };
+    fetchJobRoles();
+  }, []);
 
-export const ReviewFilterButtons = ({ onFilterChange }: Props) => {
-  const [selectedFilters, setSelectedFilters] = useState<FilterMap>({});
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        openDropdown &&
+        !dropdownRefs.current[openDropdown]?.contains(event.target as Node)
+      ) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openDropdown]);
 
-  const dropdownRefs: Record<string, React.RefObject<HTMLDivElement | null>> = {
-    직무: useRef(null),
-    날짜: useRef(null),
-  };
+  const handleFilterSelect = (key: 'category' | 'date', value: string) => {
+    const updatedValue = selectedFilters[key] === value ? undefined : value;
 
-  const filterOptions = [
-    { label: '직무', options: HARDCODED_JOB_ROLES },
-    { label: '날짜', options: DATE_OPTIONS }
-  ];
+    setSelectedFilters((prev) => ({
+      ...prev,
+      [key]: updatedValue,
+    }));
 
-  const handleSelect = (label: string, option: string) => {
-    const newFilters = { ...selectedFilters, [label]: option };
-    setSelectedFilters(newFilters);
-    onFilterChange(newFilters);
+    onFilterChange((prev) => ({
+      ...prev,
+      [key]: updatedValue,
+    }));
+
     setOpenDropdown(null);
   };
 
-  const clearAllFilters = () => {
+  const clearFilters = () => {
     setSelectedFilters({});
-    onFilterChange({});
+    onFilterChange(() => ({}));
     setOpenDropdown(null);
   };
 
   return (
-    <div className="flex flex-wrap justify-center gap-3 px-0 py-6">
-      {filterOptions.map(({ label, options }) => (
-        <DropDownFilter
-          key={label}
-          label={label}
-          options={options}
-          selectedValue={selectedFilters[label]}
-          isOpen={openDropdown === label}
-          onSelect={(option) => handleSelect(label, option)}
-          onToggle={() => setOpenDropdown(openDropdown === label ? null : label)}
-          onClear={label === '날짜' ? clearAllFilters : undefined}
-          dropdownRef={dropdownRefs[label]}
-        />
-      ))}
+    <div className="w-full px-4 py-6">
+      <div className="flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
+        {/* 왼쪽 필터 버튼들 */}
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* 직무 필터 */}
+          <div
+            className="relative flex items-center"
+            ref={(el) => (dropdownRefs.current['category'] = el)}
+          >
+            <button
+              onClick={() =>
+                setOpenDropdown(openDropdown === 'category' ? null : 'category')
+              }
+              className={clsx(
+                'btn btn-sm rounded-full min-w-[70px] px-4 flex justify-center items-center',
+                selectedFilters.category !== undefined
+                  ? 'bg-amber-900 text-white'
+                  : 'btn-outline border-neutral-400'
+              )}
+            >
+              {selectedFilters.category !== undefined
+                ? selectedFilters.category || '모든 직무'
+                : '직무'}
+              <ChevronDown className="w-4 h-4 ml-1" />
+            </button>
+  
+            {openDropdown === 'category' && (
+              <div className="absolute top-full left-0 mt-1 shadow bg-white rounded-lg z-50 max-h-60 overflow-y-auto w-44 sm:w-52">
+                <ul className="menu p-2">
+                  <li>
+                    <div
+                      onClick={() => handleFilterSelect('category', '')}
+                      className="block w-full px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
+                    >
+                      모든 직무
+                    </div>
+                  </li>
+
+                  {jobRoles.map((role) => (
+                    <li key={role}>
+                      <div
+                        onClick={() => handleFilterSelect('category', role)}
+                        className="block w-full px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
+                      >
+                        {role}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+  
+          {/* 날짜 필터 */}
+          <div
+            className="relative flex items-center"
+            ref={(el) => (dropdownRefs.current['date'] = el)}
+          >
+            <button
+              onClick={() =>
+                setOpenDropdown(openDropdown === 'date' ? null : 'date')
+              }
+              className={clsx(
+                'btn btn-sm rounded-full min-w-[70px] px-4 flex justify-center items-center',
+                selectedFilters.date !== undefined
+                  ? 'bg-amber-900 text-white'
+                  : 'btn-outline border-neutral-400'
+              )}
+            >
+              {selectedFilters.date !== undefined
+                ? selectedFilters.date || '최신순'
+                : '날짜'}
+              <ChevronDown className="w-4 h-4 ml-1" />
+            </button>
+  
+            {openDropdown === 'date' && (
+              <div className="absolute top-full left-0 mt-1 shadow bg-white rounded-lg z-50 max-h-60 overflow-y-auto w-40">
+                <ul className="menu p-2">
+                  <li>
+                    <div
+                      onClick={() => handleFilterSelect('date', '')}
+                      className="block w-full px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
+                    >
+                      최신순
+                    </div>
+                  </li>
+                  <li>
+                    <div
+                      onClick={() => handleFilterSelect('date', '오래된순')}
+                      className="block w-full px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
+                    >
+                      오래된순
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+  
+          {/* 초기화 버튼 */}
+          <button
+            onClick={clearFilters}
+            className="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
+            aria-label="전체 필터 초기화"
+          >
+            <RotateCcw className="w-4 h-4 text-black" />
+          </button>
+        </div>
+      </div>
     </div>
-  );
+  );  
+
 };
