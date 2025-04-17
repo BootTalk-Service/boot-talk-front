@@ -42,13 +42,16 @@ export const useWebSocket = ({
     const client = new Client({
       brokerURL: socketUrl,
       reconnectDelay: 5000,
+      // connectHeaders: {
+      //   Authorization: `Bearer ${token}`,
+      // },
       onConnect: () => {
         console.log("✅ WebSocket 연결 성공!");
         setConnected(true);
 
         client.publish({
-          destination: "/app/chat.enter",
-          body: JSON.stringify({ roomUuid }),
+          destination: `/app/chat.enter/${roomUuid}`,
+          body: JSON.stringify({ enterUserId: parseInt(userId) }),
         });
 
         client.subscribe(`/queue/chat/${roomUuid}/${userId}`, (msg) => {
