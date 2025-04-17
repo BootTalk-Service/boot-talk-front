@@ -248,7 +248,7 @@ export const DB = {
   },
 
   mentorList: {
-    content: [
+    data: [
       {
         coffeeChatInfoId: 1,
         userId: 101,

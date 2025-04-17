@@ -7,6 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import CoffeeChatDetailModal from "./CoffeeChatDetailModal";
 import { getStatusBadge } from "./getStatusBadge";
+import { useCoffeeChatActions } from "@/hooks/coffee-chat/useCoffeeChatActions";
+import CoffeeChatActionModal from "./CoffeeChatActionModal";
 
 const SentListTab = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,9 +23,12 @@ const SentListTab = () => {
     queryKey: ["sentList"],
     queryFn: async () => {
       const response = await axiosDefault.get(END_POINT.SENT_COFFEE_CHATS);
-      return response.data;
+      return response.data.data;
     },
   });
+
+  const { handleCancel, isCanceling, modalState, closeModal, confirmAction } =
+    useCoffeeChatActions();
 
   const handleCoffeeChatClick = (coffeechat: CoffeeChat) => {
     setSelectedCoffeeChat(coffeechat);
@@ -53,6 +58,8 @@ const SentListTab = () => {
       </div>
     );
   }
+
+  const isNow = new Date();
 
   if (isError) {
     return (
@@ -92,14 +99,20 @@ const SentListTab = () => {
                 <p>멘토: {sent.mentorName}</p>
                 <p>신청일: {formatDate(sent.coffeeChatStartTime)}</p>
               </div>
-              {(sent.status === "APPROVED" || sent.status === "PENDING") && (
+              {(sent.status === "APPROVED" ||
+                (sent.status === "PENDING" &&
+                  isNow < new Date(sent.coffeeChatStartTime))) && (
                 <button
-                  className="px-3 py-1.5 bg-gray-500 text-white rounded text-xs font-medium hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
+                  className="btn btn-soft btn-xs"
+                  onClick={(e) =>
+                    handleCancel(
+                      sent.coffeeChatAppId,
+                      sent.coffeeChatStartTime,
+                      e
+                    )
+                  }
                 >
-                  취소하기
+                  {isCanceling ? "처리 중..." : "취소하기"}
                 </button>
               )}
             </div>
@@ -117,6 +130,17 @@ const SentListTab = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         coffeeChat={selectedCoffeeChat}
+      />
+
+      {/* 확인 모달 렌더링 */}
+      <CoffeeChatActionModal
+        isOpen={modalState.isOpen}
+        actionType={modalState.actionType}
+        isPenalty={modalState.isPenalty}
+        onClose={closeModal}
+        onConfirm={confirmAction}
+        isLoading={isCanceling}
+        isMentor={false}
       />
     </div>
   );

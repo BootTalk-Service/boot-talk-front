@@ -23,14 +23,11 @@ export interface CoffeeChat {
 
 export interface Mentor {
   coffeeChatInfoId: number;
-  userId: number;
-  userName: string;
-  userType: string;
+  mentorUserId: number;
+  mentorName: string;
+  mentorType: string;
   jobType: string;
   introduction: string;
-  createdAt: string;
-  updatedAt: string;
-  deleted: boolean;
 }
 
 export interface ChatRoom {
