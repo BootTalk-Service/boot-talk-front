@@ -20,7 +20,7 @@ const ApprovedListTab = () => {
     queryKey: ["approvedList"],
     queryFn: async () => {
       const response = await axiosDefault.get(END_POINT.APPROVED_COFFEE_CHATS);
-      return response.data;
+      return response.data.data;
     },
   });
 

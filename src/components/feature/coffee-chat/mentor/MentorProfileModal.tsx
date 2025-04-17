@@ -1,10 +1,11 @@
 import Modal from "@/components/common/modal/CommonModal";
+import { jobCategoryMapping } from "@/constants/jobCategory";
 import { Mentor } from "@/types/response";
 import { Briefcase, Coffee, Info, User } from "lucide-react";
 import React from "react";
 
 interface MentorProfileModalProps {
-  mentorProfile: Mentor | null;
+  mentorProfile: Mentor;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -22,7 +23,7 @@ const MentorProfileModal: React.FC<MentorProfileModalProps> = ({
           <div>
             <p className="text-gray-500">이름</p>
             <p className="font-semibold text-gray-800">
-              {mentorProfile?.userName}
+              {mentorProfile.mentorName}
             </p>
           </div>
         </div>
@@ -32,7 +33,8 @@ const MentorProfileModal: React.FC<MentorProfileModalProps> = ({
           <div>
             <p className="text-gray-500">직군</p>
             <p className="font-medium text-gray-700">
-              {mentorProfile?.jobType}
+              {jobCategoryMapping[mentorProfile.jobType] ||
+                mentorProfile.jobType}
             </p>
           </div>
         </div>
@@ -53,7 +55,7 @@ const MentorProfileModal: React.FC<MentorProfileModalProps> = ({
               <p className="text-sm text-gray-500 mb-2">소개</p>
               <textarea
                 className="w-full min-h-[120px] bg-gray-50 border border-gray-300 rounded-md p-3 text-gray-800 text-sm resize-none leading-relaxed"
-                value={mentorProfile?.introduction}
+                value={mentorProfile.introduction}
                 readOnly
               ></textarea>
             </div>

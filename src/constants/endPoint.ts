@@ -14,7 +14,9 @@ export const END_POINT = {
   FILE_UPLOAD: "/api/file/upload",
   SENT_COFFEE_CHATS: "/api/coffee-chats/applications",
   RECEIVED_COFFEE_CHATS: "/api/coffee-chats/applications/received",
-  BOOTCAMP_DETAIL: (id: string) => `/bootcamps/${id}`,
+  STATUS_CHATS: (coffeeChatAppId: string) =>
+    `/api/coffee-chats/applications/received/${coffeeChatAppId}/status`,
+  BOOTCAMP_DETAIL: (id: string) => `/api/bootcamps/${id}`,
   REVIEWS: "/api/reviews",
   MENTOR_REGISTER: "/api/coffee-chats",
   MENTOR_APPLICATION_TIME: (coffeeChatInfoId: string) =>
