@@ -63,9 +63,9 @@ const CoffeeChatActionModal: React.FC<CoffeeChatActionModalProps> = ({
           </button>
           <button
             onClick={onConfirm}
-            className={`btn ${
+            className={`btn btn-outline${
               actionType === "APPROVE"
-                ? "btn-primary"
+                ? "btn-success"
                 : actionType === "REJECT"
                 ? "btn-warning"
                 : "btn-error"
