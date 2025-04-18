@@ -22,3 +22,18 @@ axiosDefault.interceptors.request.use((config) => {
   }
   return config;
 });
+
+axiosDefault.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error.response?.status;
+
+    if (status === 401) {
+      console.warn("인증 오류 - 재로그인 필요");
+    } else if (status === 500) {
+      console.error("서버 오류 발생");
+    }
+
+    return Promise.reject(error);
+  }
+);
