@@ -1,3 +1,4 @@
+import { token } from "@/api/axiosInstance";
 import { Client } from "@stomp/stompjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -9,7 +10,11 @@ interface UseWebSocketProps {
   isActive?: boolean;
 }
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_WS_URL; // http는 ws://로
+// const SOCKET_URL = "wss://be11-58-225-126-218.ngrok-free.app/connection"; // http는 ws://로
+
+const SOCKET_URL = `wss://be11-58-225-126-218.ngrok-free.app/connection?token=${token}`;
+
+// const SOCKET_URL = "wss://be11-58-225-126-218.ngrok-free.app/connection";
 
 export const useWebSocket = ({
   roomUuid,
@@ -42,9 +47,7 @@ export const useWebSocket = ({
     const client = new Client({
       brokerURL: socketUrl,
       reconnectDelay: 5000,
-      // connectHeaders: {
-      //   Authorization: `Bearer ${token}`,
-      // },
+
       onConnect: () => {
         console.log("✅ WebSocket 연결 성공!");
         setConnected(true);

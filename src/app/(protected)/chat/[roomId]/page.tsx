@@ -12,11 +12,10 @@ interface ChatRoomPageProps {
 interface ChatMessage {
   id?: number;
   roomUuid: string;
-  chatRoomId: number;
   senderId: number;
   senderName: string;
   receiverId: number;
-  message: string;
+  content: string;
   type: string;
 }
 
@@ -26,7 +25,7 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   // const userId = localStorage.getItem("USER_ID");
-  const userId = 8050; // 유저id
+  const userId = 9080; // 유저id
   const amIMentee = selectedChat.mentee.userId === userId;
   const mentorName = selectedChat.mentor.name;
   const menteeName = selectedChat.mentee.name;
@@ -59,21 +58,21 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
     if (message.trim() === "" || !selectedChat) return;
 
     const msg = {
-      chatRoomId: selectedChat.chatRoomId,
       roomUuid: selectedChat.roomUuid,
       senderId: userId,
       senderName: amIMentee
         ? selectedChat.mentee.name
         : selectedChat.mentor.name,
       receiverId: amIMentee
-        ? selectedChat.mentee.userId
-        : selectedChat.mentor.userId,
-      message: message,
+        ? selectedChat.mentor.userId
+        : selectedChat.mentee.userId,
+      content: message,
       type: "TEXT",
     };
 
     if (connected) {
       sendMessage(msg);
+      console.log("보낸 메세지:", msg);
     } else {
       toast.error("메세지 전송 실패");
       console.error("WebSocket 연결이 끊어졌습니다.");
@@ -113,7 +112,7 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
                   : "bg-white border border-gray-200"
               }`}
             >
-              <p className="text-sm">{msg.message}</p>
+              <p className="text-sm">{msg.content}</p>
             </div>
           </div>
         ))}
