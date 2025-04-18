@@ -13,6 +13,8 @@ const FindMentors = () => {
   const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null);
   const [isChatModalOpen, setIsChatModalOpen] = useState<boolean>(false);
 
+  const userId = 9080;
+
   const handleMentorClick = (mentor: Mentor) => {
     setSelectedMentor(mentor);
     setIsModalOpen(true);
@@ -99,6 +101,7 @@ const FindMentors = () => {
                 <button
                   className="btn flex-1 btn-outline hover:text-amber-900 rounded-lg"
                   onClick={() => handleChatRequest(mentor)}
+                  disabled={mentor.mentorUserId === userId}
                 >
                   신청하기
                 </button>

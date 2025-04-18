@@ -2,11 +2,24 @@ import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import { MentorInfoData } from "@/types/request";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 // 멘토 정보 가져오기
 const fetchMentorData = async () => {
-  const response = await axiosDefault.get(END_POINT.MENTOR_REGISTER);
-  return response.data;
+  try {
+    const response = await axiosDefault.get(END_POINT.MENTOR_REGISTER);
+    return response.data;
+  } catch (error) {
+    // 404 에러인 경우 특별히 처리
+    if (axios.isAxiosError(error)) {
+      // 이제 error는 AxiosError 타입으로 추론됨
+      if (error.response && error.response.status === 404) {
+        return null;
+      }
+    }
+    // 다른 에러는 그대로 throw
+    throw error;
+  }
 };
 
 // 멘토 정보 등록
@@ -40,7 +53,7 @@ export const useMentorRegistration = (options = { enabled: true }) => {
     queryKey: ["mentorData"],
     queryFn: fetchMentorData,
     enabled: options.enabled, // 조건부 실행을 위한 옵션
-    retry: 1,
+    retry: false,
   });
 
   // 멘토 기본 정보 등록 뮤테이션
@@ -78,7 +91,9 @@ export const useMentorRegistration = (options = { enabled: true }) => {
 
   return {
     mentorData: mentorDataQuery.data,
+    isError: mentorDataQuery.isError,
     isLoading: mentorDataQuery.isLoading,
+    isMentorExists: mentorDataQuery.data !== null,
     createMentorMutation,
     updateMentorMutation,
     deleteMentorMutation,

@@ -8,8 +8,13 @@ import { jobCategoryMapping } from "@/constants/jobCategory";
 import { mentorCategory } from "@/constants/mentorCategory";
 
 const MentorProfile = () => {
-  const { mentorData, deleteMentorMutation, isDeletePending, isLoading } =
-    useMentorRegistration();
+  const {
+    mentorData,
+    deleteMentorMutation,
+    isDeletePending,
+    isLoading,
+    isMentorExists,
+  } = useMentorRegistration();
 
   console.log("멘토 정보:", mentorData);
 
@@ -54,9 +59,11 @@ const MentorProfile = () => {
       <div className="text-center py-8">멘토 정보를 불러오고 있습니다...</div>
     );
   }
+  console.log("삭제:", isDeleted);
+  console.log("멘토정보있어:", isMentorExists);
 
   // 멘토 정보가 없거나 삭제된 경우
-  if (!mentorData.info.coffeeChatInfoId || isDeleted) {
+  if (!isMentorExists || isDeleted) {
     return (
       <div className="text-center  bg-base-100">
         <h2 className="text-xl font-semibold text-gray-800 mb-2 mt-6">
@@ -152,37 +159,41 @@ const MentorProfile = () => {
       </div>
 
       {/* 삭제 확인 모달 */}
-      <Modal
-        isOpen={isDeleteModalOpen}
-        onClose={handleCloseModal}
-        title="멘토 프로필 삭제"
-      >
-        <p>정말로 삭제하시겠습니까?</p>
-        <div className="flex justify-end space-x-3">
-          <button
-            className="btn btn-outline"
-            onClick={handleCloseModal}
-            disabled={isDeletePending}
-          >
-            취소
-          </button>
-          <button
-            className="btn"
-            onClick={handleDeleteConfirm}
-            disabled={isDeletePending}
-          >
-            삭제하기
-          </button>
-        </div>
-      </Modal>
+      {mentorData && (
+        <Modal
+          isOpen={isDeleteModalOpen}
+          onClose={handleCloseModal}
+          title="멘토 프로필 삭제"
+        >
+          <p>정말로 삭제하시겠습니까?</p>
+          <div className="flex justify-end space-x-3">
+            <button
+              className="btn btn-outline"
+              onClick={handleCloseModal}
+              disabled={isDeletePending}
+            >
+              취소
+            </button>
+            <button
+              className="btn"
+              onClick={handleDeleteConfirm}
+              disabled={isDeletePending}
+            >
+              삭제하기
+            </button>
+          </div>
+        </Modal>
+      )}
 
       {/* 수정 모달 */}
-      <MentorFormModal
-        isOpen={isEditModalOpen}
-        onClose={handleCloseEditModal}
-        initialData={mentorData}
-        mode="edit"
-      />
+      {mentorData && (
+        <MentorFormModal
+          isOpen={isEditModalOpen}
+          onClose={handleCloseEditModal}
+          initialData={mentorData}
+          mode="edit"
+        />
+      )}
     </div>
   );
 };

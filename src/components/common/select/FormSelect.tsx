@@ -24,7 +24,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
     <div className="space-y-2">
       <select
         className={`select ${className || ""}`}
-        value={value}
+        value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
       >
         <option value="" disabled>
