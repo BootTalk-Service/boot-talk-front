@@ -2,25 +2,43 @@
 
 import { useEffect } from "react";
 import { useNotificationStore } from "@/store/notificationStore";
-import { axiosDefault } from "@/api/axiosInstance";
-import { END_POINT } from "@/constants/endPoint";
 
 export const useNotificationEffect = () => {
-  const { setNotifications } = useNotificationStore();
+  const { addNotification } = useNotificationStore();
+  const BACKEND = `${process.env.NEXT_PUBLIC_API_URL}`;
 
   useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const res = await axiosDefault.get(`${END_POINT.NOTIFICATIONS}`, {
-          params: { page: 1, limit: 10 },
-        });
-        setNotifications(res.data?.notificationResponseDtoList ?? []);
-      } catch (error) {
-        console.error("알림 로딩 실패:", error);
-        setNotifications([]);
-      }
+    const es = new EventSource(`${BACKEND}/api/sse-connect`, {
+      withCredentials: true,
+    });
+
+    // 연결 성공
+    es.onopen = () => {
+      console.log("SSE 연결 성공!");
     };
 
-    fetchNotifications();
-  }, [setNotifications]);
+    // 기본 메시지
+    es.onmessage = (e) => {
+      console.log("기본 메시지 수신:", e.data);
+    };
+
+    // 알림 이벤트
+    es.addEventListener("notification", (e) => {
+      console.log("[알림 이벤트] 수신됨:", e.data);
+      try {
+        const payload = JSON.parse(e.data);
+        addNotification(payload);
+      } catch (err) {
+        console.error("알림 JSON 파싱 실패:", err);
+      }
+    });
+
+    es.onerror = (err) => {
+      console.error("SSE 에러:", err);
+    };
+
+    return () => {
+      es.close();
+    };
+  }, [addNotification]);
 };
