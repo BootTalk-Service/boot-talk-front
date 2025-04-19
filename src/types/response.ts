@@ -53,3 +53,26 @@ export interface Course {
   courseId: number;
   courseName: string;
 }
+
+export interface Certification {
+  courseName: string;
+  categoryName: string;
+  trainingProgramId?: string;
+}
+
+export interface Review {
+  reviewId: number;
+  courseName: string;
+  rating: number;
+  content: string;
+  createdAt: string;
+  trainingProgramId: string;
+  userName?: string;
+}
+
+export interface ReviewBootcamp {
+  userName: string;
+  courseName: string;
+  categoryName: string;
+  trainingProgramId: string;
+}

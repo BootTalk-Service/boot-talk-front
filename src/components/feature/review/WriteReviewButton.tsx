@@ -1,0 +1,74 @@
+"use client";
+
+import { useState } from "react";
+import { axiosDefault } from "@/api/axiosInstance";
+import { END_POINT } from "@/constants/endPoint";
+import { toast } from "react-toastify";
+import ReviewModal from "./ReviewModal";
+import type { ReviewBootcamp } from "@/types/response";
+
+interface WriteReviewButtonProps {
+  refetch?: () => void;
+}
+
+export default function WriteReviewButton({ refetch }: WriteReviewButtonProps) {
+  const [selectedBootcamp, setSelectedBootcamp] = useState<ReviewBootcamp | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleReviewClick = async () => {
+    try {
+      const userRes = await axiosDefault.get(END_POINT.MY_INFO);
+      const { name, certifications, trainingProgramId } = userRes.data;
+      
+      const reviewRes = await axiosDefault.get(END_POINT.MY_REVIEWS);
+      const reviewedIds = reviewRes.data.data.map(
+        (review: any) => review.trainingProgramId
+      );
+
+      const unreviewed = certifications.find(
+        (cert: any) => !reviewedIds.includes(cert.trainingProgramId)
+      );
+
+      if (!unreviewed) {
+        toast.error("작성 가능한 리뷰가 없습니다.");
+        return;
+      }
+      
+      setSelectedBootcamp({
+        userName: name,
+        courseName: unreviewed.courseName,
+        categoryName: unreviewed.categoryName,
+        trainingProgramId: unreviewed.trainingProgramId,
+      });
+
+      setIsModalOpen(true);
+    } catch (err) {
+      console.error("리뷰 버튼 처리 실패:", err);
+      toast.error("리뷰 작성 정보를 불러오지 못했습니다.");
+    }
+  };
+
+  return (
+    <>
+      <button
+        className="btn px-5 py-2 bg-amber-900 text-white rounded-lg hover:bg-amber-950 transition-colors"
+        onClick={handleReviewClick}
+      >
+        리뷰 작성
+      </button>
+
+      {selectedBootcamp && isModalOpen && (
+        <ReviewModal
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            refetch?.();
+          }}
+          bootcamp={selectedBootcamp}
+          mode="create"
+          refetch={refetch}
+        />
+      )}
+    </>
+  );
+}
