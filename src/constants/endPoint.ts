@@ -30,4 +30,5 @@ export const END_POINT = {
   LOGOUT: "/api/logout",
   UPDATE_REVIEW: (reviewId: number) => `/api/reviews/my/${reviewId}`,
   DELETE_REVIEW: (reviewId: number) => `/api/reviews/my/${reviewId}`,
+  SSE_CONNECT: "/api/sse-connect"
 } as const;
