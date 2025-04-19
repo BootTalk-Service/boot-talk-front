@@ -238,7 +238,7 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
       {/* 상대방이 타이핑 중일 때 표시 */}
 
       <div className="text-left text-xs pl-3 h-4">
-        {!isPartnerTyping ? (
+        {isPartnerTyping ? (
           <div className="text-gray-500">
             <span className="loading loading-dots loading-xs"></span>
             <span className="ml-1">
