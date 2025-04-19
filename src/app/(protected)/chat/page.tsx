@@ -23,10 +23,10 @@ const formatDate = (dateStr: string) =>
 
 const getStatusText = (chatRoom: ChatRoom) => {
   const now = new Date();
-  const endAt = chatRoom.endAt ? new Date(chatRoom.endAt) : null;
+  const endAt = new Date(chatRoom.endAt);
   const reservationAt = new Date(chatRoom.reservationAt);
 
-  if (endAt) return `종료일: ${formatDate(chatRoom.endAt)}`;
+  if (endAt < now) return `종료일: ${formatDate(chatRoom.endAt)}`;
   if (reservationAt > now)
     return `예약일: ${formatDate(chatRoom.reservationAt)}`;
   return "현재 진행 중입니다.";

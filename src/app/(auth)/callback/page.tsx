@@ -1,4 +1,5 @@
 'use client';
+
 import { useEffect } from "react";
 
 export default function Page() {
@@ -10,6 +11,7 @@ export default function Page() {
       localStorage.setItem("access_token", token);
       console.log("token 저장 완료:", token);
 
+      // URL 정리 (token 제거)
       const cleanUrl = window.location.origin + window.location.pathname;
       window.history.replaceState({}, document.title, cleanUrl);
     } else {
@@ -18,4 +20,4 @@ export default function Page() {
   }, []);
 
   return <h1>로그인 처리 중입니다...</h1>;
-}
+

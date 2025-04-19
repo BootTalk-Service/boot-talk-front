@@ -1,4 +1,3 @@
-import { token } from "@/api/axiosInstance";
 import { Client } from "@stomp/stompjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -11,8 +10,8 @@ interface UseWebSocketProps {
 }
 
 // const SOCKET_URL = "wss://be11-58-225-126-218.ngrok-free.app/connection"; // http는 ws://로
-
-const SOCKET_URL = `wss://be11-58-225-126-218.ngrok-free.app/connection?token=${token}`;
+const token = localStorage.getItem("access_token");
+const SOCKET_URL = `ws://43.200.67.27:8080/connection?token=${token}`;
 
 // const SOCKET_URL = "wss://be11-58-225-126-218.ngrok-free.app/connection";
 
@@ -39,6 +38,22 @@ export const useWebSocket = ({
       });
     }
   }, []);
+
+  const sendTypingStatus = useCallback(
+    (receiverId: number, isTyping: boolean) => {
+      if (clientRef.current?.connected) {
+        clientRef.current.publish({
+          destination: "/app/chat.typing",
+          body: JSON.stringify({
+            roomUuid,
+            typing: isTyping,
+            receiverId,
+          }),
+        });
+      }
+    },
+    [roomUuid]
+  );
 
   useEffect(() => {
     if (!roomUuid || !isActive) return;
@@ -77,5 +92,5 @@ export const useWebSocket = ({
     };
   }, [roomUuid, socketUrl, isActive, userId]);
 
-  return { sendMessage, connected };
+  return { sendMessage, sendTypingStatus, connected };
 };
