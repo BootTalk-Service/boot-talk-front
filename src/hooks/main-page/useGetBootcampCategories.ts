@@ -8,7 +8,6 @@ export const useGetBootcampCategories = () => {
     queryFn: async () => {
       try {
         const res = await axiosDefault.get<string[]>(END_POINT.BOOTCAMP_JOB_ROLES);
-        console.log("직무 API 응답:", res.data);
         return res.data ?? [];
       } catch (error) {
         console.error("직무 목록 조회 실패:", error);
