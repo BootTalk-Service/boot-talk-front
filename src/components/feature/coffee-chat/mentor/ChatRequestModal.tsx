@@ -71,8 +71,8 @@ const ChatRequestModal: React.FC<ChatRequestModalProps> = ({
     const endDateTime = new Date(startDateTime);
     endDateTime.setMinutes(startDateTime.getMinutes() + 30);
 
-    const startTimeStr = startDateTime.toISOString().slice(0, 19);
-    const endTimeStr = endDateTime.toISOString().slice(0, 19);
+    const startTimeStr = format(startDateTime, "yyyy-MM-dd'T'HH:mm:ss");
+    const endTimeStr = format(endDateTime, "yyyy-MM-dd'T'HH:mm:ss");
 
     const requestData: MentorApplicationData = {
       coffeeChatInfoId: mentor.coffeeChatInfoId,
@@ -80,6 +80,10 @@ const ChatRequestModal: React.FC<ChatRequestModalProps> = ({
       coffeeChatStartTime: startTimeStr,
       coffeeChatEndTime: endTimeStr,
     };
+
+    console.log("시작시간:", startTimeStr);
+
+    console.log("신청시간 데이터", requestData);
 
     requestCoffeeChat(requestData, {
       onSuccess: () => {

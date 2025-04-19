@@ -31,7 +31,7 @@ export const getStatusBadge = (status: string) => {
       bgColor: "bg-gray-50",
       textColor: "text-gray-500",
       borderColor: "border-gray-200",
-      text: "알 수 없음",
+      text: "종료됨",
     },
   };
 
