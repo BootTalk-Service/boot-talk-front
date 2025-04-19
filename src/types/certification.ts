@@ -1,7 +1,7 @@
 export interface Certification {
   certificationId: number;
-  userName: string;
-  categoryType: string;
-  fileUrl: string;
-  status: "PENDING" | "APPROVED" | "REJECTED";
+  courseName: string;
+  categoryName: string;
+  trainingProgramId: string;
+  status: string;
 }

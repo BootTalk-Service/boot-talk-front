@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useRef, useMemo, useState } from "react";
 import { useGetReviews } from "@/hooks/reviews/useGetReviews";
 import ReviewItem from "./ReviewItem";
@@ -26,9 +27,7 @@ export default function ReviewList() {
       (entries) => {
         if (entries[0].isIntersecting && !loadingRef.current) {
           loadingRef.current = true;
-          fetchNextPage().finally(() => {
-            loadingRef.current = false;
-          });
+          fetchNextPage();
         }
       },
       { rootMargin: "300px", threshold: 0.1 }
@@ -54,30 +53,24 @@ export default function ReviewList() {
 
   return (
     <section className="space-y-4">
-      <div className="flex justify-between items-center flex-wrap gap-2">
-        <div className="flex items-center gap-2 flex-wrap">
-          <ReviewFilterButtons onFilterChange={setFilters} />
-        </div>
-  
-        {/* 총 리뷰 수 */}
+      <div className="flex justify-between items-center flex-wrap gap-2 mt-10">
         <span className="text-sm text-gray-500 whitespace-nowrap mt-2 sm:mt-0">
           총 {totalCount}개
         </span>
+        <div className="flex items-center gap-2 flex-wrap">
+          <ReviewFilterButtons onFilterChange={setFilters} />
+        </div>
       </div>
-  
+
       {allReviews.length > 0 ? (
         allReviews.map((review, idx) => (
-          <ReviewItem
-            key={`${review.reviewId}-${idx}`}
-            review={review}
-          />
+          <ReviewItem key={`${review.reviewId}-${idx}`} review={review} />
         ))
       ) : (
         <p className="text-center py-4">등록된 리뷰가 없습니다.</p>
       )}
-  
+
       <div ref={observerRef} className="h-32" />
-      
       {isFetchingNextPage && (
         <p className="text-center py-4">더 많은 리뷰를 불러오는 중...</p>
       )}

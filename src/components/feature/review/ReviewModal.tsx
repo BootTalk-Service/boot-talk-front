@@ -1,42 +1,109 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "@/components/common/modal/CommonModal";
 import { RatingSelector } from "@/components/feature/review/RatingSelector";
-import type { Bootcamp } from "@/types/Bootcamp";
 import { toast } from "react-toastify";
+import { END_POINT } from "@/constants/endPoint";
+import { axiosDefault } from "@/api/axiosInstance";
+import type { ReviewBootcamp } from "@/types/response";
 
 interface ReviewModalProps {
   isOpen: boolean;
   onClose: () => void;
-  bootcamp: Bootcamp;
+  bootcamp: ReviewBootcamp;
+  mode?: "create" | "edit";
+  reviewId?: number;
+  defaultRating?: number;
+  defaultContent?: string;
+  refetch?: () => void;
 }
 
-export default function ReviewModal({ isOpen, onClose, bootcamp }: ReviewModalProps) {
-  const [rating, setRating] = useState(0);
-  const [content, setContent] = useState("");
+export default function ReviewModal({
+  isOpen,
+  onClose,
+  bootcamp,
+  mode = "create",
+  reviewId,
+  defaultRating = 0,
+  defaultContent = "",
+  refetch,
+}: ReviewModalProps) {
+  const [rating, setRating] = useState(defaultRating);
+  const [content, setContent] = useState(defaultContent);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = () => {
-    if (rating === 0 || content.trim() === "") {
-      toast.error("별점과 후기를 모두 작성해주세요!");
+  useEffect(() => {
+    if (isOpen) {
+      setRating(defaultRating);
+      setContent(defaultContent);
+    } else {
+      setRating(0);
+      setContent("");
+    }
+  }, [isOpen, defaultRating, defaultContent]);
+
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    if (!bootcamp || !bootcamp.trainingProgramId) {
+      toast.error("부트캠프 정보를 불러오지 못했습니다.");
+      setIsSubmitting(false);
       return;
     }
 
-    console.log("제출:", { rating, content });
-    onClose();
+    if (rating === 0 || content.trim() === "") {
+      toast.error("별점과 후기를 모두 작성해주세요!");
+      setIsSubmitting(false);
+      return;
+    }
+
+    const payload = {
+      trainingProgramId: bootcamp.trainingProgramId,
+      rating,
+      content,
+    };
+
+    try {
+      if (mode === "edit" && reviewId) {
+        await axiosDefault.put(END_POINT.UPDATE_REVIEW(reviewId), payload);
+        toast.success("리뷰가 수정되었습니다!");
+      } else {
+        await axiosDefault.post(END_POINT.POST_REVIEW, payload);
+        toast.success("리뷰가 성공적으로 등록되었습니다!");
+      }
+
+      refetch?.();
+      onClose();
+    } catch (error: any) {
+      console.error("리뷰 전송 실패:", error?.response ?? error);
+      toast.error(
+        error?.response?.data?.message || "리뷰 저장 중 오류가 발생했습니다."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="리뷰 작성" size="lg">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={mode === "edit" ? "리뷰 수정" : "리뷰 작성"}
+      size="lg"
+    >
       <div className="space-y-4 text-gray-700">
         <div className="grid grid-cols-2 gap-4">
-          <input className="input input-bordered w-full" disabled value={bootcamp.bootcampName} />
-          <input className="input input-bordered w-full" disabled value={bootcamp.bootcampCategory} />
-          <input className="input input-bordered w-full" disabled value={`${bootcamp.bootcampDegree}기`} />
           <input
             className="input input-bordered w-full"
             disabled
-            value={`${bootcamp.bootcampStartDate} ~ ${bootcamp.bootcampEndDate}`}
+            value={bootcamp?.courseName ?? ""}
+          />
+          <input
+            className="input input-bordered w-full"
+            disabled
+            value={bootcamp?.userName ?? ""}
           />
         </div>
 
@@ -53,15 +120,24 @@ export default function ReviewModal({ isOpen, onClose, bootcamp }: ReviewModalPr
             maxLength={500}
             className="textarea textarea-bordered w-full h-28 resize-none focus:outline-none"
           />
-          <div className="text-right text-sm text-gray-400">{content.length}/500</div>
+          <div className="text-right text-sm text-gray-400">
+            {content.length}/500
+          </div>
         </div>
 
         <div className="flex justify-end gap-2 mt-4">
-          <button className="btn btn-outline border-gray-400 rounded-lg" onClick={onClose}>
+          <button
+            className="btn btn-outline border-gray-400 rounded-lg"
+            onClick={onClose}
+          >
             취소
           </button>
-          <button className="btn bg-amber-900 text-white rounded-lg" onClick={handleSubmit}>
-            작성
+          <button
+            className="btn bg-amber-900 text-white rounded-lg"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
+            {mode === "edit" ? "수정" : "작성"}
           </button>
         </div>
       </div>

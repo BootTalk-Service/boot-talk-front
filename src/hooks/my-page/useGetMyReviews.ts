@@ -1,35 +1,28 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
-import { useQuery } from "@tanstack/react-query";
-
-interface Review {
-  reviewId: number;
-  courseName: string;
-  rating: number;
-  content: string;
-  createdAt: string;
-  trainingProgramId: string;
-}
-
-const fetchMyReviews = async () => {
-  try {
-    const response = await axiosDefault.get(END_POINT.MY_REVIEWS);
-    return response.data.data;
-  } catch (error) {
-    console.error("Failed to fetch my reviews:", error);
-    throw error;
-  }
-};
+import type { Review } from "@/types/Bootcamp";
 
 export const useGetMyReviews = () => {
   const {
-    data: myReviews,
-    isLoading: isMyReviewsLoading,
-    isError: isMyReviewsError,
+    data,
+    isLoading,
+    isError,
+    refetch,
   } = useQuery<Review[]>({
     queryKey: ["myReviews"],
-    queryFn: fetchMyReviews,
+    queryFn: async () => {
+      const res = await axiosDefault.get(END_POINT.MY_REVIEWS);
+      return res.data.data;
+    },
   });
 
-  return { myReviews, isMyReviewsLoading, isMyReviewsError };
+  return {
+    myReviews: data,
+    isMyReviewsLoading: isLoading,
+    isMyReviewsError: isError,
+    refetch,
+  };
 };
