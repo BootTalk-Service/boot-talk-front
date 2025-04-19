@@ -10,6 +10,8 @@ import {
 import { CoffeeChat } from "@/types/response";
 import Modal from "@/components/common/modal/CommonModal";
 import { getStatusBadge } from "./getStatusBadge";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale/ko";
 
 interface CoffeeChatDetailModalProps {
   isOpen: boolean;
@@ -29,6 +31,16 @@ const CoffeeChatDetailModal: React.FC<CoffeeChatDetailModalProps> = ({
   isSent = false, // 기본값: false
 }) => {
   if (!coffeeChat) return null;
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return format(date, "yyyy-MM-dd", { locale: ko });
+  };
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return format(date, "HH:mm", { locale: ko });
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md" title="커피챗 상세 정보">
@@ -53,26 +65,13 @@ const CoffeeChatDetailModal: React.FC<CoffeeChatDetailModalProps> = ({
         <div className="flex items-center">
           <Calendar size={18} className="mr-2 " />
           <span className="mr-2 font-medium">신청 일시:</span>
-          <span>
-            {new Date(coffeeChat.coffeeChatStartTime).toLocaleDateString(
-              "ko-KR"
-            )}
-          </span>
+          <span>{formatDate(coffeeChat.coffeeChatStartTime)}</span>
         </div>
 
         <div className="flex items-center">
           <Clock size={18} className="mr-2 " />
           <span className="mr-2 font-medium">신청 시간:</span>
-          <span>
-            {new Date(coffeeChat.coffeeChatStartTime).toLocaleTimeString(
-              "ko-KR",
-              {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false,
-              }
-            )}
-          </span>
+          <span>{formatTime(coffeeChat.coffeeChatStartTime)}</span>
         </div>
 
         {/* 메시지 */}

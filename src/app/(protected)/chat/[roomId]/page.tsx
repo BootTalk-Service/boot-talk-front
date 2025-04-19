@@ -1,5 +1,6 @@
 "use client";
 
+import { useGetMessages } from "@/hooks/chat/useGetMessages";
 import { useWebSocket } from "@/hooks/useWebSocket";
 import { ChatRoom } from "@/types/response";
 import { useEffect, useRef, useState } from "react";
@@ -34,6 +35,8 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
   const menteeName = selectedChat.mentee.name;
 
   const TYPING_TIMEOUT = 3000;
+
+  const { previousMessages, isLoading } = useGetMessages(selectedChat.roomUuid);
 
   const { sendMessage, sendTypingStatus, connected } = useWebSocket({
     roomUuid: selectedChat.roomUuid,
@@ -72,6 +75,18 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
     isActive: selectedChat.isActive,
   });
 
+  useEffect(() => {
+    if (
+      !selectedChat.isActive &&
+      previousMessages &&
+      previousMessages.length > 0
+    ) {
+      console.log("종료된 채팅방에서 이전 메시지 사용:", previousMessages);
+      setMessages(previousMessages);
+      setIsInitialized(true);
+    }
+  }, [selectedChat.roomUuid, selectedChat.isActive, previousMessages]);
+
   // 새 메시지가 추가될 때마다 스크롤을 아래로 이동
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -100,6 +115,7 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
     const newMessage = e.target.value;
     setMessage(newMessage);
 
+    if (!selectedChat.isActive) return;
     // 상대방 ID 계산
     const receiverId = amIMentee
       ? selectedChat.mentor.userId
@@ -152,6 +168,11 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
       type: "TEXT",
     };
 
+    if (!selectedChat.isActive) {
+      toast.error("종료된 채팅방에서는 메시지를 보낼 수 없습니다.");
+      return;
+    }
+
     if (connected) {
       sendMessage(msg);
       console.log("보낸 메세지:", msg);
@@ -186,30 +207,44 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
 
       {/* 채팅 메시지 영역 */}
       <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
-        {!isInitialized && !messages.length ? (
+        {!isInitialized && !messages.length && isLoading ? (
           <div className="flex justify-center items-center h-full">
             <p className="text-gray-500">메시지를 불러오는 중...</p>
           </div>
         ) : (
           <>
-            {messages.map((msg, index) => (
-              <div
-                key={msg.id || `msg-${index}`}
-                className={`mb-3 ${
-                  msg.senderId === Number(userId) ? "text-right" : "text-left"
-                }`}
-              >
+            {messages.map((msg, index) => {
+              if (msg.type === "SYSTEM") {
+                return (
+                  <div
+                    key={msg.id || `msg-${index}`}
+                    className="flex justify-center my-4"
+                  >
+                    <div className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs">
+                      {msg.content}
+                    </div>
+                  </div>
+                );
+              }
+              return (
                 <div
-                  className={`inline-block max-w-xs sm:max-w-sm rounded-lg p-2 ${
-                    msg.senderId === Number(userId)
-                      ? "bg-blue-500 text-white"
-                      : "bg-white border border-gray-200"
+                  key={msg.id || `msg-${index}`}
+                  className={`mb-3 ${
+                    msg.senderId === Number(userId) ? "text-right" : "text-left"
                   }`}
                 >
-                  <p className="text-sm">{msg.content}</p>
+                  <div
+                    className={`inline-block max-w-xs sm:max-w-sm rounded-lg p-2 ${
+                      msg.senderId === Number(userId)
+                        ? "bg-blue-500 text-white"
+                        : "bg-white border border-gray-200"
+                    }`}
+                  >
+                    <p className="text-sm">{msg.content}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
             {/* 스크롤 위치를 위한 빈 div 요소 */}
             <div ref={messagesEndRef} />
@@ -221,15 +256,20 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
       <form onSubmit={handleSendMessage} className="px-3 pt-4 border-t flex">
         <input
           type="text"
-          className="flex-1 border rounded-l-lg px-3 py-2"
+          className="flex-1 border rounded-l-lg px-3 py-2 disabled:opacity-40"
           placeholder="메시지를 입력"
           value={message}
           onChange={handleInputChange}
+          disabled={
+            !selectedChat.isActive || (selectedChat.isActive && !connected)
+          }
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 transition-colors"
-          disabled={!connected}
+          className="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 transition-colors disabled:bg-gray-300"
+          disabled={
+            !selectedChat.isActive || (selectedChat.isActive && !connected)
+          }
         >
           전송
         </button>

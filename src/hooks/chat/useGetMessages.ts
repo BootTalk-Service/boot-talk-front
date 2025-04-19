@@ -9,10 +9,11 @@ const fetchPreviousMessages = async (roomUuid: string) => {
   return response.data;
 };
 
-export const useGetMessages = () => {
-  const { data: previousMessages } = useQuery({
-    queryKey: ["previousMessages"],
-    queryFn: () => fetchPreviousMessages,
+export const useGetMessages = (roomUuid: string) => {
+  const { data: previousMessages, isLoading } = useQuery({
+    queryKey: ["previousMessages", roomUuid],
+    queryFn: () => fetchPreviousMessages(roomUuid),
+    enabled: !!roomUuid,
   });
-  return { previousMessages };
+  return { previousMessages, isLoading };
 };

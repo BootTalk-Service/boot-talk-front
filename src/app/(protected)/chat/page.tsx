@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useGetChatList } from "@/hooks/chat/useGetChatList";
 import { ChatRoom } from "@/types/response";
 import ChatRoomPage from "./[roomId]/page";
+import Image from "next/image";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale/ko";
 
 // 상수 정의
 const CHAT_STATUS = {
@@ -12,14 +15,10 @@ const CHAT_STATUS = {
   UPCOMING: "예정",
 };
 
-const formatDate = (dateStr: string) =>
-  new Date(dateStr).toLocaleString("ko-KR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+const formatDate = (dateStr: string) => {
+  const date = new Date(dateStr);
+  return format(date, "yyyy-MM-dd HH:mm", { locale: ko });
+};
 
 const getStatusText = (chatRoom: ChatRoom) => {
   const now = new Date();
@@ -32,7 +31,7 @@ const getStatusText = (chatRoom: ChatRoom) => {
   return "현재 진행 중입니다.";
 };
 
-const userId = 8050; // 유저id
+const userId = 9080; // 유저id
 
 const ChatPage = () => {
   const { chatRoomList = [] } = useGetChatList();
@@ -59,7 +58,7 @@ const ChatPage = () => {
                 {chatRoomList.map((chatRoom) => (
                   <div
                     key={chatRoom.roomUuid}
-                    className={`relative p-3 rounded-lg shadow-sm border border-gray-300 hover:shadow-md  transition-all cursor-pointer ${
+                    className={`p-3 rounded-lg shadow-sm border border-gray-300 hover:shadow-md  transition-all cursor-pointer ${
                       chatRoom.isActive
                         ? "bg-white"
                         : "bg-gray-50 text-gray-400"
@@ -67,26 +66,55 @@ const ChatPage = () => {
                     )}`}
                     onClick={() => handleChatSelect(chatRoom.roomUuid)}
                   >
-                    <div className="flex justify-between items-center mb-2">
-                      <h4 className="font-medium text-sm">
-                        {chatRoom.mentor.userId === userId
-                          ? chatRoom.mentee.name
-                          : chatRoom.mentor.name}
-                      </h4>
-                      <span
-                        className={`text-xs ${
-                          chatRoom.isActive ? "text-blue-500" : "text-gray-500"
-                        }`}
-                      >
-                        {chatRoom.isActive
-                          ? CHAT_STATUS.ONGOING
-                          : chatRoom.endAt
-                          ? CHAT_STATUS.ENDED
-                          : CHAT_STATUS.UPCOMING}
-                      </span>
-                    </div>
-                    <div className="text-xs text-gray-500 mb-1">
-                      {getStatusText(chatRoom)}
+                    <div className="flex items-between">
+                      {/* 프로필 이미지 */}
+                      <div className="w-10 h-10 mr-3 rounded-full overflow-hidden flex-shrink-0">
+                        <Image
+                          src={
+                            chatRoom.mentee.userId === userId
+                              ? chatRoom.mentor.profileImage ||
+                                "/profile-default.png"
+                              : chatRoom.mentee.profileImage ||
+                                "/profile-default.png"
+                          }
+                          alt="프로필 이미지"
+                          width={40}
+                          height={40}
+                          className="object-cover w-full h-full"
+                          onClick={(e) => e.stopPropagation()}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = "/profile-default.png";
+                          }}
+                        />
+                      </div>
+
+                      {/* 텍스트 컨텐츠 */}
+                      <div className="flex-1 min-w-0 w-full">
+                        <div className="flex justify-between items-center w-full">
+                          <h4 className="font-medium text-sm truncate">
+                            {chatRoom.mentor.userId === userId
+                              ? chatRoom.mentee.name
+                              : chatRoom.mentor.name}
+                          </h4>
+                          <span
+                            className={`text-xs flex-shrink-0 ml-auto ${
+                              chatRoom.isActive
+                                ? "text-blue-500"
+                                : "text-gray-500"
+                            }`}
+                          >
+                            {chatRoom.isActive
+                              ? CHAT_STATUS.ONGOING
+                              : chatRoom.endAt
+                              ? CHAT_STATUS.ENDED
+                              : CHAT_STATUS.UPCOMING}
+                          </span>
+                        </div>
+                        <div className="text-xs text-gray-500 mt-1 truncate">
+                          {getStatusText(chatRoom)}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}

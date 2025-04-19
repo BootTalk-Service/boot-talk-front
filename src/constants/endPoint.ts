@@ -8,7 +8,7 @@ export const END_POINT = {
   MY_REVIEWS: "/api/reviews/my",
   POINT_HISTORY: "api/points/my",
   COURSES: "api/courses/autocomplete",
-  CERTIFICATE: "/api/users/certification",
+  CERTIFICATE: "/api/users/my/certification",
   MENTOR_LIST: "/api/coffee-chats/info/search",
   APPROVED_COFFEE_CHATS: "/api/coffee-chats/applications/approved",
   FILE_UPLOAD: "/api/file/upload",
@@ -30,5 +30,5 @@ export const END_POINT = {
   LOGOUT: "/api/logout",
   UPDATE_REVIEW: (reviewId: number) => `/api/reviews/my/${reviewId}`,
   DELETE_REVIEW: (reviewId: number) => `/api/reviews/my/${reviewId}`,
-  SSE_CONNECT: "/api/sse-connect"
+  SSE_CONNECT: "/api/sse-connect",
 } as const;
