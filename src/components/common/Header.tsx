@@ -77,11 +77,16 @@ const Header = () => {
 
           {/* 로그인 상태 */}
           <div className="hidden md:flex items-center gap-4">
-            {user ? (
-              <div className="flex items-center gap-3">
+          {user ? (
+            <div className="flex items-center gap-3">
+              {/* 알림 버튼 + 뱃지 */}
+              <div className="relative">
                 <button className="btn btn-ghost btn-circle" aria-label="알림">
                   <NotificationDropdown />
                 </button>
+                
+              </div>
+              
                 <Link href="/chat" className="btn btn-ghost btn-circle">
                   <button
                     className="btn btn-ghost btn-circle"

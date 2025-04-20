@@ -7,25 +7,34 @@ import { useNotificationStore } from "@/store/notificationStore";
 import { useInitialNotifications } from "@/hooks/notification/useInitialNotifications";
 import { useNotificationEffect } from "@/hooks/notification/useNotificationEffect";
 import { usePatchNotifications } from "@/hooks/notification/usePatchNotifications";
+import { useQueryClient } from "@tanstack/react-query";
 
 const NotificationDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { notifications, setHasOpened, markAllAsReadBefore } =
-    useNotificationStore();
-
-  useInitialNotifications();
-  useNotificationEffect();
+  const { notifications, setHasOpened, setNotifications } = useNotificationStore();
 
   const patchNotifications = usePatchNotifications();
+  const queryClient = useQueryClient();
+
+  useInitialNotifications(); // 초기 데이터 불러오기
+  useNotificationEffect(); // SSE 실시간 수신
 
   const handleCloseDropdown = () => {
     setIsOpen(false);
+
     if (notifications.length > 0) {
-      const lastTime = notifications[0].createdAt;
-      patchNotifications.mutate(lastTime, {
+      const latestTime = notifications[0].createdAt;
+
+      patchNotifications.mutate(latestTime, {
         onSuccess: () => {
-          markAllAsReadBefore(lastTime);
+          //상태 업데이트
+          const updated = notifications.map((n) =>
+            n.createdAt <= latestTime ? { ...n, checked: true } : n
+          );
+          setNotifications(updated);
+
+          queryClient.invalidateQueries({ queryKey: ["notifications"] });
         },
       });
     }
