@@ -28,7 +28,7 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   // const userId = localStorage.getItem("USER_ID");
-  const userId = 9079; // 유저id
+  const userId = 9080; // 유저id
   const amIMentee = selectedChat.mentee.userId === userId;
   const mentorName = selectedChat.mentor.name;
   const menteeName = selectedChat.mentee.name;

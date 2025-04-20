@@ -29,7 +29,8 @@ const BootcampCard = ({
     "border border-base-200 rounded-xl shadow-sm",
     "hover:shadow-md hover:bg-white",
     "lg:rounded-none lg:shadow-none lg:border-0 lg:border-b lg:border-base-300",
-    "lg:hover:shadow-none lg:hover:bg-gray-50"
+    "lg:hover:shadow-none lg:hover:bg-gray-50",
+    "cursor-pointer"
   );
 
   return (
@@ -48,20 +49,25 @@ const BootcampCard = ({
 
     {/* 학습 기간 */}
     <div>
-    <p className="text-sm whitespace-nowrap">
-      {bootcampStartDate} ~ {bootcampEndDate}
+    <p className="text-sm whitespace-nowrap sm:whitespace-normal break-words pl-4">
+      {bootcampStartDate} <wbr />~ <wbr />{bootcampEndDate}
     </p>
+
     </div>
 
     {/* 프로그램 과정 */}
     <div className="hidden lg:flex justify-start pl-10">
-      <span className="px-2 py-1 bg-gray-100 rounded">{bootcampCategory}</span>
-    </div>
+        <span className="px-2 py-1 bg-gray-100 rounded whitespace-nowrap overflow-hidden text-ellipsis">
+          {bootcampCategory}
+        </span>
+      </div>
 
-    {/* 지역 */}
-    <div className="hidden lg:flex justify-start pl-16">
-      <span className="px-2 py-1 bg-gray-100 rounded">{primaryRegion}</span>
-    </div>
+      {/* 지역 */}
+      <div className="hidden lg:flex justify-start pl-16">
+        <span className="px-2 py-1 bg-gray-100 rounded whitespace-nowrap overflow-hidden text-ellipsis">
+          {primaryRegion}
+        </span>
+      </div>
 
     {/* 정원 */}
     <div className="hidden lg:flex justify-start pl-10">{bootcampCapacity}명</div>

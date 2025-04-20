@@ -91,7 +91,7 @@ export const useGetBootcamps = (filters: Record<string, string>) => {
 
   const result = useInfiniteQuery<BootcampResponse>({
     queryKey: ["bootcamps", filters],
-    initialPageParam: 1,
+    initialPageParam: 0,
     queryFn: async ({ pageParam }) => {
       const page = pageParam as number;
       const queryParams = new URLSearchParams({
@@ -100,13 +100,14 @@ export const useGetBootcamps = (filters: Record<string, string>) => {
       });
 
       Object.entries(filters).forEach(([key, value]) => {
-        if (value) {
-          const transformed = transformFilterValue(key, value);
-          queryParams.append(key === "minRating" ? "rating" : key, transformed);
-        }
+        if (!value) return;
+        const v = transformFilterValue(key, value);
+        queryParams.append(key, v);
       });
 
-      const res = await axiosDefault.get(`${END_POINT.BOOTCAMPS}?${queryParams}`);
+      const res = await axiosDefault.get(
+        `${END_POINT.BOOTCAMPS}?${queryParams.toString()}`
+      );
       const data = res.data?.data || [];
 
       const isMock = process.env.NEXT_PUBLIC_USE_MOCK === "true";
@@ -122,13 +123,10 @@ export const useGetBootcamps = (filters: Record<string, string>) => {
         },
       };
     },
-    getNextPageParam: (lastPage) => {
-      const next =
-        lastPage.pagination.currentPage < lastPage.pagination.totalPages
-          ? lastPage.pagination.currentPage + 1
-          : undefined;
-      return next;
-    },
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination.currentPage < lastPage.pagination.totalPages
+        ? lastPage.pagination.currentPage + 1
+        : undefined,
   });
 
   return {

@@ -8,18 +8,19 @@ import { clearAuthStorage } from "@/lib/logout";
 import MobileDrawerMenu from "@/components/common/MobileDrawerMenu";
 import { useDrawerScrollLock } from "@/hooks/useDrawerScrollLock";
 import NotificationDropdown from "../notification/NotificationDropdown";
-import { useEffect } from "react";
+import { useEffect, useState  } from "react";
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 
 const Header = () => {
   const { user, logout, setUser } = useAuthStore();
+  const [hasMounted, setHasMounted] = useState(false);
 
   const handleLogout = async () => {
     try {
       await axiosDefault.post(END_POINT.LOGOUT, {}, { withCredentials: true }); // 백엔드에서 쿠키 제거
     } catch (err) {
-      console.warn("❗서버 로그아웃 실패:", err);
+      console.warn("서버 로그아웃 실패:", err);
     }
   
     logout();
@@ -28,6 +29,10 @@ const Header = () => {
 
   useDrawerScrollLock();
   const userTextStyle = "text-sm font-medium";
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -45,6 +50,8 @@ const Header = () => {
       fetchUser();
     }
   }, [user, setUser]);
+
+  if (!hasMounted) return null;
 
   return (
     <>

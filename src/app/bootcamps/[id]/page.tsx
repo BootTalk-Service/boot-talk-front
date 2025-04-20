@@ -4,9 +4,8 @@ interface PageProps {
   params: { id: string };
 }
 
-const BootcampDetailPage = async ({ params }: PageProps) => {
-  const resolvedParams = await params;
-  return <BootcampDetailClient id={resolvedParams.id} />;
+const BootcampDetailPage = ({ params }: PageProps) => {
+  return <BootcampDetailClient id={params.id} />;
 };
 
 
