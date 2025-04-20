@@ -59,14 +59,21 @@ export const useNotificationStore = create<NotificationState>((set) => ({
       };
     }),
 
-  addNotification: (item) =>
-    set((state) => {
-      const updated = [item, ...state.notifications];
-      return {
-        notifications: updated,
-        unreadCount: getUnreadCount(updated),
-      };
-    }),
+    addNotification: (item) =>
+      set((state) => {
+        const exists = state.notifications.some(
+          (n) => n.notificationId === item.notificationId
+        );
+    
+        if (exists) return state; // 중복이면 무시
+    
+        const updated = [item, ...state.notifications];
+        return {
+          notifications: updated,
+          unreadCount: getUnreadCount(updated),
+        };
+      }),
+    
 
   markAllAsReadBefore: (time) =>
     set((state) => {

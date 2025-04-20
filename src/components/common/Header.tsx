@@ -103,7 +103,7 @@ const Header = () => {
                   {`${user.name}님`}
                 </Link>
 
-                <span className={userTextStyle}>{user.current_point}P</span>
+                <span className={userTextStyle}>{user.currentPoint}P</span>
 
                 <button
                   className="btn bg-base-100 border-none text-sm hover:text-amber-950 transition-colors"

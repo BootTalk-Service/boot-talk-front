@@ -19,35 +19,39 @@ const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
   const getFiltersFromURL = () => {
     const params = new URLSearchParams(searchParams.toString());
     const filters: Record<string, string> = {};
-    
-    STATIC_FILTER_OPTIONS.forEach(filter => {
+
+    STATIC_FILTER_OPTIONS.forEach((filter) => {
       const value = params.get(filter.key);
       if (value) filters[filter.key] = value;
     });
-    
-    const category = params.get('category');
+
+    const category = params.get("category");
     if (category) filters.category = category;
-    
+
     return filters;
   };
 
   const selectedFilters = getFiltersFromURL();
 
-  const handleSelect = (key: string, value: string) => {
+  const handleSelect = (key: string, option: string | { label: string; value: string }) => {
     const params = new URLSearchParams(searchParams.toString());
-    
-    if (params.get(key) === value) {
-      params.delete(key);
+  
+    const paramKey = key === "rating" ? "minRating" : key;
+    const value = typeof option === "object" ? option.value : option;
+  
+    if (params.get(paramKey) === value) {
+      params.delete(paramKey);
     } else {
-      params.set(key, value);
+      params.set(paramKey, value);
     }
-    
+  
     router.push(`?${params.toString()}`);
     setOpenDropdown(null);
   };
+  
 
   const clearAllFilters = () => {
-    router.push('/');
+    router.push("/");
     setOpenDropdown(null);
   };
 
@@ -67,12 +71,18 @@ const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
 
   const allFilters = [
     ...STATIC_FILTER_OPTIONS,
-    { key: "category", label: "직무", options: categoryOptions || [] },
+    {
+      key: "category",
+      label: "직무",
+      options: categoryOptions.map((opt) => ({
+        label: opt,
+        value: opt,
+      })),
+    },
   ];
 
   return (
     <div className="flex justify-center w-full relative z-50">
-      
       <div className="flex flex-wrap gap-3 items-center justify-center px-4 py-6">
         {allFilters.map((filter) => (
           <div
@@ -94,24 +104,28 @@ const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
                   : "btn-outline border-neutral-400"
               )}
             >
-              {selectedFilters?.[filter.key] || filter.label}
+              {
+                filter.options.find(
+                  (opt: any) => opt.value === selectedFilters?.[filter.key]
+                )?.label || filter.label
+              }
             </div>
 
             {openDropdown === filter.label && (
               <div
-              className={clsx(
-                "absolute top-full left-0 mt-1 shadow bg-white rounded-lg z-50 max-h-60 overflow-y-auto overflow-x-hidden",
-                filter.label === "직무" ? "w-44 sm:w-52" : "w-36 sm:w-40"
-              )}
-            >
+                className={clsx(
+                  "absolute top-full left-0 mt-1 shadow bg-white rounded-lg z-50 max-h-60 overflow-y-auto overflow-x-hidden",
+                  filter.label === "직무" ? "w-44 sm:w-52" : "w-36 sm:w-40"
+                )}
+              >
                 <ul className="menu menu-compact p-2">
-                  {filter.options.map((option) => (
-                    <li key={option}>
-                    <a
-                      onClick={() => handleSelect(filter.key, option)}
-                      className="text-sm py-2 px-4 hover:bg-gray-100 rounded-md truncate"
-                    >
-                      {option}
+                  {filter.options.map((option: any) => (
+                    <li key={option.value}>
+                      <a
+                        onClick={() => handleSelect(filter.key, option.value)}
+                        className="text-sm py-2 px-4 hover:bg-gray-100 rounded-md truncate"
+                      >
+                        {option.label}
                       </a>
                     </li>
                   ))}
