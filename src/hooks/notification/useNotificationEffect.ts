@@ -5,26 +5,32 @@ import { useNotificationStore } from "@/store/notificationStore";
 
 export const useNotificationEffect = () => {
   const { addNotification } = useNotificationStore();
-  const BACKEND = `${process.env.NEXT_PUBLIC_API_URL}`;
 
   useEffect(() => {
-    const es = new EventSource(`${BACKEND}/api/sse-connect`, {
-      withCredentials: true,
-    });
+    console.log("useNotificationEffect 실행됨");
 
-    // 연결 성공
+    const token = localStorage.getItem("access_token");
+    console.log("access_token:", token);
+
+    if (!token) {
+      console.warn("access_token이 없습니다. SSE 연결 생략");
+      return;
+    }
+
+    const BACKEND = process.env.NEXT_PUBLIC_API_URL;
+    const url = `${BACKEND}api/sse-connect?token=${token}`;
+
+    const es = new EventSource(url);
+
     es.onopen = () => {
-      console.log("SSE 연결 성공!");
     };
 
-    // 기본 메시지
     es.onmessage = (e) => {
       console.log("기본 메시지 수신:", e.data);
     };
 
-    // 알림 이벤트
     es.addEventListener("notification", (e) => {
-      console.log("[알림 이벤트] 수신됨:", e.data);
+      console.log("[notification] 이벤트 수신:", e.data);
       try {
         const payload = JSON.parse(e.data);
         addNotification(payload);
@@ -33,11 +39,16 @@ export const useNotificationEffect = () => {
       }
     });
 
-    es.onerror = (err) => {
-      console.error("SSE 에러:", err);
+    es.onerror = (event: Event) => {
+      console.error("에러 발생:", event);
+      console.log(
+        "event.target.readyState:",
+        (event.target as EventSource).readyState
+      );
     };
 
     return () => {
+      console.log("연결 종료");
       es.close();
     };
   }, [addNotification]);
