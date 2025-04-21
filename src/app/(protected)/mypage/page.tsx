@@ -8,6 +8,7 @@ import MyReviews from "@/components/feature/mypage/MyReviews";
 import PointHistory from "@/components/feature/mypage/PointHistory";
 import ProfileEdit from "@/components/feature/mypage/ProfileEdit";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 export default function Mypage() {
   const router = useRouter();
@@ -40,9 +41,11 @@ export default function Mypage() {
 
   return (
     // <RequireAuth>
+    <Suspense fallback={<div>로딩 중...</div>}>
       <MyPageLayout activeTab={tab} onTabChange={handleTabChange}>
         {renderTabContent()}
       </MyPageLayout>
+    </Suspense>
     // </RequireAuth>
   );
 }
