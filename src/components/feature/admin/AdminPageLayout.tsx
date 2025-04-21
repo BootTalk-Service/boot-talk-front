@@ -27,7 +27,7 @@ const AdminPageLayout = ({ children }: AdminPageLayoutProps) => {
               <div className="flex items-center justify-center mb-4">
                 <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-base-100 shadow-lg">
                   <Image
-                    src={myInfo?.profile_image || "/profile-default.png"}
+                    src={myInfo?.profileImage || "/profile-default.png"}
                     alt="프로필 사진"
                     width={150}
                     height={150}
