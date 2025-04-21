@@ -12,9 +12,9 @@ interface FilterType {
 }
 
 export const ReviewFilterButtons = ({
-  onFilterChange,
+  onFilterChangeAction,
 }: {
-  onFilterChange: (updater: (prev: FilterType) => FilterType) => void;
+  onFilterChangeAction: (updater: (prev: FilterType) => FilterType) => void;
 }) => {
   const [jobRoles, setJobRoles] = useState<string[]>([]);
   const [openDropdown, setOpenDropdown] = useState<"category" | "date" | null>(null);
@@ -53,7 +53,7 @@ export const ReviewFilterButtons = ({
       [key]: updatedValue,
     }));
 
-    onFilterChange((prev) => ({
+    onFilterChangeAction((prev) => ({
       ...prev,
       [key]: updatedValue,
     }));
@@ -63,7 +63,7 @@ export const ReviewFilterButtons = ({
 
   const clearFilters = () => {
     setSelectedFilters({});
-    onFilterChange(() => ({}));
+    onFilterChangeAction(() => ({}));
     setOpenDropdown(null);
   };
 
@@ -122,7 +122,9 @@ export const ReviewFilterButtons = ({
       {/* 정렬 필터 */}
       <div
         className="relative"
-        ref={(el) => (dropdownRefs.current["date"] = el)}
+        ref={(el) => {
+          dropdownRefs.current["date"] = el;
+        }}
       >
         <button
           onClick={() =>

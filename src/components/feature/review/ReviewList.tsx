@@ -58,7 +58,7 @@ export default function ReviewList() {
           총 {totalCount}개
         </span>
         <div className="flex items-center gap-2 flex-wrap">
-          <ReviewFilterButtons onFilterChange={setFilters} />
+          <ReviewFilterButtons onFilterChangeAction={setFilters} />
         </div>
       </div>
 

@@ -57,7 +57,7 @@ const SearchSection = () => {
       )}
     >
       <div className="relative w-full max-w-sm px-4 sm:max-w-xl sm:px-0">
-        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-base-content text-gray-700" size={20} />
+        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-700" size={20} />
         <input
             ref={inputRef}
             value={query}
