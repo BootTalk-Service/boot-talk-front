@@ -576,7 +576,7 @@ export const DB = {
     {
       point_id: 1,
       user_id: 1,
-      current_points: 2,
+      currentPoint: 2,
       changed_points: 2,
       type: "EARN",
       event_type: "회원가입",
@@ -585,7 +585,7 @@ export const DB = {
     {
       point_id: 2,
       user_id: 1,
-      current_points: 3,
+      currentPoint: 3,
       changed_points: 1,
       type: "EARN",
       event_type: "리뷰작성",
@@ -594,7 +594,7 @@ export const DB = {
     {
       point_id: 3,
       user_id: 1,
-      current_points: 2,
+      currentPoint: 2,
       changed_points: -1,
       type: "USE",
       event_type: "커피챗",

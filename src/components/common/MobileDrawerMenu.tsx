@@ -4,7 +4,7 @@ import { useAuthStore } from "@/store/authStore";
 import Link from "next/link";
 import { Bell } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { clearAuthStorage } from "@/lib/logout"
+import { clearAuthStorage } from "@/lib/logout";
 
 const MobileDrawerMenu = () => {
   const { user, logout } = useAuthStore();
@@ -12,7 +12,7 @@ const MobileDrawerMenu = () => {
 
   const handleLogout = () => {
     logout();
-    clearAuthStorage()
+    clearAuthStorage();
     window.location.href = "/";
   };
 
@@ -32,14 +32,13 @@ const MobileDrawerMenu = () => {
               className="flex items-center gap-1 hover:underline"
             >
               <span className="font-semibold">{user.name}님</span>
-              <span className="text-sm text-amber-700">{user.current_point}P</span>
+              <span className="text-sm text-amber-700">{user.currentPoint}P</span>
             </button>
             <button className="btn btn-ghost btn-circle">
               <Bell className="w-5 h-5" />
             </button>
           </div>
 
-          {/* 로그인 상태일 때 */}
           <button
             onClick={() => handleLinkClick("/coffee-chat")}
             className="btn btn-outline btn-sm w-full"
@@ -47,7 +46,6 @@ const MobileDrawerMenu = () => {
             커피챗 바로가기
           </button>
 
-          {/* 로그아웃 */}
           <button onClick={handleLogout} className="btn btn-sm w-full">
             로그아웃
           </button>
