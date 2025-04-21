@@ -6,6 +6,8 @@ import { CoffeeChat } from "@/types/response";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import CoffeeChatDetailModal from "./CoffeeChatDetailModal";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale/ko";
 
 const ApprovedListTab = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,14 +36,8 @@ const ApprovedListTab = () => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString("ko-KR", {
-      year: "numeric",
-      month: "numeric",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
+    const date = new Date(dateString);
+    return format(date, "yyyy-MM-dd HH:mm", { locale: ko });
   };
 
   if (isLoading) {

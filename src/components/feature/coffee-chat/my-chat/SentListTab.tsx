@@ -9,6 +9,8 @@ import CoffeeChatDetailModal from "./CoffeeChatDetailModal";
 import { getStatusBadge } from "./getStatusBadge";
 import { useCoffeeChatActions } from "@/hooks/coffee-chat/useCoffeeChatActions";
 import CoffeeChatActionModal from "./CoffeeChatActionModal";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale/ko";
 
 const SentListTab = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,14 +43,8 @@ const SentListTab = () => {
 
   // 날짜 포맷 헬퍼 함수
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString("ko-KR", {
-      year: "numeric",
-      month: "numeric",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
+    const date = new Date(dateString);
+    return format(date, "yyyy-MM-dd HH:mm", { locale: ko });
   };
 
   if (isLoading) {
