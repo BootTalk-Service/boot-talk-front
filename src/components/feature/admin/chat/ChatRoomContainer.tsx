@@ -1,5 +1,3 @@
-"use client";
-
 import { useGetMessages } from "@/hooks/chat/useGetMessages";
 import { useWebSocket } from "@/hooks/useWebSocket";
 import { ChatRoom } from "@/types/response";
@@ -20,7 +18,7 @@ export interface ChatMessage {
   type: string;
 }
 
-const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
+const ChatRoomContainer = ({ selectedChat }: ChatRoomPageProps) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -293,4 +291,4 @@ const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
   );
 };
 
-export default ChatRoomPage;
+export default ChatRoomContainer;

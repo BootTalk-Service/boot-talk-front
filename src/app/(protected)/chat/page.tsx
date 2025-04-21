@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { useGetChatList } from "@/hooks/chat/useGetChatList";
 import { ChatRoom } from "@/types/response";
-import ChatRoomPage from "./[roomId]/page";
 import Image from "next/image";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale/ko";
+import ChatRoomContainer from "@/components/feature/admin/chat/ChatRoomContainer";
 
 // 상수 정의
 const CHAT_STATUS = {
@@ -130,7 +130,7 @@ const ChatPage = () => {
         {/* 오른쪽: 채팅방 */}
         <div className="w-full h-[400px] md:h-full md:w-2/3 overflow-hidden border border-gray-100 rounded-lg shadow-sm">
           {selectedChat ? (
-            <ChatRoomPage selectedChat={selectedChat} />
+            <ChatRoomContainer selectedChat={selectedChat} />
           ) : (
             <div className="h-full flex items-center justify-center text-gray-400">
               채팅방을 선택해주세요.
