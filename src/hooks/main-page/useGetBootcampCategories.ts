@@ -9,8 +9,7 @@ export const useGetBootcampCategories = () => {
       try {
         const res = await axiosDefault.get<string[]>(END_POINT.BOOTCAMP_JOB_ROLES);
         return res.data ?? [];
-      } catch (error) {
-        console.error("직무 목록 조회 실패:", error);
+      } catch {
         return [];
       }
     },

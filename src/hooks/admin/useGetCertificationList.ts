@@ -17,11 +17,8 @@ export const useGetCertificationList = () => {
         if (res.data && Array.isArray(res.data.certifications)) {
           return res.data.certifications;
         }
-
-        console.warn("알 수 없는 응답 구조:", res.data);
         return [];
-      } catch (error) {
-        console.error("수료증 목록 불러오기 실패:", error);
+      } catch {
         throw new Error("불러오기 실패");
       }
     },

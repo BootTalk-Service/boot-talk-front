@@ -26,8 +26,7 @@ export const ReviewFilterButtons = ({
       try {
         const res = await axiosDefault.get(END_POINT.BOOTCAMP_JOB_ROLES);
         setJobRoles(res.data || []);
-      } catch (error) {
-        console.error("직무 데이터 로드 실패:", error);
+      } catch {
       }
     };
     fetchJobRoles();
@@ -73,7 +72,9 @@ export const ReviewFilterButtons = ({
       {/* 직무 필터 */}
       <div
         className="relative"
-        ref={(el) => (dropdownRefs.current["category"] = el)}
+        ref={(el: HTMLDivElement | null) => {
+          dropdownRefs.current["category"] = el;
+        }}        
       >
         <button
           onClick={() =>

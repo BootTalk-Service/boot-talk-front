@@ -24,7 +24,6 @@ export const useInitialNotifications = () => {
         setNotifications(normalizedNotifications);
         return data;
       } catch (error) {
-        console.error("알림 로딩 실패:", error);
         setNotifications([]);
         throw error;
       }
