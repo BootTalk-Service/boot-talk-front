@@ -2,6 +2,11 @@ import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import { useQuery } from "@tanstack/react-query";
 
+export interface ExampleData {
+  id: number;
+  name: string;
+}
+
 export const fetchExample = async () => {
   const response = await axiosDefault.get(END_POINT.EXAMPLE);
 
@@ -11,7 +16,7 @@ export const fetchExample = async () => {
 };
 
 export const useGetExample = () => {
-  const { data: example } = useQuery({
+  const { data: example } = useQuery<ExampleData>({
     queryKey: ["example"],
     queryFn: fetchExample,
   });

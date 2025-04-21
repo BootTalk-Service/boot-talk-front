@@ -6,17 +6,17 @@ import { useGetExample } from "@/hooks/useGetExample";
 export default function ExamplePage() {
   const { example } = useGetExample();
 
-  console.log("컴포넌트 상태:", { example });
-
   return (
     <div className="container">
       <h1>Example Page</h1>
-      <div>
-        <div key={example.item.id}>
-          <p>ID: {example.item.id}</p>
-          <p>이름: {example.item.name}</p>
+      {example ? (
+        <div>
+          <p>ID: {example.id}</p>
+          <p>이름: {example.name}</p>
         </div>
-      </div>
+      ) : (
+        <p>로딩 중...</p>
+      )}
     </div>
   );
 }
