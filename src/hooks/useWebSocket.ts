@@ -1,10 +1,11 @@
+import { ChatMessage } from "@/app/(protected)/chat/[roomId]/page";
 import { Client } from "@stomp/stompjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UseWebSocketProps {
   roomUuid: string;
   userId: string;
-  onMessage?: (message: any) => void;
+  onMessage?: (message: ChatMessage) => void;
   socketUrl?: string;
   isActive?: boolean;
 }
@@ -30,7 +31,7 @@ export const useWebSocket = ({
     onMessageRef.current = onMessage;
   }, [onMessage]);
 
-  const sendMessage = useCallback((message: any) => {
+  const sendMessage = useCallback((message: ChatMessage) => {
     if (clientRef.current?.connected) {
       clientRef.current.publish({
         destination: "/app/chat.message",

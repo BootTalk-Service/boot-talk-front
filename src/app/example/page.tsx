@@ -12,13 +12,10 @@ export default function ExamplePage() {
     <div className="container">
       <h1>Example Page</h1>
       <div>
-        {example?.map((item) => (
-          <div key={item.id}>
-            <p>ID: {item.id}</p>
-            <p>이름: {item.name}</p>
-            <img src="http://localhost:9090/upload/1743573620885-3e132e0b-a1e9-4f38-b711-19ec21fc5199.jpeg" />
-          </div>
-        ))}
+        <div key={example.item.id}>
+          <p>ID: {example.item.id}</p>
+          <p>이름: {example.item.name}</p>
+        </div>
       </div>
     </div>
   );

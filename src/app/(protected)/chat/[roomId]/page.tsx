@@ -10,7 +10,7 @@ interface ChatRoomPageProps {
   selectedChat: ChatRoom;
 }
 
-interface ChatMessage {
+export interface ChatMessage {
   id?: number;
   roomUuid: string;
   senderId: number;

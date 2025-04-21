@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
   reactStrictMode: true,
   images: {
     domains: ["boottalk-bucket.s3.amazonaws.com"],
