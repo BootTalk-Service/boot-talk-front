@@ -30,7 +30,7 @@ const SentListTab = () => {
   });
 
   const { handleCancel, isCanceling, modalState, closeModal, confirmAction } =
-    useCoffeeChatActions();
+    useCoffeeChatActions("MENTEE");
 
   const handleCoffeeChatClick = (coffeechat: CoffeeChat) => {
     setSelectedCoffeeChat(coffeechat);
@@ -136,7 +136,7 @@ const SentListTab = () => {
         onClose={closeModal}
         onConfirm={confirmAction}
         isLoading={isCanceling}
-        isMentor={false}
+        userRole="MENTEE"
       />
     </div>
   );

@@ -50,7 +50,7 @@ export const useMentorRegistration = (options = { enabled: true }) => {
 
   // 멘토 정보 조회 쿼리
   const mentorDataQuery = useQuery({
-    queryKey: ["mentorData"],
+    queryKey: ["mentorData", "mentorList"],
     queryFn: fetchMentorData,
     enabled: options.enabled, // 조건부 실행을 위한 옵션
     retry: false,
@@ -60,7 +60,7 @@ export const useMentorRegistration = (options = { enabled: true }) => {
   const createMentorMutation = useMutation({
     mutationFn: createMentorInfo,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["mentorData"] });
+      queryClient.invalidateQueries({ queryKey: ["mentorData", "mentorList"] });
     },
     onError: (error) => {
       console.error("멘토 정보 등록 오류:", error);
@@ -71,7 +71,7 @@ export const useMentorRegistration = (options = { enabled: true }) => {
   const updateMentorMutation = useMutation({
     mutationFn: updateMentorInfo,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["mentorData"] });
+      queryClient.invalidateQueries({ queryKey: ["mentorData", "mentorList"] });
     },
     onError: (error) => {
       console.error("멘토 정보 수정 오류:", error);
@@ -82,7 +82,7 @@ export const useMentorRegistration = (options = { enabled: true }) => {
   const deleteMentorMutation = useMutation({
     mutationFn: deleteMentorInfo,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["mentorData"] });
+      queryClient.invalidateQueries({ queryKey: ["mentorData", "mentorList"] });
     },
     onError: (error) => {
       console.error("멘토 등록 삭제 오류:", error);

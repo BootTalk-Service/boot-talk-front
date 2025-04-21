@@ -93,7 +93,11 @@ const ChatRequestModal: React.FC<ChatRequestModalProps> = ({
       },
       onError: (error) => {
         console.error("커피챗 신청 오류:", error);
-        toast.error("커피챗 신청 중 오류가 발생했습니다.");
+        if (error.message.includes("409")) {
+          toast.warning("이미 신청한 커피챗입니다.");
+        } else {
+          toast.error("커피챗 신청 중 오류가 발생했습니다.");
+        }
       },
     });
   };

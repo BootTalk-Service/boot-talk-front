@@ -1,10 +1,11 @@
 import { axiosDefault } from "@/api/axiosInstance";
+import { END_POINT } from "@/constants/endPoint";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
 export type ActionType = "APPROVE" | "REJECT" | "CANCEL";
-
+export type UserRole = "MENTOR" | "MENTEE";
 interface ModalState {
   isOpen: boolean;
   actionType: ActionType;
@@ -12,7 +13,7 @@ interface ModalState {
   isPenalty: boolean;
 }
 
-export const useCoffeeChatActions = () => {
+export const useCoffeeChatActions = (userRole: UserRole = "MENTOR") => {
   const queryClient = useQueryClient();
 
   const [modalState, setModalState] = useState<ModalState>({
@@ -25,14 +26,16 @@ export const useCoffeeChatActions = () => {
   // 승인 mutation
   const approveMutation = useMutation({
     mutationFn: async (coffeeChatAppId: string) => {
-      const url = `/api/coffee-chats/applications/received/${coffeeChatAppId}/status`;
+      const url = END_POINT.STATUS_CHATS(coffeeChatAppId);
       return await axiosDefault.put(url, {
         changeStatus: "APPROVED",
       });
     },
     onSuccess: () => {
       // 성공 시 목록 갱신
-      queryClient.invalidateQueries({ queryKey: ["receivedList"] });
+      queryClient.invalidateQueries({
+        queryKey: ["receivedList", "approvedList"],
+      });
       toast.success("커피챗이 승인되었습니다.");
     },
     onError: (error) => {
@@ -44,7 +47,7 @@ export const useCoffeeChatActions = () => {
   // 거절 mutation
   const rejectMutation = useMutation({
     mutationFn: async (coffeeChatAppId: string) => {
-      const url = `/api/coffee-chats/applications/received/${coffeeChatAppId}/status`;
+      const url = END_POINT.STATUS_CHATS(coffeeChatAppId);
       return await axiosDefault.put(url, {
         changeStatus: "REJECTED",
       });
@@ -63,14 +66,23 @@ export const useCoffeeChatActions = () => {
   // 취소 mutation
   const cancelMutation = useMutation({
     mutationFn: async (coffeeChatAppId: string) => {
-      const url = `/api/coffee-chats/applications/received/${coffeeChatAppId}/status`;
-      return await axiosDefault.put(url, {
-        changeStatus: "CANCELED",
-      });
+      let url;
+
+      if (userRole === "MENTEE") {
+        url = END_POINT.RECEIVED_CANCEL(coffeeChatAppId);
+        return await axiosDefault.delete(url);
+      } else {
+        const url = END_POINT.STATUS_CHATS(coffeeChatAppId);
+        return await axiosDefault.put(url, {
+          changeStatus: "CANCELED",
+        });
+      }
     },
     onSuccess: () => {
       // 성공 시 목록 갱신
-      queryClient.invalidateQueries({ queryKey: ["receivedList"] });
+      queryClient.invalidateQueries({
+        queryKey: userRole === "MENTEE" ? ["sentList"] : ["receivedList"],
+      });
       toast.success("커피챗이 취소되었습니다.");
     },
     onError: (error) => {
