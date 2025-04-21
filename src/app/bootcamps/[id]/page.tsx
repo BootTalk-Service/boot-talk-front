@@ -5,7 +5,7 @@ interface PageProps {
 }
 
 const BootcampDetailPage = ({ params }: PageProps) => {
-  if (!params.id) {
+  if (!params?.id) {
     return <div>Invalid Bootcamp ID</div>;
   }
 
