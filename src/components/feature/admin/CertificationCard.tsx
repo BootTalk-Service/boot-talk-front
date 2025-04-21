@@ -13,12 +13,10 @@ interface Props {
 
 const CertificationCard = ({ cert, onApprove, onReject, onView }: Props) => {
   return (
-    <div
-      className="p-4 border border-gray-200 rounded-lg shadow-sm flex justify-between items-center"
-    >
+    <div className="p-4 border border-gray-200 rounded-lg shadow-sm flex justify-between items-center">
       <div>
         <p className="text-lg font-medium">{cert.userName}</p>
-        <p className="text-sm text-gray-500">직무 : {cert.categoryType}</p>
+        <p className="text-sm text-gray-500">직무 : {cert.categoryName}</p>
       </div>
       <div className="space-x-2 flex items-center">
         <button

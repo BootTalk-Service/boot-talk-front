@@ -14,7 +14,11 @@ const CertificationApproval = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const queryClient = useQueryClient();
-  const { data: certifications = [], isLoading, isError } = useGetCertificationList();
+  const {
+    data: certifications = [],
+    isLoading,
+    isError,
+  } = useGetCertificationList();
   const { mutate: patchStatus } = usePatchCertificationStatus();
 
   const ITEMS_PER_PAGE = 5;
