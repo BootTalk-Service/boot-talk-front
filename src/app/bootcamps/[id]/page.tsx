@@ -1,13 +1,15 @@
+"use client";
+
+import { useParams } from "next/navigation";
 import BootcampDetailClient from "@/components/feature/detail/BootcampDetailClient";
 
-export default async function BootcampDetailPage(
-  incoming: Promise<{ params: { id: string } }>
-) {
-  const { params } = await incoming;
+export default function BootcampDetailPage() {
+  const params = useParams();
+  const id = params.id as string;
 
-  if (!params.id) {
+  if (!id) {
     return <div>Invalid Bootcamp ID</div>;
   }
 
-  return <BootcampDetailClient id={params.id} />;
+  return <BootcampDetailClient id={id} />;
 }
