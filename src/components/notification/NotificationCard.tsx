@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { NotificationItem } from "@/types/Notification";
 import { useNotificationStore } from "@/store/notificationStore";
+import { useMarkNotificationAsRead } from "@/hooks/notification/useMarkNotificationAsRead";
 
 interface Props {
   notification: NotificationItem;
@@ -12,12 +13,14 @@ interface Props {
 const NotificationCard = ({ notification, onClose }: Props) => {
   const router = useRouter();
   const { markAsReadById } = useNotificationStore();
+  const { mutate: markAsReadOnServer } = useMarkNotificationAsRead();
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
 
     if (!notification.checked) {
       markAsReadById(notification.notificationId);
+      markAsReadOnServer(notification.notificationId);
     }
 
     onClose();

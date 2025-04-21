@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useNotificationStore } from "@/store/notificationStore";
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
+import type { NotificationItem } from "@/types/Notification";
 
 export const useInitialNotifications = () => {
   const { setNotifications } = useNotificationStore();
@@ -12,7 +13,15 @@ export const useInitialNotifications = () => {
       try {
         const res = await axiosDefault.get(`${END_POINT.NOTIFICATIONS}?page=1&limit=10`);
         const data = res.data;
-        setNotifications(data.notificationResponseDtoList);
+
+        const normalizedNotifications: NotificationItem[] = data.notificationResponseDtoList.map(
+          (n: NotificationItem) => ({
+            ...n,
+            checked: n.checked ?? false,
+          })
+        );
+
+        setNotifications(normalizedNotifications);
         return data;
       } catch (error) {
         console.error("알림 로딩 실패:", error);
