@@ -39,7 +39,7 @@ const ReceivedListTab = () => {
     modalState,
     closeModal,
     confirmAction,
-  } = useCoffeeChatActions();
+  } = useCoffeeChatActions("MENTOR");
 
   const handleCoffeeChatClick = (coffeechat: CoffeeChat) => {
     setSelectedCoffeeChat(coffeechat);
@@ -167,7 +167,7 @@ const ReceivedListTab = () => {
         onClose={closeModal}
         onConfirm={confirmAction}
         isLoading={isApproving || isRejecting || isCanceling}
-        isMentor={true}
+        userRole="MENTOR"
       />
     </div>
   );

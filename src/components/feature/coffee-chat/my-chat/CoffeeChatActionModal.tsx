@@ -3,6 +3,7 @@ import Modal from "@/components/common/modal/CommonModal";
 import React from "react";
 
 export type ActionType = "APPROVE" | "REJECT" | "CANCEL";
+export type UserRole = "MENTOR" | "MENTEE";
 
 interface CoffeeChatActionModalProps {
   isOpen: boolean;
@@ -11,7 +12,7 @@ interface CoffeeChatActionModalProps {
   onClose: () => void;
   onConfirm: () => void;
   isLoading?: boolean;
-  isMentor: boolean;
+  userRole: UserRole;
 }
 
 const CoffeeChatActionModal: React.FC<CoffeeChatActionModalProps> = ({
@@ -21,7 +22,7 @@ const CoffeeChatActionModal: React.FC<CoffeeChatActionModalProps> = ({
   onClose,
   onConfirm,
   isLoading = false,
-  isMentor = true,
+  userRole = "MENTOR",
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} hideHeader={true} size="sm">
@@ -42,7 +43,7 @@ const CoffeeChatActionModal: React.FC<CoffeeChatActionModalProps> = ({
         {actionType === "CANCEL" && isPenalty && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             <p className="font-bold">주의!</p>
-            {isMentor ? (
+            {userRole === "MENTOR" ? (
               <p>
                 커피챗 시작 1일 전 이후 취소 시, 멘토 활동이 1개월간 제한됩니다.
               </p>
@@ -59,11 +60,11 @@ const CoffeeChatActionModal: React.FC<CoffeeChatActionModalProps> = ({
             className="btn btn-outline"
             disabled={isLoading}
           >
-            취소
+            돌아가기
           </button>
           <button
             onClick={onConfirm}
-            className={`btn btn-outline${
+            className={`btn btn-outline ${
               actionType === "APPROVE"
                 ? "btn-success"
                 : actionType === "REJECT"

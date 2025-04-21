@@ -14,6 +14,8 @@ export const END_POINT = {
   FILE_UPLOAD: "/api/file/upload",
   SENT_COFFEE_CHATS: "/api/coffee-chats/applications",
   RECEIVED_COFFEE_CHATS: "/api/coffee-chats/applications/received",
+  RECEIVED_CANCEL: (coffeeChatAppId: string) =>
+    `/api/coffee-chats/applications/${coffeeChatAppId}`,
   STATUS_CHATS: (coffeeChatAppId: string) =>
     `/api/coffee-chats/applications/received/${coffeeChatAppId}/status`,
   BOOTCAMP_DETAIL: (id: string) => `/api/bootcamps/${id}`,
@@ -24,6 +26,7 @@ export const END_POINT = {
   NOTIFICATIONS: "/api/notifications",
   CHAT_ROOM: (roomUuid: string) => `/chat-rooms/${roomUuid}`,
   CHAT_ROOM_LIST: "/api/chat-rooms",
+  CHAT_MESSAGE: (roomUuid: string) => `/api/chat-rooms/${roomUuid}/messages`,
   ADMIN_CERTIFICATION: "/api/admin/certifications",
   BOOTCAMPS_AUTOCOMPLETE: "/api/bootcamps/autocomplete",
   NAVER_REDIRECT: "/api/oauth2/authorization",
