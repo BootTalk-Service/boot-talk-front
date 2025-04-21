@@ -1,4 +1,4 @@
-import { ChatMessage } from "@/app/(protected)/chat/[roomId]/page";
+import { ChatMessage } from "@/components/feature/admin/chat/ChatRoomContainer";
 import { Client } from "@stomp/stompjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 
