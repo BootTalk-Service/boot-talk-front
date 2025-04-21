@@ -11,8 +11,14 @@ interface UseWebSocketProps {
 }
 
 // const SOCKET_URL = "wss://be11-58-225-126-218.ngrok-free.app/connection"; // http는 ws://로
-const token = localStorage.getItem("access_token");
-const SOCKET_URL = `ws://43.200.67.27:8080/connection?token=${token}`;
+function getSocketUrl() {
+  // 브라우저 환경인지 확인
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("access_token");
+    return `ws://43.200.67.27:8080/connection?token=${token}`;
+  }
+  return "ws://placeholder";
+}
 
 // const SOCKET_URL = "wss://be11-58-225-126-218.ngrok-free.app/connection";
 
@@ -20,7 +26,7 @@ export const useWebSocket = ({
   roomUuid,
   userId,
   onMessage,
-  socketUrl = SOCKET_URL,
+  socketUrl = getSocketUrl(),
   isActive = true,
 }: UseWebSocketProps) => {
   const [connected, setConnected] = useState(false);

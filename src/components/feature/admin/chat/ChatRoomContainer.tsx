@@ -26,7 +26,7 @@ const ChatRoomContainer = ({ selectedChat }: ChatRoomPageProps) => {
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  // const userId = localStorage.getItem("USER_ID");
+
   const userId = 9080; // 유저id
   const amIMentee = selectedChat.mentee.userId === userId;
   const mentorName = selectedChat.mentor.name;
