@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import SearchSection from "@/components/common/SearchSection";
 import FilterButtons from "@/components/feature/main/FilterButtons";
 import BootcampList from "@/components/feature/main/BootcampList";
@@ -27,11 +27,13 @@ export default function Home() {
   return (
     <main>
       <SearchSection />
-      <FilterButtons
-        selectedFilters={selectedFilters}
-        setSelectedFilters={setSelectedFilters}
-        categoryOptions={categories}
-      />
+      <Suspense fallback={<p>검색어 로딩 중...</p>}>
+        <FilterButtons
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+          categoryOptions={categories}
+        />
+      </Suspense>
       <BootcampList filters={selectedFilters} />
     </main>
   );
