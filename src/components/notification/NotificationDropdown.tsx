@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import NotificationBell from "./NotificationBell";
 import NotificationList from "./NotificationList";
 import { useNotificationStore } from "@/store/notificationStore";
@@ -18,13 +18,13 @@ const NotificationDropdown = () => {
   useInitialNotifications(); // 초기 데이터 불러오기
   useNotificationEffect(); // SSE 실시간 수신
 
-  const handleCloseDropdown = () => {
+  const handleCloseDropdown = useCallback(() => {
     setIsOpen(false);
 
     if (notifications.length > 0) {
       patchNotifications.mutate();
     }
-  };  
+  }, [notifications, patchNotifications]);
 
   useEffect(() => {
     if (isOpen) {
@@ -51,7 +51,7 @@ const NotificationDropdown = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isOpen, handleCloseDropdown]);
 
   return (
     <div className="relative z-[99]" ref={dropdownRef}>

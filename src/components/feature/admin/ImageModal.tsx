@@ -1,6 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
+import Image from "next/image";
 
 interface ImageModalProps {
   selectedImage: string | null;
@@ -25,10 +26,12 @@ const ImageModal = ({ selectedImage, setSelectedImage }: ImageModalProps) => {
         >
           <X size={20} />
         </button>
-        <img
+        <Image
           src={selectedImage}
           alt="수료증 미리보기"
           className="max-w-full max-h-[50vh] object-contain"
+          width={500}
+          height={300}
         />
       </div>
     </div>
