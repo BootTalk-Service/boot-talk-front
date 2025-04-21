@@ -1,11 +1,9 @@
 import { axiosDefault } from "@/api/axiosInstance";
+import { END_POINT } from "@/constants/endPoint";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchPreviousMessages = async (roomUuid: string) => {
-  const response = await axiosDefault.get(
-    `/api/chat-rooms/${roomUuid}/messages`,
-    {}
-  );
+  const response = await axiosDefault.get(END_POINT.CHAT_MESSAGE(roomUuid), {});
   return response.data;
 };
 

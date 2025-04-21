@@ -21,7 +21,12 @@ const submitChatRequest = async (requestData: MentorApplicationData) => {
 
 export const useMentorApplication = (coffeeChatInfoId: string) => {
   const { data: mentorApplicationTime, isLoading } = useQuery({
-    queryKey: ["mentorApplicationTime", coffeeChatInfoId],
+    queryKey: [
+      "mentorApplicationTime",
+      "sentList",
+      "receivedList",
+      coffeeChatInfoId,
+    ],
     queryFn: () => fetchMentorApplicationTime(coffeeChatInfoId),
     enabled: !!coffeeChatInfoId,
   });

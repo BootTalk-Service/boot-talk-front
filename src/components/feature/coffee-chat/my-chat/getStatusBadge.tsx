@@ -40,7 +40,7 @@ export const getStatusBadge = (status: string) => {
 
   return (
     <div
-      className={`px-2 py-0.5 text-xs font-medium rounded border ${bgColor} ${textColor} ${borderColor}`}
+      className={`px-2 py-0.5 text-xs font-medium rounded border whitespace-nowrap ${bgColor} ${textColor} ${borderColor}`}
     >
       {text}
     </div>
