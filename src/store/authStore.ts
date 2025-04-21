@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import type { AuthUser, UserStoreUser } from "@/types/user";
+import type { AuthUser, UserInfo } from "@/types/response";
 
-export const transformToAuthUser = (user: UserStoreUser): AuthUser => ({
-  id: user.t_user_id,
+export const transformToAuthUser = (user: UserInfo): AuthUser => ({
   name: user.name,
   email: user.email,
-  current_point: user.current_point,
+  currentPoint: user.currentPoint,
+  profileImage: user.profileImage,
 });
 
 interface AuthState {

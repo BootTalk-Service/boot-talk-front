@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { UserStoreUser } from "@/types/user";
+import type { UserInfo } from "@/types/response";
 
 interface UserStore {
-  user: UserStoreUser | null;
-  setUser: (user: UserStoreUser) => void;
+  user: UserInfo | null;
+  setUser: (user: UserInfo) => void;
   logout: () => void;
 }
 

@@ -6,35 +6,34 @@ import { toast } from "react-toastify";
 import { END_POINT } from "@/constants/endPoint";
 
 const SocialLogin = () => {
-
   const handleNaverLogin = () => {
     try {
       window.location.href = END_POINT.NAVER_REDIRECT;
-    } catch (error) {
-      console.error("소셜 로그인 오류:", error);
+    } catch {
       toast.error("로그인 실패. 관리자에게 문의하세요.");
     }
   };
 
   return (
     <AuthCard>
-      <div className="flex flex-col items-center justify-center w-full h-full gap-3">
+      <div className="flex flex-col items-center justify-center w-full gap-6 px-4 py-10">
         <Image
           src="/logo.PNG"
-          alt="BootTalk Logo"
+          alt="BootTalk 로고"
           width={300}
           height={90}
-          className="object-contain mt-6 mb-10"
+          className="object-contain mb-3"
         />
-        <p className="text-base text-center leading-relaxed">
-          우리 부트톡
+        <p className="text-center text-base leading-relaxed text-gray-600">
+          부트톡,
           <br />
-          너희들의 미래를 담당하지
+          <span className="text-gray-500 font-normal">
+            부트캠퍼들의 내일을 연결하다
+          </span>
         </p>
         <button
           onClick={handleNaverLogin}
-          style={{ backgroundColor: "#03C75A" }}
-          className="btn text-white text-base min-w-[180px] min-h-[44px] mb-10 rounded-lg"
+          className="btn text-white text-base font-medium w-full max-w-[240px] h-[48px] rounded-lg shadow-md bg-[#03C75A] hover:bg-[#026B3A] transition-colors duration-200 ease-in-out"
         >
           네이버로 로그인
         </button>

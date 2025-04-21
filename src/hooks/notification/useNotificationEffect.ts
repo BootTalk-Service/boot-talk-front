@@ -10,33 +10,34 @@ export const useNotificationEffect = () => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    if (!token) return;
+    const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL;
 
-    const BACKEND = process.env.NEXT_PUBLIC_API_URL;
-    const url = `${BACKEND}api/sse-connect?token=${token}`;
+    if (!token || !backendUrl) return;
 
+    const url = `${backendUrl}api/sse-connect?token=${encodeURIComponent(token)}`;
     const es = new EventSource(url);
 
-    es.addEventListener("notification", (e) => {
+    const handleNotification = (e: MessageEvent) => {
       try {
         const payload: NotificationItem = JSON.parse(e.data);
-        addNotification(payload);
 
+        addNotification(payload);
         queryClient.setQueryData<NotificationItem[]>(
           ["notifications"],
           (old = []) => [payload, ...old]
         );
-      } catch (err) {
-        console.error("알림 JSON 파싱 실패:", err);
+      } catch {
       }
-    });
+    };
 
-    es.onerror = (err) => {
-      console.error("SSE 에러 발생:", err);
+    es.addEventListener("notification", handleNotification);
+
+    es.onerror = () => {
     };
 
     return () => {
+      es.removeEventListener("notification", handleNotification);
       es.close();
     };
   }, [addNotification, queryClient]);
