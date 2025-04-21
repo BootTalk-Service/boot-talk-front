@@ -422,53 +422,6 @@ export const handlers = [
   }),
 
   // 로그인 페이지 핸들러 ------------------------------------------------------------
-  http.get(END_POINT.NAVER_REDIRECT, () => {
-    console.log("MSW 핸들러: 네이버 리다이렉트 요청 수신");
-    const mockCode = "mocked_code_" + Date.now();
-    const mockState = "mocked_state_" + Date.now();
-
-    // 리다이렉트 응답
-    return Response.redirect(
-      `${END_POINT.NAVER_CALLBACK}?code=${mockCode}&state=${mockState}`,
-      302
-    );
-  }),
-
-  http.get(END_POINT.NAVER_CALLBACK, ({ request }) => {
-    const url = new URL(request.url);
-    const code = url.searchParams.get("code");
-    const state = url.searchParams.get("state");
-
-    console.log("Mock 서버: 네이버 콜백 요청 수신", { code, state });
-
-    if (!code) {
-      return new HttpResponse(
-        JSON.stringify({ message: "인증 코드가 없습니다." }),
-        { status: 400 }
-      );
-    }
-
-    // 모의 네이버 로그인 성공 응답
-    return new HttpResponse(
-      JSON.stringify({
-        success: true,
-        accessToken: "mock-naver-token-xyz123",
-        refreshToken: "mock-refresh-token-abc456",
-        user: {
-          id: "naver_user_123",
-          name: "테스트 사용자",
-          email: "test@example.com",
-          profileImage: "https://via.placeholder.com/150",
-        },
-      }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-  }),
 
   http.post("/api/test/users/signup", async ({ request }) => {
     const formData = await request.formData();
