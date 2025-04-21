@@ -11,13 +11,12 @@ export const STATIC_FILTER_OPTIONS = [
     }
   },
   { 
-    key: "minRating", 
-    label: "평점", 
-    options: ["2점 대", "3점 대", "4점 대"],
-    valueMap: {
-      "2점 대": "2",
-      "3점 대": "3",
-      "4점 대": "4"
-    }
+    key: "minRating",
+    label: "평점",
+    options: [
+      { label: "2점 대", value: "2" },
+      { label: "3점 대", value: "3" },
+      { label: "4점 대", value: "4" },
+    ],
   },
 ];

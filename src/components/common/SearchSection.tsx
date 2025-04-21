@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { END_POINT } from "@/constants/endPoint";
@@ -8,6 +9,11 @@ import clsx from "clsx";
 
 const SearchSection = () => {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const {
     query,
@@ -21,7 +27,10 @@ const SearchSection = () => {
   } = useSearchSuggestions();
 
   const handleSuggestionClick = (suggestion: BootcampSuggestion) => {
-    router.push(END_POINT.BOOTCAMP_DETAIL(String(suggestion.bootcampId)));
+    const rawUrl = END_POINT.BOOTCAMP_DETAIL(String(suggestion.bootcampId));
+    const routeUrl = rawUrl.replace(/^\/api/, "");
+
+    router.push(routeUrl);
     setIsOpen(false);
   };
 
@@ -32,6 +41,8 @@ const SearchSection = () => {
       setIsOpen(false);
     }
   };
+
+  if (!mounted) return null;
 
   return (
     <section
@@ -46,7 +57,7 @@ const SearchSection = () => {
       )}
     >
       <div className="relative w-full max-w-sm px-4 sm:max-w-xl sm:px-0">
-        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-base-content" size={20} />
+        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-base-content text-gray-700" size={20} />
         <input
             ref={inputRef}
             value={query}
@@ -59,7 +70,7 @@ const SearchSection = () => {
               "w-full bg-white border border-gray-300 shadow-md focus:outline-none",
               "text-xs sm:text-sm md:text-base",
               "py-2 sm:py-3 md:py-4",
-              "pl-10 pr-4",
+              "pl-11 pr-4",
               isOpen ? "rounded-t-2xl rounded-b-none" : "rounded-full"
             )}
         />
@@ -67,7 +78,7 @@ const SearchSection = () => {
         {isOpen && (
           <div
             ref={dropdownRef}
-            className="absolute top-full left-0 w-full bg-white border border-t-0 border-gray-300 rounded-b-xl shadow-md z-50"
+            className="absolute top-full left-0 w-full bg-white border border-t-0 border-gray-300 rounded-b-xl shadow-md z-[100]"
           >
             {isLoading ? (
               <div className="px-4 py-2 text-center">

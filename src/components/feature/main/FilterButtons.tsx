@@ -10,109 +10,130 @@ interface FilterButtonsProps {
   categoryOptions: string[];
 }
 
+type Option = { label: string; value: string };
+
 const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const dropdownRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const getFiltersFromURL = () => {
+  const getFiltersFromURL = (): Record<string, string> => {
     const params = new URLSearchParams(searchParams.toString());
     const filters: Record<string, string> = {};
-    
-    STATIC_FILTER_OPTIONS.forEach(filter => {
-      const value = params.get(filter.key);
-      if (value) filters[filter.key] = value;
+
+    STATIC_FILTER_OPTIONS.forEach((f) => {
+      const v = params.get(f.key);
+      if (v) filters[f.key] = v;
     });
-    
-    const category = params.get('category');
-    if (category) filters.category = category;
-    
+
+    const cat = params.get("category");
+    if (cat) filters.category = cat;
+
     return filters;
   };
 
   const selectedFilters = getFiltersFromURL();
 
-  const handleSelect = (key: string, value: string) => {
+  const handleSelect = (key: string, option: Option) => {
     const params = new URLSearchParams(searchParams.toString());
-    
-    if (params.get(key) === value) {
+
+    if (params.get(key) === option.value) {
       params.delete(key);
     } else {
-      params.set(key, value);
+      params.set(key, option.value);
     }
-    
+
     router.push(`?${params.toString()}`);
     setOpenDropdown(null);
   };
 
-  const clearAllFilters = () => {
-    router.push('/');
-    setOpenDropdown(null);
-  };
-
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const onClickOutside = (e: MouseEvent) => {
       if (
         openDropdown &&
-        !dropdownRefs.current[openDropdown]?.contains(event.target as Node)
+        !dropdownRefs.current[openDropdown]?.contains(e.target as Node)
       ) {
         setOpenDropdown(null);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
   }, [openDropdown]);
 
-  const allFilters = [
-    ...STATIC_FILTER_OPTIONS,
-    { key: "category", label: "직무", options: categoryOptions || [] },
+  const allFilters: { key: string; label: string; options: Option[] }[] = [
+    ...STATIC_FILTER_OPTIONS.map((f) => ({
+      key: f.key,
+      label: f.label,
+      options: f.options.map((opt) =>
+        typeof opt === "string" ? { label: opt, value: opt } : opt
+      ),
+    })),
+    {
+      key: "category",
+      label: "직무",
+      options: categoryOptions.map((c) => ({ label: c, value: c })),
+    },
   ];
+
+  const clearAllFilters = () => {
+    router.push("/");
+    setOpenDropdown(null);
+  };
 
   return (
     <div className="flex justify-center w-full relative z-50">
-      
       <div className="flex flex-wrap gap-3 items-center justify-center px-4 py-6">
         {allFilters.map((filter) => (
           <div
-            className="relative flex items-center gap-1"
-            key={filter.label}
+            key={filter.key}
             ref={(el) => {
-              dropdownRefs.current[filter.label] = el;
+              dropdownRefs.current[filter.key] = el;
             }}
+            className="relative flex items-center gap-1"
           >
-            <div
-              role="button"
+            <button
+              type="button"
               onClick={() =>
-                setOpenDropdown(openDropdown === filter.label ? null : filter.label)
+                setOpenDropdown(openDropdown === filter.key ? null : filter.key)
               }
               className={clsx(
                 "btn btn-sm rounded-full min-w-[72px] sm:min-w-[90px]",
-                selectedFilters?.[filter.key]
+                selectedFilters[filter.key]
                   ? "bg-amber-900 text-white"
                   : "btn-outline border-neutral-400"
               )}
             >
-              {selectedFilters?.[filter.key] || filter.label}
-            </div>
+              {
+                filter.options.find(
+                  (o) => o.value === selectedFilters[filter.key]
+                )?.label ?? filter.label
+              }
+            </button>
 
-            {openDropdown === filter.label && (
+            {openDropdown === filter.key && (
               <div
-              className={clsx(
-                "absolute top-full left-0 mt-1 shadow bg-white rounded-lg z-50 max-h-60 overflow-y-auto overflow-x-hidden",
-                filter.label === "직무" ? "w-44 sm:w-52" : "w-36 sm:w-40"
-              )}
-            >
+                className={clsx(
+                  "absolute top-full left-1/2 -translate-x-1/2 mt-1 shadow bg-white rounded-lg z-50 max-h-60 overflow-y-auto scrollbar-thin",
+                  "overflow-x-hidden",
+                  filter.key === "category"
+                    ? "w-60 sm:w-48"
+                    : filter.key === "region" || filter.key === "rating"
+                      ? "w-28 sm:w-25"
+                      : "w-28 sm:w-28"
+                )}
+              >
                 <ul className="menu menu-compact p-2">
                   {filter.options.map((option) => (
-                    <li key={option}>
-                    <a
-                      onClick={() => handleSelect(filter.key, option)}
-                      className="text-sm py-2 px-4 hover:bg-gray-100 rounded-md truncate"
-                    >
-                      {option}
-                      </a>
+                    <li key={option.value}>
+                      <button
+                        type="button"
+                        onClick={() => handleSelect(filter.key, option)}
+                        className="w-full text-left text-sm py-2 px-4 hover:bg-gray-100 rounded-md whitespace-normal break-words"
+                      >
+                        {option.label}
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -121,16 +142,14 @@ const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
           </div>
         ))}
 
-        {/* 초기화 버튼 */}
-        <div className="flex items-center">
-          <button
-            onClick={clearAllFilters}
-            className="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
-            aria-label="전체 필터 초기화"
-          >
-            <RotateCcw className="w-4 h-4 text-black" />
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={clearAllFilters}
+          className="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
+          aria-label="전체 필터 초기화"
+        >
+          <RotateCcw className="w-4 h-4 text-black" />
+        </button>
       </div>
     </div>
   );

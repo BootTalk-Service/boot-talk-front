@@ -39,8 +39,8 @@ const BootcampList = () => {
   return (
     <section className="px-4 sm:px-8 md:px-20 lg:px-28 pt-6 pb-2">
       <div className="hidden lg:grid grid-cols-6 gap-4 px-4 py-2 font-semibold text-sm text-gray-600 border-b border-t border-slate-300 bg-slate-50">
-        <span>교육과정명</span>
-        <span>학습기간</span>
+        <span>교육과정 명</span>
+        <span className="flex justify-start pl-4">학습기간</span>
         <span className="flex justify-start pl-10">프로그램 과정</span>
         <span className="flex justify-start pl-16">지역</span>
         <span className="flex justify-start pl-10">정원</span>
