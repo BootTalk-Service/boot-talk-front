@@ -1,15 +1,22 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
 import { useGetBootcamps } from "@/hooks/main-page/useGetBootcamps";
 import BootcampCard from "./BootcampCard";
 
-const BootcampList = () => {
-  const searchParams = useSearchParams();
-  const filters = Object.fromEntries(searchParams.entries());
-  const { bootcamps, fetchNextPage, hasNextPage, isLoading, isError } = useGetBootcamps(filters);
-  
+interface BootcampListProps {
+  filters: Record<string, string>;
+}
+
+const BootcampList = ({ filters }: BootcampListProps) => {
+  const {
+    bootcamps,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isError,
+  } = useGetBootcamps(filters);
+
   const observerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
