@@ -8,7 +8,7 @@ import { clearAuthStorage } from "@/lib/logout";
 import MobileDrawerMenu from "@/components/common/MobileDrawerMenu";
 import { useDrawerScrollLock } from "@/hooks/useDrawerScrollLock";
 import NotificationDropdown from "../notification/NotificationDropdown";
-import { useEffect, useState  } from "react";
+import { useEffect, useState } from "react";
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 
@@ -18,11 +18,10 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await axiosDefault.post(END_POINT.LOGOUT, {}, { withCredentials: true }); // 백엔드에서 쿠키 제거
-    } catch (err) {
-      console.warn("서버 로그아웃 실패:", err);
+      await axiosDefault.post(END_POINT.LOGOUT, {});
+    } catch {
     }
-  
+
     logout();
     clearAuthStorage();
   };
@@ -37,12 +36,9 @@ const Header = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axiosDefault.get("/api/users/my", {
-          withCredentials: true,
-        });
+        const res = await axiosDefault.get(END_POINT.MY_INFO);
         setUser(res.data);
-      } catch (error) {
-        console.log("로그인 상태 아님 또는 쿠키 만료됨", error);
+      } catch {
       }
     };
 
@@ -62,14 +58,12 @@ const Header = () => {
       />
       <header className="sticky top-0 z-60 shadow-m bg-base-100 shadow-md">
         <div className="navbar container mx-auto px-4 relative justify-between">
-          {/* 햄버거 (모바일) */}
           <div className="flex md:hidden items-center">
             <label htmlFor="mobile-drawer" className="btn btn-ghost">
               <Menu size={24} />
             </label>
           </div>
 
-          {/* 로고 */}
           <div className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
             <Link href="/">
               <Image
@@ -82,25 +76,17 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* 로그인 상태 */}
           <div className="hidden md:flex items-center gap-4">
-          {user ? (
-            <div className="flex items-center gap-3">
-              {/* 알림 버튼 + 뱃지 */}
-              <div className="relative">
-                <button className="btn btn-ghost btn-circle" aria-label="알림">
-                  <NotificationDropdown />
-                </button>
-                
-              </div>
-              
-                <Link href="/chat" className="btn btn-ghost btn-circle">
-                  <button
-                    className="btn btn-ghost btn-circle"
-                    aria-label="채팅"
-                  >
-                    <MessageCircleCode />
+            {user ? (
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <button className="btn btn-ghost btn-circle" aria-label="알림">
+                    <NotificationDropdown />
                   </button>
+                </div>
+
+                <Link href="/chat" className="btn btn-ghost btn-circle" aria-label="채팅">
+                  <MessageCircleCode />
                 </Link>
 
                 <Link
@@ -133,7 +119,6 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Drawer (모바일) */}
       <div className="drawer-side z-50 md:hidden fixed">
         <label htmlFor="mobile-drawer" className="drawer-overlay"></label>
         <MobileDrawerMenu />
@@ -143,4 +128,3 @@ const Header = () => {
 };
 
 export default Header;
-

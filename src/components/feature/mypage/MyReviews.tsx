@@ -44,11 +44,8 @@ const MyReviews = () => {
       await axiosDefault.delete(END_POINT.DELETE_REVIEW(reviewId));
       toast.success("리뷰가 삭제되었습니다.");
       await refetch?.();
-    } catch (error: any) {
-      console.error("리뷰 삭제 실패:", error);
-      toast.error(
-        error?.response?.data?.message || "리뷰 삭제 중 오류가 발생했습니다."
-      );
+    } catch {
+      toast.error("리뷰 삭제 중 오류가 발생했습니다.");
     }
   };
 
@@ -66,13 +63,11 @@ const MyReviews = () => {
               key={review.reviewId}
               className="relative bg-white p-4 rounded-lg shadow border border-gray-200 hover:bg-gray-50 transition-colors min-h-[180px] sm:min-h-[150px]"
             >
-              {/* 제목 + 버튼 */}
               <div className="flex justify-between items-start mb-2">
                 <h2 className="text-sm font-semibold text-gray-700 max-w-[85%] break-words whitespace-normal">
                   {review.courseName}
                 </h2>
-  
-                {/* 데스크탑용 버튼 */}
+
                 <div className="hidden sm:flex items-center gap-2">
                   <button
                     onClick={() =>
@@ -100,22 +95,19 @@ const MyReviews = () => {
                   </button>
                 </div>
               </div>
-  
-              {/* 별점 + 날짜 */}
+
               <div className="flex items-center mb-1">
                 <div className="flex">{renderStars(review.rating)}</div>
                 <span className="text-xs ml-2 text-gray-700">
                   {new Date(review.createdAt).toLocaleDateString()}
                 </span>
               </div>
-  
-              {/* 작성자 */}
+
               <p className="text-sm text-gray-500 mb-1">{review.userName}</p>
-  
-              {/* 본문 */}
-              <p className="text-sm text-gray-800 break-normal whitespace-pre-line">{review.content}</p>
-  
-              {/* 모바일용 하단 버튼 */}
+              <p className="text-sm text-gray-800 break-normal whitespace-pre-line">
+                {review.content}
+              </p>
+
               <div className="flex sm:hidden justify-end absolute bottom-3 right-4 gap-3">
                 <button
                   onClick={() =>
@@ -146,11 +138,11 @@ const MyReviews = () => {
           ))
         )}
       </div>
-  
+
       <div className="flex justify-end mt-6">
         <WriteReviewButton />
       </div>
-  
+
       {editTarget && (
         <ReviewModal
           isOpen={!!editTarget}
@@ -168,7 +160,6 @@ const MyReviews = () => {
       )}
     </div>
   );
-  
 };
 
 export default MyReviews;

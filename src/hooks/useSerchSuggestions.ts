@@ -31,8 +31,7 @@ export const useSearchSuggestions = () => {
         );
         setSuggestions(response.data || []);
         setIsOpen(true);
-      } catch (error) {
-        console.error("자동완성 실패:", error);
+      } catch {
         setSuggestions([]);
       } finally {
         setIsLoading(false);

@@ -15,23 +15,13 @@ export const usePatchNotifications = () => {
         .replace(" ", "T");
 
       const url = END_POINT.MARK_ALL_AS_READ(now);
-
-      try {
-        const { data } = await axiosDefault.patch(url);
-        console.log("PATCH 응답 성공:", data);
-        return now;
-      } catch (error) {
-        console.error("PATCH 실패:", error);
-        throw error;
-      }
+      await axiosDefault.patch(url);
+      return now;
     },
 
     onSuccess: (now) => {
-      console.log("상태 업데이트: notifications", now);
-
       queryClient.setQueryData<NotificationItem[]>(["notifications"], (old) => {
         if (!old) return [];
-
         return old.map((n) =>
           new Date(n.createdAt) <= new Date(now)
             ? { ...n, checked: true }

@@ -5,7 +5,7 @@ import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import { toast } from "react-toastify";
 import ReviewModal from "./ReviewModal";
-import type { ReviewBootcamp } from "@/types/response";
+import type { ReviewBootcamp, Certification, Review } from "@/types/response";
 
 interface WriteReviewButtonProps {
   refetch?: () => void;
@@ -18,32 +18,36 @@ export default function WriteReviewButton({ refetch }: WriteReviewButtonProps) {
   const handleReviewClick = async () => {
     try {
       const userRes = await axiosDefault.get(END_POINT.MY_INFO);
-      const { name, certifications, trainingProgramId } = userRes.data;
-      
+      const { name, certifications } = userRes.data as {
+        name: string;
+        certifications: Certification[];
+      };
+
       const reviewRes = await axiosDefault.get(END_POINT.MY_REVIEWS);
-      const reviewedIds = reviewRes.data.data.map(
-        (review: any) => review.trainingProgramId
+      const reviewedIds = (reviewRes.data.data as Review[]).map(
+        (review) => review.trainingProgramId
       );
 
       const unreviewed = certifications.find(
-        (cert: any) => !reviewedIds.includes(cert.trainingProgramId)
-      );
+        (cert) =>
+          cert.trainingProgramId !== undefined &&
+          !reviewedIds.includes(cert.trainingProgramId)
+      );      
 
-      if (!unreviewed) {
+      if (!unreviewed || !unreviewed.trainingProgramId) {
         toast.error("작성 가능한 리뷰가 없습니다.");
         return;
       }
-      
+
       setSelectedBootcamp({
         userName: name,
         courseName: unreviewed.courseName,
         categoryName: unreviewed.categoryName,
-        trainingProgramId: unreviewed.trainingProgramId,
+        trainingProgramId: unreviewed.trainingProgramId!,
       });
 
       setIsModalOpen(true);
-    } catch (err) {
-      console.error("리뷰 버튼 처리 실패:", err);
+    } catch {
       toast.error("리뷰 작성 정보를 불러오지 못했습니다.");
     }
   };

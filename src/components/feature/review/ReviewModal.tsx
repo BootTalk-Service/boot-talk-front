@@ -47,7 +47,7 @@ export default function ReviewModal({
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    if (!bootcamp || !bootcamp.trainingProgramId) {
+    if (!bootcamp?.trainingProgramId) {
       toast.error("부트캠프 정보를 불러오지 못했습니다.");
       setIsSubmitting(false);
       return;
@@ -70,17 +70,14 @@ export default function ReviewModal({
         await axiosDefault.put(END_POINT.UPDATE_REVIEW(reviewId), payload);
         toast.success("리뷰가 수정되었습니다!");
       } else {
-        await axiosDefault.post(END_POINT.POST_REVIEW, payload);
+        await axiosDefault.post(END_POINT.REVIEWS, payload);
         toast.success("리뷰가 성공적으로 등록되었습니다!");
       }
 
       refetch?.();
       onClose();
-    } catch (error: any) {
-      console.error("리뷰 전송 실패:", error?.response ?? error);
-      toast.error(
-        error?.response?.data?.message || "리뷰 저장 중 오류가 발생했습니다."
-      );
+    } catch {
+      toast.error("리뷰 저장 중 오류가 발생했습니다.");
     } finally {
       setIsSubmitting(false);
     }
