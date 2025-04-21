@@ -1,7 +1,7 @@
 "use client";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getReviews } from "@/api/getReviews";
+import { getReviews } from "@/hooks/reviews/getReviews";
 
 export const useGetReviews = (filters: Record<string, string>) => {
   return useInfiniteQuery({
