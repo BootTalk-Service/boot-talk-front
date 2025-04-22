@@ -19,8 +19,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       await axiosDefault.post(END_POINT.LOGOUT, {});
-    } catch {
-    }
+    } catch {}
 
     logout();
     clearAuthStorage();
@@ -38,8 +37,7 @@ const Header = () => {
       try {
         const res = await axiosDefault.get(END_POINT.MY_INFO);
         setUser(res.data);
-      } catch {
-      }
+      } catch {}
     };
 
     if (!user) {
@@ -67,7 +65,7 @@ const Header = () => {
           <div className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
             <Link href="/">
               <Image
-                src="/logo.png"
+                src="https://boottalk-bucket.s3.amazonaws.com/logo.png"
                 alt="로고"
                 width={160}
                 height={20}
@@ -80,12 +78,19 @@ const Header = () => {
             {user ? (
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <button className="btn btn-ghost btn-circle" aria-label="알림">
+                  <button
+                    className="btn btn-ghost btn-circle"
+                    aria-label="알림"
+                  >
                     <NotificationDropdown />
                   </button>
                 </div>
 
-                <Link href="/chat" className="btn btn-ghost btn-circle" aria-label="채팅">
+                <Link
+                  href="/chat"
+                  className="btn btn-ghost btn-circle"
+                  aria-label="채팅"
+                >
                   <MessageCircleCode />
                 </Link>
 
