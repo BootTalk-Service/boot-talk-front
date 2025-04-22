@@ -103,7 +103,7 @@ const MobileDrawerMenu = ({ navItems, pathname }: MobileDrawerMenuProps) => {
             <ul>
               <li className="mb-2">
                 <div className="relative flex items-center px-4 py-2 rounded-lg hover:bg-gray-100">
-                  <NotificationDropdown />
+                <NotificationDropdown isInDrawer />
                   <span className="ml-2 select-none">알림</span>
                 </div>
               </li>
