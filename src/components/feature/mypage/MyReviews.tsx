@@ -156,18 +156,15 @@ export default function MyReviews() {
       {/* 수정 모달 */}
       {editTarget && (
         <ReviewModal
-          isOpen={true}
-          onClose={() => {
-            setEditTarget(null);
-            refetch?.();
-          }}
-          bootcamp={editTarget.bootcamp}
-          mode="edit"
-          reviewId={editTarget.reviewId}
-          defaultRating={editTarget.rating}
-          defaultContent={editTarget.content}
-          refetch={refetch}
-        />
+        isOpen={!!editTarget}
+        onCloseAction={() => setEditTarget(null)}
+        bootcamp={editTarget!.bootcamp}
+        mode="edit"
+        reviewId={editTarget!.reviewId}
+        defaultRating={editTarget!.rating}
+        defaultContent={editTarget!.content}
+        refetch={refetch}
+      />
       )}
     </div>
   );

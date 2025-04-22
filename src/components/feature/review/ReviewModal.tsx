@@ -10,18 +10,18 @@ import type { ReviewBootcamp } from "@/types/response";
 
 interface ReviewModalProps {
   isOpen: boolean;
-  onClose: () => void;
+  onCloseAction: () => void;
   bootcamp: ReviewBootcamp;
   mode?: "create" | "edit";
   reviewId?: number;
   defaultRating?: number;
   defaultContent?: string;
-  refetch?: () => void;
+  refetch?: () => Promise<unknown>;
 }
 
 export default function ReviewModal({
   isOpen,
-  onClose,
+  onCloseAction,
   bootcamp,
   mode = "create",
   reviewId,
@@ -47,36 +47,45 @@ export default function ReviewModal({
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    if (!bootcamp?.trainingProgramId) {
+    if (!bootcamp.trainingProgramId) {
       toast.error("부트캠프 정보를 불러오지 못했습니다.");
       setIsSubmitting(false);
       return;
     }
-
     if (rating === 0 || content.trim() === "") {
       toast.error("별점과 후기를 모두 작성해주세요!");
       setIsSubmitting(false);
       return;
     }
 
-    const payload = {
-      trainingProgramId: bootcamp.trainingProgramId,
-      rating,
-      content,
-    };
+    const payload = { rating, content };
 
     try {
-      if (mode === "edit" && reviewId) {
-        await axiosDefault.put(END_POINT.UPDATE_REVIEW(reviewId), payload);
+      if (mode === "edit" && reviewId != null) {
+        await axiosDefault.put(
+          END_POINT.UPDATE_REVIEW(reviewId),
+          payload
+        );
         toast.success("리뷰가 수정되었습니다!");
       } else {
-        await axiosDefault.post(END_POINT.REVIEWS, payload);
-        toast.success("리뷰가 성공적으로 등록되었습니다!");
+        await axiosDefault.post(
+          END_POINT.REVIEWS,
+          {
+            trainingProgramId: bootcamp.trainingProgramId,
+            rating,
+            content,
+          }
+        );
+        toast.success("리뷰가 등록되었습니다!");
       }
 
-      refetch?.();
-      onClose();
-    } catch {
+      if (refetch) {
+        await refetch();
+      }
+
+      onCloseAction();
+    } catch (err) {
+      console.error("리뷰 저장 에러:", err);
       toast.error("리뷰 저장 중 오류가 발생했습니다.");
     } finally {
       setIsSubmitting(false);
@@ -86,7 +95,7 @@ export default function ReviewModal({
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={onCloseAction}
       title={mode === "edit" ? "리뷰 수정" : "리뷰 작성"}
       size="lg"
     >
@@ -95,12 +104,12 @@ export default function ReviewModal({
           <input
             className="input input-bordered w-full"
             disabled
-            value={bootcamp?.courseName ?? ""}
+            value={bootcamp.courseName}
           />
           <input
             className="input input-bordered w-full"
             disabled
-            value={bootcamp?.userName ?? ""}
+            value={bootcamp.userName}
           />
         </div>
 
@@ -125,7 +134,7 @@ export default function ReviewModal({
         <div className="flex justify-end gap-2 mt-4">
           <button
             className="btn btn-outline border-gray-400 rounded-lg"
-            onClick={onClose}
+            onClick={onCloseAction}
           >
             취소
           </button>

@@ -8,7 +8,7 @@ import ReviewModal from "./ReviewModal";
 import type { ReviewBootcamp, Certification, Review } from "@/types/response";
 
 interface WriteReviewButtonProps {
-  refetch?: () => void;
+  refetch?: () => Promise<unknown>;
 }
 
 export default function WriteReviewButton({ refetch }: WriteReviewButtonProps) {
@@ -64,9 +64,9 @@ export default function WriteReviewButton({ refetch }: WriteReviewButtonProps) {
       {selectedBootcamp && isModalOpen && (
         <ReviewModal
           isOpen={isModalOpen}
-          onClose={() => {
+          onCloseAction={async () => {
             setIsModalOpen(false);
-            refetch?.();
+            await refetch?.();
           }}
           bootcamp={selectedBootcamp}
           mode="create"
