@@ -1,6 +1,7 @@
 "use client";
 
 import { useGetBootcampDetail } from "@/hooks/detail/useGetBootcampDetail";
+import { useGetBootcampReviews } from "@/hooks/detail/useGetBootcampreviews";
 import BootcampDetailInfo from "@/components/feature/detail/BootcampDetailInfo";
 import BootcampSchedule from "@/components/feature/detail/BootcampSchedule";
 import BootcampReview from "@/components/feature/detail/BootcampReview";
@@ -12,6 +13,11 @@ interface Props {
 
 const BootcampDetailClient = ({ id }: Props) => {
   const { data, isLoading, isError } = useGetBootcampDetail(id);
+  const {
+    data: reviewsData,
+    isLoading: isReviewsLoading,
+    isError: isReviewsError,
+  } = useGetBootcampReviews(id);
 
   if (isLoading) return <p className="p-10 text-center text-gray-500">불러오는 중...</p>;
   if (isError || !data) return <p className="p-10 text-center text-gray-500">데이터를 불러오지 못했습니다.</p>;
@@ -49,7 +55,9 @@ const BootcampDetailClient = ({ id }: Props) => {
 
       <BootcampIntro />
 
-      <BootcampReview reviews={data.reviews} />
+      {!isReviewsLoading && !isReviewsError && reviewsData && (
+        <BootcampReview reviews={reviewsData ?? []} />
+      )}
     </main>
     </>
   );

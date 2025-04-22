@@ -66,8 +66,9 @@ export interface Review {
   rating: number;
   content: string;
   createdAt: string;
+  updatedAt: string;
   trainingProgramId: string;
-  userName?: string;
+  userName: string;
 }
 
 export interface ReviewBootcamp {
