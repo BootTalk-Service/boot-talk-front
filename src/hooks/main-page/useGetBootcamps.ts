@@ -43,18 +43,12 @@ const getTransformedFilters = (filters: Record<string, string>) => {
   return result;
 };
 
-const getWeeksBetween = (startDateStr: string, endDateStr: string): number => {
-  const start = new Date(startDateStr);
-  const end = new Date(endDateStr);
-
-  const diffInMs = end.getTime() - start.getTime();
-  const diffInWeeks = diffInMs / (1000 * 60 * 60 * 24 * 7);
-
-  return Math.ceil(diffInWeeks);
-};
-
-
 const applyFilters = (data: Bootcamp[], filters: Record<string, string>) => {
+  const getWeeksBetween = (start: string, end: string) => {
+    const diff = new Date(end).getTime() - new Date(start).getTime();
+    return Math.ceil(diff / (1000 * 60 * 60 * 24 * 7));
+  };
+
   return data.filter((bootcamp) => {
     const { region, duration, minRating, category } = filters;
 
@@ -64,8 +58,10 @@ const applyFilters = (data: Bootcamp[], filters: Record<string, string>) => {
     if (minRating) {
       const rating = Number(minRating);
       const nextRating = rating + 1;
-
-      if (bootcamp.courseAverageRating < rating || bootcamp.courseAverageRating >= nextRating) {
+      if (
+        bootcamp.courseAverageRating < rating ||
+        bootcamp.courseAverageRating >= nextRating
+      ) {
         return false;
       }
     }
@@ -85,7 +81,6 @@ const applyFilters = (data: Bootcamp[], filters: Record<string, string>) => {
   });
 };
 
-
 export const useGetBootcamps = (filters: Record<string, string>) => {
   const PAGE_SIZE = 10;
 
@@ -94,26 +89,27 @@ export const useGetBootcamps = (filters: Record<string, string>) => {
     initialPageParam: 0,
     queryFn: async ({ pageParam }) => {
       const page = pageParam as number;
-      const queryParams = new URLSearchParams({
-        page: page.toString(),
-        size: PAGE_SIZE.toString(),
-      });
+      const queryParams = new URLSearchParams();
 
       Object.entries(filters).forEach(([key, value]) => {
         if (!value) return;
-        const v = transformFilterValue(key, value);
-        queryParams.append(key, v);
+        queryParams.set(key, transformFilterValue(key, value));
       });
+
+      queryParams.set("page", page.toString());
+      queryParams.set("size", PAGE_SIZE.toString());
+      queryParams.set("sort", JSON.stringify(["string"]));
 
       const res = await axiosDefault.get(
         `${END_POINT.BOOTCAMPS}?${queryParams.toString()}`
       );
+
       const data = res.data?.data || [];
 
       const isMock = process.env.NEXT_PUBLIC_USE_MOCK === "true";
-      const transformedFilters = getTransformedFilters(filters);
-
-      const filtered = isMock ? applyFilters(data, transformedFilters) : data;
+      const filtered = isMock
+        ? applyFilters(data, getTransformedFilters(filters))
+        : data;
 
       return {
         data: filtered,
