@@ -13,7 +13,6 @@ export interface NotificationState {
   page: number;
 
   setNotifications: (notifications: NotificationItem[]) => void;
-  setUnreadCount: (count: number) => void;
   incrementUnread: () => void;
   setHasOpened: (hasOpened: boolean) => void;
   setHasMore: (hasMore: boolean) => void;
@@ -37,9 +36,6 @@ export const useNotificationStore = create<NotificationState>((set) => ({
       notifications,
       unreadCount: getUnreadCount(notifications),
     }),
-
-  setUnreadCount: (count) =>
-    set({ unreadCount: count }),
 
   incrementUnread: () =>
     set((state) => ({ unreadCount: state.unreadCount + 1 })),
@@ -69,9 +65,8 @@ export const useNotificationStore = create<NotificationState>((set) => ({
 
   addNotification: (item) =>
     set((state) => {
-      if (state.notifications.some((n) => n.notificationId === item.notificationId)) {
+      if (state.notifications.some((n) => n.notificationId === item.notificationId))
         return state;
-      }
       const updated = [item, ...state.notifications];
       return {
         notifications: updated,
