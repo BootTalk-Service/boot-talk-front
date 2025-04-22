@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNotificationStore } from "@/store/notificationStore";
 import type { NotificationItem } from "@/types/Notification";
-import { getCookie } from "@/lib/\bcookie";
+import { getCookie } from "@/lib/cookie";
 
 export const useNotificationEffect = () => {
   const { addNotification } = useNotificationStore();

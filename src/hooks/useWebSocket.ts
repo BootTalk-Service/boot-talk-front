@@ -1,5 +1,5 @@
 import { ChatMessage } from "@/components/feature/admin/chat/ChatRoomContainer";
-import { getCookie } from "@/lib/\bcookie";
+import { getCookie } from "@/lib/cookie";
 import { Client } from "@stomp/stompjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 
