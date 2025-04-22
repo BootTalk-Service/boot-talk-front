@@ -13,10 +13,18 @@ import { axiosDefault } from "@/api/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+
+const navItems = [
+  { label: "부트캠프", href: "/" },
+  { label: "리뷰", href: "/review" },
+  { label: "커피챗", href: "/coffee-chat" },
+];
 
 const Header = () => {
   const { user, logout, isAuthenticated, setUser } = useUserStore();
   const queryClient = useQueryClient();
+  const pathname = usePathname();
 
   useDrawerScrollLock();
   const userTextStyle = "text-sm font-medium";
@@ -36,6 +44,9 @@ const Header = () => {
     onSuccess: () => {
       logout();
       queryClient.invalidateQueries({ queryKey: ["myInfo"] });
+
+      document.cookie =
+        "Authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     },
     onError: (error) => {
       console.error("로그아웃 실패:", error);
@@ -55,7 +66,7 @@ const Header = () => {
         className="drawer-toggle hidden"
       />
       <header className="sticky top-0 z-60 shadow-m bg-base-100 shadow-md">
-        <div className="navbar container mx-auto px-4 relative justify-between">
+        <div className="navbar max-w-[1200px] mx-auto px-4 md:px-6 relative justify-between">
           <div className="flex md:hidden items-center">
             <label htmlFor="mobile-drawer" className="btn btn-ghost">
               <Menu size={24} />
@@ -69,10 +80,26 @@ const Header = () => {
                 alt="로고"
                 width={160}
                 height={20}
-                priority
               />
             </Link>
           </div>
+
+          <nav className="hidden md:block text-md">
+            <div className="max-w-screen-xl mx-auto px-4">
+              <ul className="flex justify-around gap-12 py-3">
+                {navItems.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className={pathname === item.href ? "font-semibold" : ""}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </nav>
 
           <div className="hidden md:flex items-center gap-4">
             {isAuthenticated && user ? (
@@ -91,7 +118,7 @@ const Header = () => {
                   className="btn btn-ghost btn-circle"
                   aria-label="채팅"
                 >
-                  <MessageCircleCode />
+                  <MessageCircleCode size={18} />
                 </Link>
 
                 <Link
@@ -125,9 +152,9 @@ const Header = () => {
         </div>
       </header>
 
-      <div className="drawer-side z-50 md:hidden fixed">
+      <div className="drawer-side z-100 md:hidden fixed">
         <label htmlFor="mobile-drawer" className="drawer-overlay"></label>
-        <MobileDrawerMenu />
+        <MobileDrawerMenu navItems={navItems} pathname={pathname} />
       </div>
     </>
   );

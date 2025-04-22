@@ -9,25 +9,19 @@ interface BootcampListProps {
 }
 
 const BootcampList = ({ filters }: BootcampListProps) => {
-  const {
-    bootcamps,
-    fetchNextPage,
-    hasNextPage,
-    isLoading,
-    isError,
-  } = useGetBootcamps(filters);
+  const { bootcamps, fetchNextPage, hasNextPage, isLoading, isError } =
+    useGetBootcamps(filters);
 
   const observerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasNextPage) {
           fetchNextPage();
         }
       },
-      { threshold: 0.1, rootMargin: "100px" } 
+      { threshold: 0.1, rootMargin: "100px" }
     );
 
     if (observerRef.current) {
@@ -39,12 +33,19 @@ const BootcampList = ({ filters }: BootcampListProps) => {
     };
   }, [fetchNextPage, hasNextPage, bootcamps.length]);
 
-  if (isLoading && bootcamps.length === 0) return <div className="text-center py-8">로딩 중...</div>;
-  if (isError) return <div className="text-center py-8 text-red-500">데이터를 불러오는데 실패했습니다.</div>;
-  if (!bootcamps || bootcamps.length === 0) return <div className="text-center py-8">검색 결과가 없습니다.</div>;
+  if (isLoading && bootcamps.length === 0)
+    return <div className="text-center py-8">로딩 중...</div>;
+  if (isError)
+    return (
+      <div className="text-center py-8 text-red-500">
+        데이터를 불러오는데 실패했습니다.
+      </div>
+    );
+  if (!bootcamps || bootcamps.length === 0)
+    return <div className="text-center py-8">검색 결과가 없습니다.</div>;
 
   return (
-    <section className="px-4 sm:px-8 md:px-20 lg:px-28 pt-6 pb-2">
+    <section className="max-w-[1200px] mx-auto px-4 md:px-6">
       <div className="hidden lg:grid grid-cols-6 gap-4 px-4 py-2 font-semibold text-sm text-gray-600 border-b border-t border-slate-300 bg-slate-50">
         <span>교육과정 명</span>
         <span className="flex justify-start pl-4">학습기간</span>
@@ -70,11 +71,8 @@ const BootcampList = ({ filters }: BootcampListProps) => {
         ))}
       </ul>
 
-       {/* 무한 스크롤 감지 */}
-      <div 
-        ref={observerRef}
-        className="py-4 text-center"
-      >
+      {/* 무한 스크롤 감지 */}
+      <div ref={observerRef} className="py-4 text-center">
         {hasNextPage && (
           <div className="w-8 h-8 mx-auto border-t-2 border-b-2 border-amber-950 rounded-full animate-spin"></div>
         )}
@@ -82,6 +80,5 @@ const BootcampList = ({ filters }: BootcampListProps) => {
     </section>
   );
 };
-
 
 export default BootcampList;

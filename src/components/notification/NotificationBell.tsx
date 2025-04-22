@@ -9,7 +9,11 @@ const NotificationBell = ({ isActive }: NotificationBellProps) => {
   const { unreadCount } = useNotificationStore();
 
   return (
-    <div className={`relative p-2 rounded-full ${isActive ? "bg-gray-200" : "hover:bg-gray-100"}`}>
+    <div
+      className={`relative p-2 rounded-full ${
+        isActive ? "bg-gray-200" : "hover:bg-gray-100"
+      }`}
+    >
       <Bell />
 
       {unreadCount > 0 && (
