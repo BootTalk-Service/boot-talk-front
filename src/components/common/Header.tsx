@@ -122,7 +122,7 @@ const Header = () => {
                   </Link>
                 </div>
 
-                <div className="hidden md:block">
+                <div className="hidden md:block gap-3">
                   <Link
                     href="/mypage"
                     className={`${userTextStyle} hover:underline`}
