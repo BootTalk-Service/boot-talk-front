@@ -13,6 +13,8 @@ export interface NotificationState {
   page: number;
 
   setNotifications: (notifications: NotificationItem[]) => void;
+  setUnreadCount: (count: number) => void;
+  incrementUnread: () => void;
   setHasOpened: (hasOpened: boolean) => void;
   setHasMore: (hasMore: boolean) => void;
   setIsLoading: (isLoading: boolean) => void;
@@ -20,8 +22,6 @@ export interface NotificationState {
   markAsReadById: (id: number) => void;
   addNotification: (item: NotificationItem) => void;
   markAllAsReadBefore: (time: string) => void;
-  setUnreadCount: (count: number) => void;
-  incrementUnread: () => void;
 }
 
 export const useNotificationStore = create<NotificationState>((set) => ({

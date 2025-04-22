@@ -45,7 +45,7 @@ const NotificationCard = ({ notification, onClose }: Props) => {
       className="p-4 border border-gray-200 rounded-lg bg-white hover:bg-gray-50 hover:shadow-sm transition relative cursor-pointer"
     >
       <div className="flex items-center justify-between">
-        <span className="text-sm text-gray-800 font-medium">
+        <span className="text-sm text-gray-800 font-medium text-left whitespace-normal">
           {notification.message}
         </span>
         {!notification.checked && (
