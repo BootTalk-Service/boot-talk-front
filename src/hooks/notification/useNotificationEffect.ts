@@ -1,21 +1,19 @@
-"use client";
-
 import { useEffect } from "react";
 import { useNotificationStore } from "@/store/notificationStore";
 import { END_POINT } from "@/constants/endPoint";
 
 export function useNotificationEffect() {
-  const addNotification = useNotificationStore((s) => s.addNotification);
+  const addNotification = useNotificationStore(s => s.addNotification);
 
   useEffect(() => {
     const evtSource = new EventSource(END_POINT.SSE_CONNECT, {
       withCredentials: true,
     });
 
-    evtSource.onmessage = (e) => {
+    evtSource.onmessage = (event) => {
       try {
-        const notification = JSON.parse(e.data);
-        addNotification(notification);
+        const data = JSON.parse(event.data);
+        addNotification(data);
       } catch (err) {
         console.error("SSE 데이터 파싱 오류:", err);
       }
