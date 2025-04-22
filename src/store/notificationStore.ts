@@ -1,4 +1,3 @@
-// src/store/notificationStore.ts
 import { create } from "zustand";
 import { NotificationItem } from "@/types/Notification";
 
@@ -14,7 +13,8 @@ export interface NotificationState {
   page: number;
 
   setNotifications: (notifications: NotificationItem[]) => void;
-  setUnreadCount: (count: number) => void;            // ← 추가
+  setUnreadCount: (count: number) => void;
+  incrementUnread: () => void;
   setHasOpened: (hasOpened: boolean) => void;
   setHasMore: (hasMore: boolean) => void;
   setIsLoading: (isLoading: boolean) => void;
@@ -38,8 +38,11 @@ export const useNotificationStore = create<NotificationState>((set) => ({
       unreadCount: getUnreadCount(notifications),
     }),
 
-  setUnreadCount: (count) =>                             // ← 구현
+  setUnreadCount: (count) =>
     set({ unreadCount: count }),
+
+  incrementUnread: () =>
+    set((state) => ({ unreadCount: state.unreadCount + 1 })),
 
   setHasOpened: (hasOpened) =>
     set({ hasOpened }),
@@ -66,10 +69,9 @@ export const useNotificationStore = create<NotificationState>((set) => ({
 
   addNotification: (item) =>
     set((state) => {
-      const exists = state.notifications.some(
-        (n) => n.notificationId === item.notificationId
-      );
-      if (exists) return state;
+      if (state.notifications.some((n) => n.notificationId === item.notificationId)) {
+        return state;
+      }
       const updated = [item, ...state.notifications];
       return {
         notifications: updated,
