@@ -112,10 +112,10 @@ const MobileDrawerMenu = ({ navItems, pathname }: MobileDrawerMenuProps) => {
             <li>
               <Link
                 href="/chat"
-                className="flex items-center gap-2 px-5 py-4 rounded-lg hover:bg-gray-100"
+                className="flex items-center gap-2 px-5 mb-2 rounded-lg hover:bg-gray-100"
                 onClick={closeDrawer}
               >
-                <MessageCircleCode />
+                <MessageCircleCode size={18} />
                 <span className="ml-2">채팅</span>
               </Link>
             </li>
