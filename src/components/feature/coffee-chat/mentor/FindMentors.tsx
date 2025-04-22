@@ -86,7 +86,7 @@ const FindMentors = () => {
                 <p className="flex justify-between">
                   <span>커피챗 비용:</span>
                   <span className="font-medium text-gray-800">
-                    {mentor.mentorType === "현업자" ? 3 : 1} 포인트
+                    {mentor.mentorType === "PROFESSIONAL" ? 3 : 1} 포인트
                   </span>
                 </p>
               </div>
