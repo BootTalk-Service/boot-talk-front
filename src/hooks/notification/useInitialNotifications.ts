@@ -1,34 +1,29 @@
-import { useQuery } from "@tanstack/react-query";
+"use client";
+
+import { useEffect } from "react";
 import { useNotificationStore } from "@/store/notificationStore";
-import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
-import type { NotificationItem } from "@/types/Notification";
 
-export const useInitialNotifications = () => {
-  const { setNotifications } = useNotificationStore();
+export function useInitialNotifications() {
+  const setNotifications = useNotificationStore((s) => s.setNotifications);
+  const setUnreadCount  = useNotificationStore((s) => s.setUnreadCount);
 
-  return useQuery({
-    queryKey: ["initialNotifications"],
-    queryFn: async () => {
-      try {
-        const res = await axiosDefault.get(`${END_POINT.NOTIFICATIONS}?page=1&limit=10`);
-        const data = res.data;
-
-        const normalizedNotifications: NotificationItem[] = data.notificationResponseDtoList.map(
-          (n: NotificationItem) => ({
-            ...n,
-            checked: n.checked ?? false,
-          })
-        );
-
-        setNotifications(normalizedNotifications);
-        return data;
-      } catch (error) {
-        setNotifications([]);
-        throw error;
-      }
-    },
-    staleTime: 0,
-    refetchOnMount: true,
-  });
-};
+  useEffect(() => {
+    fetch(END_POINT.NOTIFICATIONS, {
+      method: "GET",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`Status ${res.status}`);
+        return res.json();
+      })
+      .then((body) => {
+        setNotifications(body.notificationResponseDtoList);
+        setUnreadCount(body.uncheckedCount);
+      })
+      .catch((err) => {
+        console.error("초기 알림 불러오기 실패:", err);
+      });
+  }, [setNotifications, setUnreadCount]);
+}
