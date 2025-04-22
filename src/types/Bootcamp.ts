@@ -1,3 +1,5 @@
+import type { Review } from "./response";
+
 export interface Bootcamp {
   bootcampId: number;
   bootcampName: string;
@@ -21,17 +23,6 @@ export interface Bootcamp {
 
 export interface BootcampDetail extends Bootcamp {
   reviews: Review[];
-}
-
-export interface Review {
-  reviewId: number;
-  trainingProgramId: string;
-  courseName: string;
-  userName: string;
-  content: string;
-  rating: number;
-  createdAt: string;
-  updatedAt: string | null;
 }
 
 export interface ReviewResponse {
