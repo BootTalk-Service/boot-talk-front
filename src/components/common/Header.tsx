@@ -1,28 +1,20 @@
 "use client";
 
-import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, MessageCircleCode } from "lucide-react";
-import { clearAuthStorage } from "@/lib/logout";
 import MobileDrawerMenu from "@/components/common/MobileDrawerMenu";
 import { useDrawerScrollLock } from "@/hooks/useDrawerScrollLock";
 import NotificationDropdown from "../notification/NotificationDropdown";
 import { useEffect, useState } from "react";
-import { axiosDefault } from "@/api/axiosInstance";
-import { END_POINT } from "@/constants/endPoint";
+import { useUserStore } from "@/store/useUserStore";
 
 const Header = () => {
-  const { user, logout, setUser } = useAuthStore();
+  const { user, logout, isAuthenticated } = useUserStore();
   const [hasMounted, setHasMounted] = useState(false);
 
   const handleLogout = async () => {
-    try {
-      await axiosDefault.post(END_POINT.LOGOUT, {});
-    } catch {}
-
     logout();
-    clearAuthStorage();
   };
 
   useDrawerScrollLock();
@@ -31,23 +23,6 @@ const Header = () => {
   useEffect(() => {
     setHasMounted(true);
   }, []);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axiosDefault.get(END_POINT.MY_INFO);
-        setUser(res.data);
-
-        if (res.data && res.data.userId) {
-          localStorage.setItem("userId", String(res.data.userId));
-        }
-      } catch {}
-    };
-
-    if (!user) {
-      fetchUser();
-    }
-  }, [user, setUser]);
 
   if (!hasMounted) return null;
 
@@ -79,7 +54,7 @@ const Header = () => {
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            {user ? (
+            {isAuthenticated && user ? (
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <button
