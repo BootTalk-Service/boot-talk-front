@@ -1,4 +1,5 @@
 import { ChatMessage } from "@/components/feature/admin/chat/ChatRoomContainer";
+import { getCookie } from "@/lib/\bcookie";
 import { Client } from "@stomp/stompjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -14,7 +15,7 @@ interface UseWebSocketProps {
 function getSocketUrl() {
   // 브라우저 환경인지 확인
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem("access_token");
+    const token = getCookie("Authorization");
     return `ws://43.200.67.27:8080/connection?token=${token}`;
   }
   return "ws://placeholder";

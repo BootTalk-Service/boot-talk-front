@@ -77,11 +77,3 @@ export interface ReviewBootcamp {
   categoryName: string;
   trainingProgramId: string;
 }
-
-export interface AuthUser {
-  name: string;
-  email: string;
-  profileImage: string | null;
-  currentPoint: number;
-  userId: number;
-}

@@ -1,13 +1,14 @@
 "use client";
 
-import { useAuthStore } from "@/store/authStore";
 import Link from "next/link";
 import { Bell } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { clearAuthStorage } from "@/lib/logout";
+import { useUserStore } from "@/store/useUserStore";
 
 const MobileDrawerMenu = () => {
-  const { user, logout } = useAuthStore();
+  const user = useUserStore((state) => state.user);
+  const logout = useUserStore((state) => state.logout);
   const router = useRouter();
 
   const handleLogout = () => {
@@ -32,7 +33,9 @@ const MobileDrawerMenu = () => {
               className="flex items-center gap-1 hover:underline"
             >
               <span className="font-semibold">{user.name}님</span>
-              <span className="text-sm text-amber-700">{user.currentPoint}P</span>
+              <span className="text-sm text-amber-700">
+                {user.currentPoint}P
+              </span>
             </button>
             <button className="btn btn-ghost btn-circle">
               <Bell className="w-5 h-5" />
@@ -51,7 +54,10 @@ const MobileDrawerMenu = () => {
           </button>
         </>
       ) : (
-        <Link href="/login" className="btn bg-white text-gray-600 border-gray-600 btn-sm w-full">
+        <Link
+          href="/login"
+          className="btn bg-white text-gray-600 border-gray-600 btn-sm w-full"
+        >
           로그인 / 회원가입
         </Link>
       )}

@@ -4,6 +4,8 @@ import type { UserInfo } from "@/types/response";
 
 interface UserStore {
   user: UserInfo | null;
+  isAuthenticated: boolean;
+  login: (user: UserInfo) => void;
   setUser: (user: UserInfo) => void;
   logout: () => void;
 }
@@ -12,13 +14,10 @@ export const useUserStore = create<UserStore>()(
   persist(
     (set) => ({
       user: null,
-      setUser: (user) => set({ user }),
-      logout: () => {
-        set({ user: null });
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("auth-storage");
-        localStorage.removeItem("user-storage");
-      },
+      isAuthenticated: false,
+      login: (user) => set({ user, isAuthenticated: true }),
+      setUser: (user) => set({ user, isAuthenticated: !!user }),
+      logout: () => set({ user: null, isAuthenticated: false }),
     }),
     {
       name: "user-storage",

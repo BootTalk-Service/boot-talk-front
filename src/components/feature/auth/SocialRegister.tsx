@@ -5,8 +5,8 @@ import { axiosDefault } from "@/api/axiosInstance";
 import AuthCard from "@/components/common/AuthCard";
 import { toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useAuthStore } from "@/store/authStore";
-import { useUserStore } from "@/store/user";
+
+import { useUserStore } from "@/store/useUserStore";
 import { END_POINT } from "@/constants/endPoint";
 import { useGetPointsOnLogin } from "@/hooks/useGetPointOnLogin";
 
@@ -18,8 +18,7 @@ const SocialRegister = () => {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
 
-  const { login } = useAuthStore();
-  const { setUser } = useUserStore();
+  const login = useUserStore((state) => state.login);
   const { refetch: refetchPoints } = useGetPointsOnLogin();
 
   useEffect(() => {
@@ -48,18 +47,7 @@ const SocialRegister = () => {
       const res = await axiosDefault.get(END_POINT.MY_INFO);
       const user = res.data;
 
-      login(
-        {
-          name: user.name,
-          email: user.email,
-          profileImage: user.profileImage,
-          currentPoint: user.currentPoint,
-          userId: user.userId,
-        },
-        ""
-      );
-
-      setUser(user);
+      login(user);
       refetchPoints();
       toast.success("회원가입이 완료되었습니다!");
       router.replace("/");
