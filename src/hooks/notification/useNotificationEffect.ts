@@ -22,7 +22,7 @@ export function useNotificationEffect() {
     };
 
     evtSource.addEventListener("notification", handleNotification);
-    evtSource.onmessage = handleNotification;
+
     evtSource.onerror = (err) => {
       console.error("SSE 연결 에러:", err);
       evtSource.close();
