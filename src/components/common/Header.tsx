@@ -65,7 +65,7 @@ const Header = () => {
           <div className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
             <Link href="/">
               <Image
-                src="https://boottalk-bucket.s3.amazonaws.com/logo.png"
+                src="https://boottalk-bucket.s3.amazonaws.com/uploads/1745316038167_logo.PNG"
                 alt="로고"
                 width={160}
                 height={20}
