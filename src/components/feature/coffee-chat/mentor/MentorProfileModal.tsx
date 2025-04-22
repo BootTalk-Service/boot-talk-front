@@ -43,7 +43,9 @@ const MentorProfileModal: React.FC<MentorProfileModalProps> = ({
           <Coffee size={20} />
           <div>
             <p className="text-gray-500">커피챗 비용</p>
-            <p className="font-medium text-gray-700">3 포인트</p>
+            <p className="font-medium text-gray-700">
+              {mentorProfile.mentorType === "PROFESSIONAL" ? 3 : 1} 포인트
+            </p>
           </div>
         </div>
 
