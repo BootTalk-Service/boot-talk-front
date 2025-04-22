@@ -101,7 +101,7 @@ const Header = () => {
             </div>
           </nav>
 
-          <div className="hidden md:flex items-center gap-4">
+          <div className="items-center gap-4">
             {isAuthenticated && user ? (
               <div className="flex items-center gap-3">
                 <div className="flex">
@@ -113,7 +113,6 @@ const Header = () => {
                       <NotificationDropdown />
                     </button>
                   </div>
-
                   <Link
                     href="/chat"
                     className="btn btn-ghost btn-circle"

@@ -87,7 +87,7 @@ const MobileDrawerMenu = ({ navItems, pathname }: MobileDrawerMenuProps) => {
 
       {isAuthenticated && myInfo ? (
         <>
-          <div className="flex flex-col gap-2 px-4 mb-4">
+          <div className="flex flex-col gap-2 p-4">
             <div className="flex items-center justify-between">
               <Link
                 href="/mypage"
@@ -100,38 +100,18 @@ const MobileDrawerMenu = ({ navItems, pathname }: MobileDrawerMenuProps) => {
             </div>
           </div>
 
-          <ul>
-            <li>
-              <div className="flex items-center rounded-lg">
-                <button aria-label="알림">
-                  <NotificationDropdown />
-                </button>
-                <span>알림</span>
-              </div>
-            </li>
-            <li>
-              <Link
-                href="/chat"
-                className="flex items-center gap-2 px-5 mb-2 rounded-lg hover:bg-gray-100"
-                onClick={closeDrawer}
-              >
-                <MessageCircleCode size={18} />
-                <span className="ml-2">채팅</span>
-              </Link>
-            </li>
-            <li>
-              <button
-                className="btn btn-outline"
-                onClick={() => {
-                  handleLogout();
-                  closeDrawer();
-                }}
-                disabled={isMyInfoLoading || isMyInfoError}
-              >
-                로그아웃
-              </button>
-            </li>
-          </ul>
+          <div className="flex flex-col">
+            <button
+              className="btn btn-outline"
+              onClick={() => {
+                handleLogout();
+                closeDrawer();
+              }}
+              disabled={isMyInfoLoading || isMyInfoError}
+            >
+              로그아웃
+            </button>
+          </div>
         </>
       ) : (
         <div className="px-4">
