@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { STATIC_FILTER_OPTIONS } from "./bootcampFilters";
 import { RotateCcw } from "lucide-react";
 import clsx from "clsx";
+import { STATIC_FILTER_OPTIONS } from "./bootcampFilters";
 
 interface FilterButtonsProps {
   selectedFilters: Record<string, string>;
@@ -14,42 +13,15 @@ interface FilterButtonsProps {
 
 type Option = { label: string; value: string };
 
-const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+export default function FilterButtons({
+  selectedFilters,
+  setSelectedFilters,
+  categoryOptions = [],
+}: FilterButtonsProps) {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const dropdownRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const getFiltersFromURL = (): Record<string, string> => {
-    const params = new URLSearchParams(searchParams.toString());
-    const filters: Record<string, string> = {};
-
-    STATIC_FILTER_OPTIONS.forEach((f) => {
-      const v = params.get(f.key);
-      if (v) filters[f.key] = v;
-    });
-
-    const cat = params.get("category");
-    if (cat) filters.category = cat;
-
-    return filters;
-  };
-
-  const selectedFilters = getFiltersFromURL();
-
-  const handleSelect = (key: string, option: Option) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (params.get(key) === option.value) {
-      params.delete(key);
-    } else {
-      params.set(key, option.value);
-    }
-
-    router.push(`?${params.toString()}`);
-    setOpenDropdown(null);
-  };
-
+  // 드롭다운 외부 클릭 시 닫기
   useEffect(() => {
     const onClickOutside = (e: MouseEvent) => {
       if (
@@ -59,7 +31,6 @@ const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
         setOpenDropdown(null);
       }
     };
-
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, [openDropdown]);
@@ -79,8 +50,21 @@ const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
     },
   ];
 
+  // 필터 선택/해제
+  const handleSelect = (key: string, option: Option) => {
+    const next = { ...selectedFilters };
+    if (next[key] === option.value) {
+      delete next[key];
+    } else {
+      next[key] = option.value;
+    }
+    setSelectedFilters(next);
+    setOpenDropdown(null);
+  };
+
+  // 전체 초기화
   const clearAllFilters = () => {
-    router.push("/");
+    setSelectedFilters({});
     setOpenDropdown(null);
   };
 
@@ -118,12 +102,7 @@ const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
               <div
                 className={clsx(
                   "absolute top-full left-1/2 -translate-x-1/2 mt-1 shadow bg-white rounded-lg z-50 max-h-60 overflow-y-auto scrollbar-thin",
-                  "overflow-x-hidden",
-                  filter.key === "category"
-                    ? "w-60 sm:w-48"
-                    : filter.key === "region" || filter.key === "rating"
-                      ? "w-28 sm:w-25"
-                      : "w-28 sm:w-28"
+                  filter.key === "category" ? "w-60 sm:w-48" : "w-28 sm:w-28"
                 )}
               >
                 <ul className="menu menu-compact p-2">
@@ -155,6 +134,4 @@ const FilterButtons = ({ categoryOptions = [] }: FilterButtonsProps) => {
       </div>
     </div>
   );
-};
-
-export default FilterButtons;
+}
