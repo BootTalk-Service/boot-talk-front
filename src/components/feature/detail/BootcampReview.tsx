@@ -1,6 +1,6 @@
 "use client";
 
-import type { Review } from "@/types/Bootcamp";
+import type { Review } from "@/types/response";
 import DetailSectionCard from "./DetailSectionCard";
 import ReviewItem from "./ReviewItem";
 

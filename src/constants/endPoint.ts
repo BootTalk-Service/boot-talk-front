@@ -35,5 +35,6 @@ export const END_POINT = {
   DELETE_REVIEW: (reviewId: number) => `/api/reviews/my/${reviewId}`,
   SSE_CONNECT: "/api/sse-connect",
   MARK_ALL_AS_READ: (time: string) => `/api/notifications?time=${time}`,
-  MY_POINTS: "/api/points/me"
+  MY_POINTS: "/api/points/me",
+  BOOTCAMP_REVIEWS: (bootcampId: string) => `/api/bootcamps/${bootcampId}/reviews`,
 } as const;
