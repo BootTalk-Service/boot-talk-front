@@ -4,6 +4,8 @@ import { useEffect, useRef, useMemo, useState } from "react";
 import { useGetReviews } from "@/hooks/reviews/useGetReviews";
 import ReviewItem from "./ReviewItem";
 import { ReviewFilterButtons } from "./ReviewFilterButtons";
+import type { Review as ResponseReview } from "@/types/response";
+
 
 export default function ReviewList() {
   const [filters, setFilters] = useState<{ category?: string; date?: string }>({});
@@ -63,7 +65,7 @@ export default function ReviewList() {
       </div>
 
       {allReviews.length > 0 ? (
-        allReviews.map((review, idx) => (
+        (allReviews as ResponseReview[]).map((review, idx) => (
           <ReviewItem key={`${review.reviewId}-${idx}`} review={review} />
         ))
       ) : (
