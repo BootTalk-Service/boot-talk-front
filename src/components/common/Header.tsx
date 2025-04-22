@@ -122,22 +122,24 @@ const Header = () => {
                   </Link>
                 </div>
 
-                <Link
-                  href="/mypage"
-                  className={`${userTextStyle} hover:underline`}
-                >
-                  {`${myInfo?.name}님`}
-                </Link>
+                <div className="hidden md:block">
+                  <Link
+                    href="/mypage"
+                    className={`${userTextStyle} hover:underline`}
+                  >
+                    {`${myInfo?.name}님`}
+                  </Link>
 
-                <span className={userTextStyle}>{myInfo?.currentPoint}P</span>
+                  <span className={userTextStyle}>{myInfo?.currentPoint}P</span>
 
-                <button
-                  className="btn bg-base-100 border-none text-sm hover:text-amber-950 transition-colors"
-                  onClick={handleLogout}
-                  disabled={isMyInfoLoading || isMyInfoError}
-                >
-                  로그아웃
-                </button>
+                  <button
+                    className="btn bg-base-100 border-none text-sm hover:text-amber-950 transition-colors"
+                    onClick={handleLogout}
+                    disabled={isMyInfoLoading || isMyInfoError}
+                  >
+                    로그아웃
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="flex items-center gap-2">
