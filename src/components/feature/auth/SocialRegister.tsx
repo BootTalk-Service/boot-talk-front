@@ -76,7 +76,7 @@ const SocialRegister = () => {
         </div>
         <div className="w-full flex justify-end">
           <button
-            className="btn btn-warning text-white"
+            className="btn btn-neutral btn-outline"
             disabled={!job}
             onClick={handleSave}
           >

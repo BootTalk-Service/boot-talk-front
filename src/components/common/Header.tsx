@@ -104,22 +104,24 @@ const Header = () => {
           <div className="hidden md:flex items-center gap-4">
             {isAuthenticated && user ? (
               <div className="flex items-center gap-3">
-                <div className="relative">
-                  <button
-                    className="btn btn-ghost btn-circle"
-                    aria-label="알림"
-                  >
-                    <NotificationDropdown />
-                  </button>
-                </div>
+                <div>
+                  <div className="relative">
+                    <button
+                      className="btn btn-ghost btn-circle"
+                      aria-label="알림"
+                    >
+                      <NotificationDropdown />
+                    </button>
+                  </div>
 
-                <Link
-                  href="/chat"
-                  className="btn btn-ghost btn-circle"
-                  aria-label="채팅"
-                >
-                  <MessageCircleCode size={18} />
-                </Link>
+                  <Link
+                    href="/chat"
+                    className="btn btn-ghost btn-circle"
+                    aria-label="채팅"
+                  >
+                    <MessageCircleCode size={18} />
+                  </Link>
+                </div>
 
                 <Link
                   href="/mypage"
