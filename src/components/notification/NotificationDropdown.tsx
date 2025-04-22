@@ -12,7 +12,6 @@ const NotificationDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { notifications, setHasOpened } = useNotificationStore();
-
   const patchNotifications = usePatchNotifications();
 
   useInitialNotifications();
@@ -20,7 +19,6 @@ const NotificationDropdown = () => {
 
   const handleCloseDropdown = useCallback(() => {
     setIsOpen(false);
-
     if (notifications.length > 0) {
       patchNotifications.mutate();
     }
@@ -34,37 +32,31 @@ const NotificationDropdown = () => {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         handleCloseDropdown();
       }
     };
-
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
     }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen, handleCloseDropdown]);
 
   return (
     <div className="relative z-[99]" ref={dropdownRef}>
-      <div onClick={() => setIsOpen((prev) => !prev)}>
+      <div onClick={() => setIsOpen(prev => !prev)}>
         <NotificationBell isActive={isOpen} />
       </div>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-96 max-h-[400px] bg-white rounded-2xl shadow-2xl z-[50] overflow-y-auto scrollbar-thin pr-1">
+        <div
+          className=" absolute top-full right-0 mt-2 w-96 max-h-[400px] bg-white rounded-2xl shadow-2xl z-[50] overflow-y-auto scrollbar-thin pr-1"
+        >
           <div className="sticky top-0 p-4 text-lg font-bold text-left bg-gray-100 text-gray-700 border-b border-gray-300 z-10">
             알림
           </div>
-
           <NotificationList
             notifications={notifications}
             onClose={handleCloseDropdown}

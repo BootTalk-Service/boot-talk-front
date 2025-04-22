@@ -100,15 +100,13 @@ const MobileDrawerMenu = ({ navItems, pathname }: MobileDrawerMenuProps) => {
             </div>
           </div>
 
-          <ul>
-            <li>
-              <div className="flex items-center rounded-lg">
-                <button aria-label="알림">
+            <ul>
+              <li className="mb-2">
+                <div className="relative flex items-center px-4 py-2 rounded-lg hover:bg-gray-100">
                   <NotificationDropdown />
-                </button>
-                <span>알림</span>
-              </div>
-            </li>
+                  <span className="ml-2 select-none">알림</span>
+                </div>
+              </li>
             <li>
               <Link
                 href="/chat"
