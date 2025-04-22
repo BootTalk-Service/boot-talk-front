@@ -150,7 +150,7 @@ export default function MyReviews() {
 
       {/* 리뷰 작성 버튼 */}
       <div className="flex justify-end mt-6">
-        <WriteReviewButton />
+        <WriteReviewButton refetch={refetch} />
       </div>
 
       {/* 수정 모달 */}
