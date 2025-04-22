@@ -1,6 +1,6 @@
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
-import type { Review } from "@/types/Bootcamp";
+import type { Review } from "@/types/response";
 
 interface ReviewResponse {
   data: Review[];

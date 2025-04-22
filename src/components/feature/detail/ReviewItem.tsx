@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import type { Review } from "@/types/Bootcamp";
+import type { Review } from "@/types/response";
 
 interface ReviewItemProps {
   review: Review;

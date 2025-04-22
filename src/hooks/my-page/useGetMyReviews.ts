@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
-import type { Review } from "@/types/Bootcamp";
+import type { Review } from "@/types/response";
 
 export const useGetMyReviews = () => {
   const {

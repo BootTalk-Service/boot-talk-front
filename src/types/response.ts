@@ -1,3 +1,5 @@
+import type { Bootcamp } from "./Bootcamp";
+
 export interface UserInfo {
   email: string;
   name: string;
@@ -6,6 +8,7 @@ export interface UserInfo {
   profileImage: string | null;
   certifications: Certification[];
   userId: number;
+  bootcamps: Bootcamp[];
 }
 
 export interface Certification {
@@ -85,4 +88,11 @@ export interface AuthUser {
   profileImage: string | null;
   currentPoint: number;
   userId: number;
+}
+
+export interface ReviewBootcamp {
+  userName: string;
+  courseName: string;
+  categoryName: string;
+  trainingProgramId: string;
 }
