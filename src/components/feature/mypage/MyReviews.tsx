@@ -7,7 +7,6 @@ import { END_POINT } from "@/constants/endPoint";
 import { toast } from "react-toastify";
 import React, { useState } from "react";
 import ReviewModal from "@/components/feature/review/ReviewModal";
-import WriteReviewButton from "@/components/feature/review/WriteReviewButton";
 import type { ReviewBootcamp } from "@/types/response";
 
 const MyReviews = () => {
@@ -24,6 +23,8 @@ const MyReviews = () => {
     rating: number;
     content: string;
   } | null>(null);
+
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false); // 추가
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
@@ -43,7 +44,7 @@ const MyReviews = () => {
     try {
       await axiosDefault.delete(END_POINT.DELETE_REVIEW(reviewId));
       toast.success("리뷰가 삭제되었습니다.");
-      await refetch?.();
+      await refetch();
     } catch {
       toast.error("리뷰 삭제 중 오류가 발생했습니다.");
     }
@@ -140,7 +141,12 @@ const MyReviews = () => {
       </div>
 
       <div className="flex justify-end mt-6">
-        <WriteReviewButton />
+        <button
+          onClick={() => setIsWriteModalOpen(true)}
+          className="bg-amber-900 text-white py-2 px-4 rounded hover:bg-amber-800 text-sm"
+        >
+          리뷰 작성
+        </button>
       </div>
 
       {editTarget && (
@@ -158,6 +164,28 @@ const MyReviews = () => {
           refetch={refetch}
         />
       )}
+
+      {isWriteModalOpen && (
+        <ReviewModal
+          isOpen={isWriteModalOpen}
+          onClose={() => {
+            setIsWriteModalOpen(false);
+            refetch?.();
+          }}
+          mode="create"
+          reviewId={0}
+          bootcamp={{
+            courseName: "",
+            userName: "",
+            trainingProgramId: "",
+            categoryName: "",
+          }}
+          defaultRating={0}
+          defaultContent=""
+          refetch={refetch}
+        />
+      )}
+
     </div>
   );
 };
