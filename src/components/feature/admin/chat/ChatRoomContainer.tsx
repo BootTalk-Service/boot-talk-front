@@ -1,5 +1,6 @@
 import { useGetMessages } from "@/hooks/chat/useGetMessages";
 import { useWebSocket } from "@/hooks/useWebSocket";
+import { useAuthStore } from "@/store/authStore";
 import { ChatRoom } from "@/types/response";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -27,7 +28,7 @@ const ChatRoomContainer = ({ selectedChat }: ChatRoomPageProps) => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const userId = 9080; // 유저id
+  const userId = useAuthStore.getState().user?.userId || 0;
   const amIMentee = selectedChat.mentee.userId === userId;
   const mentorName = selectedChat.mentor.name;
   const menteeName = selectedChat.mentee.name;

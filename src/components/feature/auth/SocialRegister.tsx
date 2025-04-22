@@ -54,6 +54,7 @@ const SocialRegister = () => {
           email: user.email,
           profileImage: user.profileImage,
           currentPoint: user.currentPoint,
+          userId: user.userId,
         },
         ""
       );

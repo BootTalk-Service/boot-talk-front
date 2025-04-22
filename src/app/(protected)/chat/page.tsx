@@ -7,6 +7,7 @@ import Image from "next/image";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale/ko";
 import ChatRoomContainer from "@/components/feature/admin/chat/ChatRoomContainer";
+import { useAuthStore } from "@/store/authStore";
 
 // 상수 정의
 const CHAT_STATUS = {
@@ -31,7 +32,7 @@ const getStatusText = (chatRoom: ChatRoom) => {
   return "현재 진행 중입니다.";
 };
 
-const userId = 9080; // 유저id
+const userId = useAuthStore.getState().user?.userId || 0;
 
 const ChatPage = () => {
   const { chatRoomList = [] } = useGetChatList();
@@ -106,7 +107,7 @@ const ChatPage = () => {
                           >
                             {chatRoom.isActive
                               ? CHAT_STATUS.ONGOING
-                              : chatRoom.endAt
+                              : new Date(chatRoom.endAt) < new Date()
                               ? CHAT_STATUS.ENDED
                               : CHAT_STATUS.UPCOMING}
                           </span>

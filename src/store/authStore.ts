@@ -6,6 +6,7 @@ export const transformToAuthUser = (user: UserInfo): AuthUser => ({
   email: user.email,
   currentPoint: user.currentPoint,
   profileImage: user.profileImage,
+  userId: user.userId,
 });
 
 interface AuthState {
@@ -25,6 +26,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: (user, token) => {
     if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled" && token) {
       localStorage.setItem("Authorization", token);
+      localStorage.setItem("userId", String(user.userId));
     }
     set({ user, token: token || null, isAuthenticated: !!user });
   },
