@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import React, { useState } from "react";
 import ReviewModal from "@/components/feature/review/ReviewModal";
 import WriteReviewButton from "@/components/feature/review/WriteReviewButton";
-import type { ReviewBootcamp, Review } from "@/types/response";
+import type { ReviewBootcamp } from "@/types/response";
 
 const MyReviews = () => {
   const {
@@ -58,7 +58,7 @@ const MyReviews = () => {
         {myReviews.length === 0 ? (
           <p className="text-gray-500 text-center">작성된 리뷰가 없습니다.</p>
         ) : (
-          myReviews.map((review: Review) => (
+          myReviews.map((review) => (
             <div
               key={review.reviewId}
               className="relative bg-white p-4 rounded-lg shadow border border-gray-200 hover:bg-gray-50 transition-colors min-h-[180px] sm:min-h-[150px]"
