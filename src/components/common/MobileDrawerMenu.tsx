@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { MessageCircleCode } from "lucide-react";
 import { useUserStore } from "@/store/useUserStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosDefault } from "@/api/axiosInstance";
@@ -9,7 +8,6 @@ import { END_POINT } from "@/constants/endPoint";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import { useGetMyInfo } from "@/hooks/my-page/useGetMyInfo";
-import NotificationDropdown from "../notification/NotificationDropdown";
 
 interface NavItem {
   href: string;
