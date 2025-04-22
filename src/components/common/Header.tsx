@@ -104,7 +104,7 @@ const Header = () => {
           <div className="hidden md:flex items-center gap-4">
             {isAuthenticated && user ? (
               <div className="flex items-center gap-3">
-                <div>
+                <div className="flex">
                   <div className="relative">
                     <button
                       className="btn btn-ghost btn-circle"
