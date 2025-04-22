@@ -5,6 +5,7 @@ export interface UserInfo {
   currentPoint: number;
   profileImage: string | null;
   certifications: Certification[];
+  userId: number;
 }
 
 export interface Certification {
@@ -82,4 +83,5 @@ export interface AuthUser {
   email: string;
   profileImage: string | null;
   currentPoint: number;
+  userId: number;
 }

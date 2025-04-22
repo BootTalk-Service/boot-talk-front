@@ -37,6 +37,10 @@ const Header = () => {
       try {
         const res = await axiosDefault.get(END_POINT.MY_INFO);
         setUser(res.data);
+
+        if (res.data && res.data.userId) {
+          localStorage.setItem("userId", String(res.data.userId));
+        }
       } catch {}
     };
 
