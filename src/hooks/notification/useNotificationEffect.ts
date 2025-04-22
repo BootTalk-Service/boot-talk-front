@@ -1,45 +1,35 @@
 "use client";
 
 import { useEffect } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { useNotificationStore } from "@/store/notificationStore";
-import type { NotificationItem } from "@/types/Notification";
-import { getCookie } from "@/lib/cookie";
+import { END_POINT } from "@/constants/endPoint";
 
-export const useNotificationEffect = () => {
-  const { addNotification } = useNotificationStore();
-  const queryClient = useQueryClient();
+export function useNotificationEffect() {
+  const addNotification  = useNotificationStore((s) => s.addNotification);
+  const incrementUnread  = useNotificationStore((s) => s.incrementUnread);
 
   useEffect(() => {
-    const token = getCookie("Authorization");
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL;
+    const evtSource = new EventSource(END_POINT.SSE_CONNECT, {
+      withCredentials: true,
+    });
 
-    if (!token || !backendUrl) return;
-
-    const url = `${backendUrl}api/sse-connect?token=${encodeURIComponent(
-      token
-    )}`;
-    const es = new EventSource(url);
-
-    const handleNotification = (e: MessageEvent) => {
+    evtSource.onmessage = (event) => {
       try {
-        const payload: NotificationItem = JSON.parse(e.data);
-
-        addNotification(payload);
-        queryClient.setQueryData<NotificationItem[]>(
-          ["notifications"],
-          (old = []) => [payload, ...old]
-        );
-      } catch {}
+        const data = JSON.parse(event.data);
+        addNotification(data);
+        incrementUnread();
+      } catch (err) {
+        console.error("SSE 데이터 파싱 오류:", err);
+      }
     };
 
-    es.addEventListener("notification", handleNotification);
-
-    es.onerror = () => {};
+    evtSource.onerror = (err) => {
+      console.error("SSE 연결 에러:", err);
+      evtSource.close();
+    };
 
     return () => {
-      es.removeEventListener("notification", handleNotification);
-      es.close();
+      evtSource.close();
     };
-  }, [addNotification, queryClient]);
-};
+  }, [addNotification, incrementUnread]);
+}

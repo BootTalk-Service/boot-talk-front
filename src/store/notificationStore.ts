@@ -20,6 +20,8 @@ export interface NotificationState {
   markAsReadById: (id: number) => void;
   addNotification: (item: NotificationItem) => void;
   markAllAsReadBefore: (time: string) => void;
+  setUnreadCount: (count: number) => void;
+  incrementUnread: () => void;
 }
 
 export const useNotificationStore = create<NotificationState>((set) => ({
@@ -35,6 +37,12 @@ export const useNotificationStore = create<NotificationState>((set) => ({
       notifications,
       unreadCount: getUnreadCount(notifications),
     }),
+
+  setUnreadCount: (count) =>
+    set({ unreadCount: count }),
+
+  incrementUnread: () =>
+    set((state) => ({ unreadCount: state.unreadCount + 1 })),
 
   setHasOpened: (hasOpened) =>
     set({ hasOpened }),
@@ -59,21 +67,17 @@ export const useNotificationStore = create<NotificationState>((set) => ({
       };
     }),
 
-    addNotification: (item) =>
-      set((state) => {
-        const exists = state.notifications.some(
-          (n) => n.notificationId === item.notificationId
-        );
-    
-        if (exists) return state; // 중복이면 무시
-    
-        const updated = [item, ...state.notifications];
-        return {
-          notifications: updated,
-          unreadCount: getUnreadCount(updated),
-        };
-      }),
-    
+  addNotification: (item) =>
+    set((state) => {
+      if (state.notifications.some((n) => n.notificationId === item.notificationId)) {
+        return state;
+      }
+      const updated = [item, ...state.notifications];
+      return {
+        notifications: updated,
+        unreadCount: getUnreadCount(updated),
+      };
+    }),
 
   markAllAsReadBefore: (time) =>
     set((state) => {
