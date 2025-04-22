@@ -1,6 +1,5 @@
 "use client";
 
-// import RequireAuth from "@/components/common/RequireAuth";
 import Certificates from "@/components/feature/mypage/Certificates";
 import MentorProfile from "@/components/feature/mypage/MentorProfile";
 import MyPageLayout from "@/components/feature/mypage/MyPageLayout";
@@ -40,12 +39,10 @@ export default function MyPageContent() {
   };
 
   return (
-    // <RequireAuth>
     <Suspense fallback={<div>로딩 중...</div>}>
       <MyPageLayout activeTab={tab} onTabChange={handleTabChange}>
         {renderTabContent()}
       </MyPageLayout>
     </Suspense>
-    // </RequireAuth>
   );
 }
