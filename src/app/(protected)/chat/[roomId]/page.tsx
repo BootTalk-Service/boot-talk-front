@@ -1,23 +1,13 @@
 "use client";
 
 import { useGetMessages } from "@/hooks/chat/useGetMessages";
-import { useWebSocket } from "@/hooks/useWebSocket";
+import { ChatMessage, useWebSocket } from "@/hooks/useWebSocket";
 import { ChatRoom } from "@/types/response";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 interface ChatRoomPageProps {
   selectedChat: ChatRoom;
-}
-
-interface ChatMessage {
-  id?: number;
-  roomUuid: string;
-  senderId: number;
-  senderName: string;
-  receiverId: number;
-  content: string;
-  type: string;
 }
 
 const ChatRoomPage = ({ selectedChat }: ChatRoomPageProps) => {
