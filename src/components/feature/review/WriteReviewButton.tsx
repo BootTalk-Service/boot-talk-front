@@ -66,7 +66,7 @@ export default function WriteReviewButton({ refetch }: WriteReviewButtonProps) {
           isOpen={isModalOpen}
           onCloseAction={async () => {
             setIsModalOpen(false);
-            await refetch?.();
+            if (refetch) await refetch();
           }}
           bootcamp={selectedBootcamp}
           mode="create"
