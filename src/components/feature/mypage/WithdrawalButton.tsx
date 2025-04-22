@@ -55,13 +55,13 @@ const WithdrawalButton = () => {
           </p>
           <div className="flex justify-end gap-3 mt-6">
             <button
-              className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+              className="btn btn-outline"
               onClick={() => setIsWithdrawalModalOpen(false)}
             >
               취소
             </button>
             <button
-              className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 disabled:opacity-50"
+              className="btn btn-outline btn-error"
               onClick={handleWithdrawal}
               disabled={withdrawalMutation.isPending}
             >
