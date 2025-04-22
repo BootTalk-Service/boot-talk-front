@@ -11,19 +11,6 @@ const getBaseURL = () => {
 export const axiosDefault = axios.create({
   baseURL: getBaseURL(),
   withCredentials: true,
-  // headers: {
-  //   Authorization: `Bearer ${token}`,
-  // },
-});
-
-axiosDefault.interceptors.request.use((config) => {
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("access_token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-  }
-  return config;
 });
 
 axiosDefault.interceptors.response.use(

@@ -81,6 +81,7 @@ export interface ReviewBootcamp {
   categoryName: string;
   trainingProgramId: string;
 }
+<<<<<<< HEAD
 
 export interface AuthUser {
   name: string;
@@ -96,3 +97,5 @@ export interface ReviewBootcamp {
   categoryName: string;
   trainingProgramId: string;
 }
+=======
+>>>>>>> d0eceda739763d7a7569596350e05af092c18610

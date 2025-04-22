@@ -1,55 +1,51 @@
 "use client";
 
-import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, MessageCircleCode } from "lucide-react";
-import { clearAuthStorage } from "@/lib/logout";
 import MobileDrawerMenu from "@/components/common/MobileDrawerMenu";
 import { useDrawerScrollLock } from "@/hooks/useDrawerScrollLock";
 import NotificationDropdown from "../notification/NotificationDropdown";
-import { useEffect, useState } from "react";
-import { axiosDefault } from "@/api/axiosInstance";
+import { useUserStore } from "@/store/useUserStore";
+import { useGetMyInfo } from "@/hooks/my-page/useGetMyInfo";
 import { END_POINT } from "@/constants/endPoint";
+import { axiosDefault } from "@/api/axiosInstance";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 const Header = () => {
-  const { user, logout, setUser } = useAuthStore();
-  const [hasMounted, setHasMounted] = useState(false);
-
-  const handleLogout = async () => {
-    try {
-      await axiosDefault.post(END_POINT.LOGOUT, {});
-    } catch {}
-
-    logout();
-    clearAuthStorage();
-  };
+  const { user, logout, isAuthenticated, setUser } = useUserStore();
+  const queryClient = useQueryClient();
 
   useDrawerScrollLock();
   const userTextStyle = "text-sm font-medium";
 
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  const { myInfo, isMyInfoLoading, isMyInfoError } = useGetMyInfo();
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axiosDefault.get(END_POINT.MY_INFO);
-        setUser(res.data);
-
-        if (res.data && res.data.userId) {
-          localStorage.setItem("userId", String(res.data.userId));
-        }
-      } catch {}
-    };
-
-    if (!user) {
-      fetchUser();
+    if (myInfo && !isMyInfoLoading && !isMyInfoError) {
+      setUser(myInfo);
     }
-  }, [user, setUser]);
+  }, [myInfo, isMyInfoLoading, isMyInfoError, setUser]);
 
-  if (!hasMounted) return null;
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      await axiosDefault.post(END_POINT.LOGOUT);
+    },
+    onSuccess: () => {
+      logout();
+      queryClient.invalidateQueries({ queryKey: ["myInfo"] });
+    },
+    onError: (error) => {
+      console.error("로그아웃 실패:", error);
+      toast.error("로그아웃 중 오류가 발생했습니다. 다시 시도해주세요");
+    },
+  });
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
 
   return (
     <>
@@ -79,7 +75,7 @@ const Header = () => {
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            {user ? (
+            {isAuthenticated && user ? (
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <button
@@ -102,14 +98,15 @@ const Header = () => {
                   href="/mypage"
                   className={`${userTextStyle} hover:underline`}
                 >
-                  {`${user.name}님`}
+                  {`${myInfo?.name}님`}
                 </Link>
 
-                <span className={userTextStyle}>{user.currentPoint}P</span>
+                <span className={userTextStyle}>{myInfo?.currentPoint}P</span>
 
                 <button
                   className="btn bg-base-100 border-none text-sm hover:text-amber-950 transition-colors"
                   onClick={handleLogout}
+                  disabled={isMyInfoLoading || isMyInfoError}
                 >
                   로그아웃
                 </button>

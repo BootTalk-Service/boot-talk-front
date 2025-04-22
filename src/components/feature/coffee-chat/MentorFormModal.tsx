@@ -7,8 +7,7 @@ import Modal from "@/components/common/modal/CommonModal";
 import { jobCategoryMapping } from "@/constants/jobCategory";
 import { dayMapping } from "@/constants/dayMapping";
 import { MentorInfoData } from "@/types/request";
-import { useUserInfo } from "@/hooks/userInfo/useUserInfo";
-import { UserInfo } from "@/types/response";
+import { useUserStore } from "@/store/useUserStore";
 
 interface MentorFormModalProps {
   isOpen: boolean;
@@ -43,14 +42,14 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
     isUpdatePending,
   } = useMentorRegistration();
 
-  const { userInfo } = useUserInfo();
+  const userCertifications = useUserStore(
+    (state) => state.user?.certifications
+  );
 
-  const getDefaultMentorType = (userInfo: UserInfo | undefined) => {
-    if (userInfo?.certifications && userInfo.certifications.length > 0) {
-      return "GRADUATE";
-    }
-    return "GENERAL";
-  };
+  const DEFAULT_MENTOR_TYPE =
+    userCertifications && userCertifications.length > 0
+      ? "GRADUATE"
+      : "GENERAL";
 
   // 기본 타임슬롯 생성 함수
   const createDefaultTimeSlots = (): TimeSlot[] => {
@@ -68,7 +67,7 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
   const [formData, setFormData] = useState<MentorFormFormData>({
     info: {
       jobType: "",
-      mentorType: getDefaultMentorType(userInfo),
+      mentorType: DEFAULT_MENTOR_TYPE,
       introduction: "",
     },
     timeSlots: createDefaultTimeSlots(),
@@ -88,8 +87,7 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
       setFormData({
         info: {
           jobType: initialData.info.jobType || "",
-          mentorType:
-            initialData.info.mentorType || getDefaultMentorType(userInfo),
+          mentorType: initialData.info.mentorType || DEFAULT_MENTOR_TYPE,
           introduction: initialData.info.introduction || "",
         },
         timeSlots: timeSlots,
@@ -99,13 +97,13 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
       setFormData({
         info: {
           jobType: "",
-          mentorType: getDefaultMentorType(userInfo),
+          mentorType: DEFAULT_MENTOR_TYPE,
           introduction: "",
         },
         timeSlots: createDefaultTimeSlots(),
       });
     }
-  }, [initialData, mode, isOpen, userInfo]);
+  }, [initialData, mode, isOpen, DEFAULT_MENTOR_TYPE]);
 
   // 직군 선택 핸들러
   const handleJobCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -125,7 +123,7 @@ const MentorFormModal: React.FC<MentorFormModalProps> = ({
       ...formData,
       info: {
         ...formData.info,
-        mentorType: isChecked ? "PROFESSIONAL" : getDefaultMentorType(userInfo),
+        mentorType: isChecked ? "PROFESSIONAL" : DEFAULT_MENTOR_TYPE,
       },
     });
   };

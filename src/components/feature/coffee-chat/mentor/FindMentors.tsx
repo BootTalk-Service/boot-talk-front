@@ -5,7 +5,7 @@ import { Mentor } from "@/types/response";
 import ChatRequestModal from "./ChatRequestModal";
 import { mentorCategory } from "@/constants/mentorCategory";
 import { jobCategoryMapping } from "@/constants/jobCategory";
-import { useAuthStore } from "@/store/authStore";
+import { useUserStore } from "@/store/useUserStore";
 
 const FindMentors = () => {
   const { mentorList, isLoading, isError } = useMentorList();
@@ -14,7 +14,7 @@ const FindMentors = () => {
   const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null);
   const [isChatModalOpen, setIsChatModalOpen] = useState<boolean>(false);
 
-  const userId = useAuthStore.getState().user?.userId || 0;
+  const userId = useUserStore((state) => state.user?.userId) || 0;
 
   const handleMentorClick = (mentor: Mentor) => {
     setSelectedMentor(mentor);

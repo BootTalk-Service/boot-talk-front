@@ -1,71 +1,52 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { axiosDefault } from "@/api/axiosInstance";
 import AuthCard from "@/components/common/AuthCard";
 import { toast } from "react-toastify";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useAuthStore } from "@/store/authStore";
-import { useUserStore } from "@/store/user";
+import { useRouter } from "next/navigation";
 import { END_POINT } from "@/constants/endPoint";
-import { useGetPointsOnLogin } from "@/hooks/useGetPointOnLogin";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const SocialRegister = () => {
   const [job, setJob] = useState("");
-  const [jobRoles, setJobRoles] = useState<string[]>([]);
-
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const userId = searchParams.get("userId");
 
-  const { login } = useAuthStore();
-  const { setUser } = useUserStore();
-  const { refetch: refetchPoints } = useGetPointsOnLogin();
-
-  useEffect(() => {
-    const fetchJobRoles = async () => {
-      try {
-        const res = await axiosDefault.get(END_POINT.BOOTCAMP_JOB_ROLES);
-        if (Array.isArray(res.data)) {
-          setJobRoles(res.data);
-        } else {
-          toast.error("직무 데이터를 불러올 수 없습니다.");
-        }
-      } catch {
-        toast.error("직무 정보를 불러오지 못했습니다.");
+  const { data: jobRoles = [] } = useQuery({
+    queryKey: ["jobRoles"],
+    queryFn: async () => {
+      const res = await axiosDefault.get(END_POINT.BOOTCAMP_JOB_ROLES);
+      if (Array.isArray(res.data)) {
+        return res.data;
       }
-    };
-    fetchJobRoles();
-  }, []);
+      throw new Error("직무 데이터를 불러올 수 없습니다.");
+    },
+  });
 
-  const handleSave = async () => {
-    if (!userId || !job) {
+  const updateUserMutation = useMutation({
+    mutationFn: async (jobRole: string) => {
+      const res = await axiosDefault.put(END_POINT.MY_INFO, {
+        profileImage: "",
+        desiredCareer: jobRole,
+      });
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("회원가입이 완료되었습니다!");
+      router.replace("/");
+    },
+    onError: () => {
+      toast.error("회원가입에 실패했습니다.");
+    },
+  });
+
+  const handleSave = () => {
+    if (!job) {
       toast.error("필수 정보가 누락되었습니다.");
       return;
     }
 
-    try {
-      const res = await axiosDefault.get(END_POINT.MY_INFO);
-      const user = res.data;
-
-      login(
-        {
-          name: user.name,
-          email: user.email,
-          profileImage: user.profileImage,
-          currentPoint: user.currentPoint,
-          userId: user.userId,
-        },
-        ""
-      );
-
-      setUser(user);
-      refetchPoints();
-      toast.success("회원가입이 완료되었습니다!");
-      router.replace("/");
-    } catch {
-      toast.error("회원가입에 실패했습니다.");
-    }
+    updateUserMutation.mutate(job);
   };
 
   return (

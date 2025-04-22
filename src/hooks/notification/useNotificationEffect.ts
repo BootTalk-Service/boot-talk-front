@@ -4,18 +4,21 @@ import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNotificationStore } from "@/store/notificationStore";
 import type { NotificationItem } from "@/types/Notification";
+import { getCookie } from "@/lib/cookie";
 
 export const useNotificationEffect = () => {
   const { addNotification } = useNotificationStore();
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+    const token = getCookie("Authorization");
     const backendUrl = process.env.NEXT_PUBLIC_API_URL;
 
     if (!token || !backendUrl) return;
 
-    const url = `${backendUrl}api/sse-connect?token=${encodeURIComponent(token)}`;
+    const url = `${backendUrl}api/sse-connect?token=${encodeURIComponent(
+      token
+    )}`;
     const es = new EventSource(url);
 
     const handleNotification = (e: MessageEvent) => {
@@ -27,14 +30,12 @@ export const useNotificationEffect = () => {
           ["notifications"],
           (old = []) => [payload, ...old]
         );
-      } catch {
-      }
+      } catch {}
     };
 
     es.addEventListener("notification", handleNotification);
 
-    es.onerror = () => {
-    };
+    es.onerror = () => {};
 
     return () => {
       es.removeEventListener("notification", handleNotification);

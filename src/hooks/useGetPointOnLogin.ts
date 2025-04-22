@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import { useEffect } from "react";
-import { useUserStore } from "@/store/user";
+import { useUserStore } from "@/store/useUserStore";
 
 export const useGetPointsOnLogin = () => {
   const { user, setUser } = useUserStore();
