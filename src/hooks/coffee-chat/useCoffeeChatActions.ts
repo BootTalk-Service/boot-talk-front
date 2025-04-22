@@ -70,7 +70,7 @@ export const useCoffeeChatActions = (userRole: UserRole = "MENTOR") => {
 
       if (userRole === "MENTEE") {
         url = END_POINT.RECEIVED_CANCEL(coffeeChatAppId);
-        return await axiosDefault.delete(url);
+        return await axiosDefault.put(url);
       } else {
         const url = END_POINT.STATUS_CHATS(coffeeChatAppId);
         return await axiosDefault.put(url, {

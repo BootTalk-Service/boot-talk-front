@@ -15,7 +15,7 @@ export const END_POINT = {
   SENT_COFFEE_CHATS: "/api/coffee-chats/applications",
   RECEIVED_COFFEE_CHATS: "/api/coffee-chats/applications/received",
   RECEIVED_CANCEL: (coffeeChatAppId: string) =>
-    `/api/coffee-chats/applications/${coffeeChatAppId}`,
+    `/api/coffee-chats/applications/${coffeeChatAppId}/cancel`,
   STATUS_CHATS: (coffeeChatAppId: string) =>
     `/api/coffee-chats/applications/received/${coffeeChatAppId}/status`,
   BOOTCAMP_DETAIL: (id: string) => `/api/bootcamps/${id}`,
@@ -36,5 +36,6 @@ export const END_POINT = {
   SSE_CONNECT: "/api/sse-connect",
   MARK_ALL_AS_READ: (time: string) => `/api/notifications?time=${time}`,
   MY_POINTS: "/api/points/me",
-  BOOTCAMP_REVIEWS: (bootcampId: string) => `/api/bootcamps/${bootcampId}/reviews`,
+  BOOTCAMP_REVIEWS: (bootcampId: string) =>
+    `/api/bootcamps/${bootcampId}/reviews`,
 } as const;

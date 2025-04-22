@@ -6,7 +6,7 @@ import { ChatRoom } from "@/types/response";
 import Image from "next/image";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale/ko";
-import ChatRoomContainer from "@/components/feature/admin/chat/ChatRoomContainer";
+import ChatRoomContainer from "@/components/feature/chat/ChatRoomContainer";
 import { useUserStore } from "@/store/useUserStore";
 
 // 상수 정의
