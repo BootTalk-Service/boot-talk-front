@@ -1,4 +1,5 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const getBaseURL = () => {
   const isDev = process.env.NODE_ENV === "development";
@@ -20,6 +21,7 @@ axiosDefault.interceptors.response.use(
 
     if (status === 401) {
       console.warn("로그인이 필요한 서비스입니다.");
+      toast.error("로그인이 필요한 서비스입니다.");
     } else if (status === 500) {
       console.error("서버 오류 발생");
     }

@@ -5,13 +5,13 @@ import { useGetMyInfo } from "@/hooks/my-page/useGetMyInfo";
 import { Star, Trash2 } from "lucide-react";
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
-import { toast } from "react-toastify";
 import React, { useState } from "react";
 import ReviewModal from "@/components/feature/review/ReviewModal";
 import WriteReviewButton from "@/components/feature/review/WriteReviewButton";
 import Modal from "@/components/common/modal/CommonModal";
 import type { ReviewBootcamp, Review } from "@/types/response";
 import type { AxiosError } from "axios";
+import toast from "react-hot-toast";
 
 export default function MyReviews() {
   const {
@@ -36,7 +36,9 @@ export default function MyReviews() {
     Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-4 h-4 ${i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+        className={`w-4 h-4 ${
+          i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+        }`}
       />
     ));
 
@@ -50,7 +52,8 @@ export default function MyReviews() {
       const error = err as AxiosError;
 
       if (error.response?.status === 403) toast.error("삭제 권한이 없습니다.");
-      else if (error.response?.status === 400) toast.error("잔여 포인트가 부족합니다.");
+      else if (error.response?.status === 400)
+        toast.error("잔여 포인트가 부족합니다.");
       else toast.error("리뷰 삭제 중 오류가 발생했습니다.");
     } finally {
       setIsDeleteModalOpen(false);
@@ -62,7 +65,8 @@ export default function MyReviews() {
   if (isMyReviewsError || isMyInfoError) return <div>Error loading data</div>;
 
   const getCategoryName = (programId: string) =>
-    myInfo?.certifications.find((c) => c.trainingProgramId === programId)?.categoryName ?? "";
+    myInfo?.certifications.find((c) => c.trainingProgramId === programId)
+      ?.categoryName ?? "";
 
   return (
     <div className="mx-auto min-h-[450px] flex flex-col justify-between">
@@ -88,7 +92,9 @@ export default function MyReviews() {
                           courseName: review.courseName,
                           userName: myInfo?.name ?? review.userName,
                           trainingProgramId: review.trainingProgramId,
-                          categoryName: getCategoryName(review.trainingProgramId),
+                          categoryName: getCategoryName(
+                            review.trainingProgramId
+                          ),
                         },
                         reviewId: review.reviewId,
                         rating: review.rating,
