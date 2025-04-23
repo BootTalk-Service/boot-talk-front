@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { axiosDefault } from "@/api/axiosInstance";
 import AuthCard from "@/components/common/AuthCard";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,15 @@ const SocialRegister = () => {
   const [job, setJob] = useState("");
   const router = useRouter();
 
-  const { isAuthenticated } = useUserStore();
+  const { isAuthenticated, user } = useUserStore();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace("/login");
+    } else if (isAuthenticated && user?.desiredCareer) {
+      router.replace("/");
+    }
+  }, [isAuthenticated, user, router]);
 
   const { data: jobRoles = [] } = useQuery({
     queryKey: ["jobRoles"],

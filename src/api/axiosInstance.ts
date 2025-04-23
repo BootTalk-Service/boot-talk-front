@@ -9,6 +9,13 @@ const getBaseURL = () => {
   return process.env.NEXT_PUBLIC_API_URL;
 };
 
+const handleAuthError = () => {
+  if (typeof window !== "undefined") {
+    window.location.href = "/";
+    toast.error("로그인이 필요한 서비스입니다.");
+  }
+};
+
 export const axiosDefault = axios.create({
   baseURL: getBaseURL(),
   withCredentials: true,
@@ -19,10 +26,8 @@ axiosDefault.interceptors.response.use(
   (error) => {
     const status = error.response?.status;
 
-    if (status === 401) {
-      console.warn("로그인이 필요한 서비스입니다.");
-      toast.error("로그인이 필요한 서비스입니다.");
-    } else if (status === 500) {
+    if (status === 401) handleAuthError();
+    else if (status === 500) {
       console.error("서버 오류 발생");
     }
 
