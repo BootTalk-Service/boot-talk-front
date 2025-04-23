@@ -11,7 +11,7 @@ import ReviewModal from "@/components/feature/review/ReviewModal";
 import WriteReviewButton from "@/components/feature/review/WriteReviewButton";
 import Modal from "@/components/common/modal/CommonModal";
 import type { ReviewBootcamp, Review } from "@/types/response";
-import type { AxiosError } from "axios";
+import { AxiosError } from "axios";
 
 export default function MyReviews() {
   const {
@@ -190,7 +190,7 @@ export default function MyReviews() {
           </button>
           <button
             onClick={handleDelete}
-            className="btn bg-red-600 text-white rounded-lg"
+            className="btn bg-red-50 text-red-600 border border-red-200 hover:bg-red-600 hover:text-white hover:border-red-600 rounded-lg"
           >
             삭제
           </button>
