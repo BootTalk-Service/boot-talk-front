@@ -11,7 +11,6 @@ const getBaseURL = () => {
 
 const handleAuthError = () => {
   if (typeof window !== "undefined") {
-    window.location.href = "/";
     toast.error("로그인이 필요한 서비스입니다.");
   }
 };
