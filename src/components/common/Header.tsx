@@ -123,7 +123,7 @@ const Header = () => {
                   </Link>
                 </div>
 
-                <div className="hidden md:block gap-3">
+                <div className="hidden md:block">
                   <Link
                     href="/mypage"
                     className="text-sm font-medium hover:underline"
@@ -131,7 +131,7 @@ const Header = () => {
                     {`${user?.name}님`}
                   </Link>
 
-                  <span className="text-sm font-medium">
+                  <span className="text-sm font-medium ml-3">
                     {user?.currentPoint}P
                   </span>
 
