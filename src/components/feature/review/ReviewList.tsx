@@ -3,7 +3,7 @@
 import { useEffect, useRef, useMemo, useState } from "react";
 import { useGetReviews } from "@/hooks/reviews/useGetReviews";
 import ReviewItem from "./ReviewItem";
-import { ReviewFilterButtons } from "./ReviewFilterButtons";
+import ReviewFilterButtons from "@/components/feature/review/ReviewFilterButtons";
 import type { Review as ResponseReview } from "@/types/response";
 
 
@@ -60,7 +60,10 @@ export default function ReviewList() {
           총 {totalCount}개
         </span>
         <div className="flex items-center gap-2 flex-wrap">
-          <ReviewFilterButtons onFilterChangeAction={setFilters} />
+          <ReviewFilterButtons selectedFilters={filters}
+            onFilterChange={(key, value) =>
+              setFilters(prev => ({ ...prev, [key]: value }))
+        } />
         </div>
       </div>
 

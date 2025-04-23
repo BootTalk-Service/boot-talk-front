@@ -11,32 +11,36 @@ interface FilterType {
   date?: string;
 }
 
-export const ReviewFilterButtons = ({
-  onFilterChangeAction,
-}: {
-  onFilterChangeAction: (updater: (prev: FilterType) => FilterType) => void;
-}) => {
+interface Props {
+  selectedFilters: FilterType;
+  onFilterChange: (key: "category" | "date", value?: string) => void;
+}
+
+export default function ReviewFilterButtons({
+  selectedFilters,
+  onFilterChange,
+}: Props) {
   const [jobRoles, setJobRoles] = useState<string[]>([]);
   const [openDropdown, setOpenDropdown] = useState<"category" | "date" | null>(null);
-  const [selectedFilters, setSelectedFilters] = useState<FilterType>({});
   const dropdownRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
-    const fetchJobRoles = async () => {
+    async function fetchJobRoles() {
       try {
-        const res = await axiosDefault.get(END_POINT.BOOTCAMP_JOB_ROLES);
-        setJobRoles(res.data || []);
+        const res = await axiosDefault.get<string[]>(END_POINT.BOOTCAMP_JOB_ROLES);
+        setJobRoles(res.data);
       } catch {
+        setJobRoles([]);
       }
-    };
+    }
     fetchJobRoles();
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (e: MouseEvent) => {
       if (
         openDropdown &&
-        !dropdownRefs.current[openDropdown]?.contains(event.target as Node)
+        !dropdownRefs.current[openDropdown]?.contains(e.target as Node)
       ) {
         setOpenDropdown(null);
       }
@@ -45,25 +49,15 @@ export const ReviewFilterButtons = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [openDropdown]);
 
-  const handleFilterSelect = (key: "category" | "date", value: string) => {
-    const updatedValue = selectedFilters[key] === value ? undefined : value;
-
-    setSelectedFilters((prev) => ({
-      ...prev,
-      [key]: updatedValue,
-    }));
-
-    onFilterChangeAction((prev) => ({
-      ...prev,
-      [key]: updatedValue,
-    }));
-
+  const handleSelect = (key: "category" | "date", value: string) => {
+    const newValue = selectedFilters[key] === value ? undefined : value;
+    onFilterChange(key, newValue);
     setOpenDropdown(null);
   };
 
   const clearFilters = () => {
-    setSelectedFilters({});
-    onFilterChangeAction(() => ({}));
+    onFilterChange("category", undefined);
+    onFilterChange("date", undefined);
     setOpenDropdown(null);
   };
 
@@ -77,6 +71,7 @@ export const ReviewFilterButtons = ({
         }}        
       >
         <button
+          type="button"
           onClick={() =>
             setOpenDropdown(openDropdown === "category" ? null : "category")
           }
@@ -87,33 +82,32 @@ export const ReviewFilterButtons = ({
               : "btn-outline border-neutral-400"
           )}
         >
-          {selectedFilters.category || "직무"}
+          {selectedFilters.category ?? "직무"}
         </button>
-
         {openDropdown === "category" && (
-          <div className="absolute top-full left-0 mt-1 shadow bg-white rounded-lg z-[999] max-h-60 w-44 sm:w-52 overflow-y-auto overflow-x-hidden">
+          <div className="absolute top-full left-0 mt-1 shadow-lg bg-white rounded-lg z-50 max-h-60 w-44 sm:w-52 overflow-auto">
             <ul className="menu menu-compact p-2">
-              {jobRoles.length === 0 && (
+              {jobRoles.length === 0 ? (
                 <li>
                   <span className="text-sm text-gray-400 px-4 py-2">
                     불러올 수 없습니다.
                   </span>
                 </li>
+              ) : (
+                jobRoles.map(role => (
+                  <li key={role}>
+                    <button
+                      type="button"
+                      onClick={() => handleSelect("category", role)}
+                      className={clsx(
+                        "w-full text-left text-sm py-2 px-4 hover:bg-gray-100 rounded",
+                      )}
+                    >
+                      {role}
+                    </button>
+                  </li>
+                ))
               )}
-              {jobRoles.map((role) => (
-                <li key={role}>
-                  <a
-                    onClick={() => handleFilterSelect("category", role)}
-                    className={clsx(
-                      "text-sm py-2 px-4 hover:bg-gray-100 rounded-md block",
-                      selectedFilters.category === role &&
-                        "bg-amber-100 text-amber-900 font-semibold"
-                    )}
-                  >
-                    {role}
-                  </a>
-                </li>
-              ))}
             </ul>
           </div>
         )}
@@ -127,6 +121,7 @@ export const ReviewFilterButtons = ({
         }}
       >
         <button
+          type="button"
           onClick={() =>
             setOpenDropdown(openDropdown === "date" ? null : "date")
           }
@@ -137,36 +132,26 @@ export const ReviewFilterButtons = ({
               : "btn-outline border-neutral-400"
           )}
         >
-          {selectedFilters.date || "정렬"}
+          {selectedFilters.date ?? "정렬"}
         </button>
-
         {openDropdown === "date" && (
-          <div className="absolute top-full left-0 mt-1 shadow bg-white rounded-lg z-[999] max-h-60 w-40 overflow-y-auto overflow-x-hidden">
+          <div className="absolute top-full left-0 mt-1 shadow-lg bg-white rounded-lg z-50 max-h-60 w-40 overflow-auto">
             <ul className="menu menu-compact p-2">
-              <li>
-                <a
-                  onClick={() => handleFilterSelect("date", "")}
-                  className={clsx(
-                    "text-sm py-2 px-4 hover:bg-gray-100 rounded-md block",
-                    selectedFilters.date === "" &&
-                      "bg-amber-100 text-amber-900 font-semibold"
-                  )}
-                >
-                  최신순
-                </a>
-              </li>
-              <li>
-                <a
-                  onClick={() => handleFilterSelect("date", "오래된순")}
-                  className={clsx(
-                    "text-sm py-2 px-4 hover:bg-gray-100 rounded-md block",
-                    selectedFilters.date === "오래된순" &&
-                      "bg-amber-100 text-amber-900 font-semibold"
-                  )}
-                >
-                  오래된순
-                </a>
-              </li>
+              {["최신순", "오래된순"].map(option => (
+                <li key={option}>
+                  <button
+                    type="button"
+                    onClick={() => handleSelect("date", option)}
+                    className={clsx(
+                      "w-full text-left text-sm py-2 px-4 hover:bg-gray-100 rounded",
+                      selectedFilters.date === option &&
+                        "bg-amber-100 text-amber-900 font-semibold"
+                    )}
+                  >
+                    {option}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
         )}
@@ -174,6 +159,7 @@ export const ReviewFilterButtons = ({
 
       {/* 초기화 버튼 */}
       <button
+        type="button"
         onClick={clearFilters}
         className="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
         aria-label="전체 필터 초기화"
@@ -182,4 +168,4 @@ export const ReviewFilterButtons = ({
       </button>
     </div>
   );
-};
+}
