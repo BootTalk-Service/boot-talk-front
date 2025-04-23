@@ -1,5 +1,4 @@
 import axios from "axios";
-import toast from "react-hot-toast";
 
 const getBaseURL = () => {
   const isDev = process.env.NODE_ENV === "development";
@@ -9,11 +8,11 @@ const getBaseURL = () => {
   return process.env.NEXT_PUBLIC_API_URL;
 };
 
-const handleAuthError = () => {
-  if (typeof window !== "undefined") {
-    toast.error("로그인이 필요한 서비스입니다.");
-  }
-};
+// const handleAuthError = () => {
+//   if (typeof window !== "undefined") {
+//     toast.error("로그인이 필요한 서비스입니다.");
+//   }
+// };
 
 export const axiosDefault = axios.create({
   baseURL: getBaseURL(),
@@ -25,8 +24,9 @@ axiosDefault.interceptors.response.use(
   (error) => {
     const status = error.response?.status;
 
-    if (status === 401) handleAuthError();
-    else if (status === 500) {
+    if (status === 401) {
+      console.log("로그인이 필요한 서비스입니다.");
+    } else if (status === 500) {
       console.error("서버 오류 발생");
     }
 
