@@ -9,7 +9,9 @@ import { toast } from "react-toastify";
 import React, { useState } from "react";
 import ReviewModal from "@/components/feature/review/ReviewModal";
 import WriteReviewButton from "@/components/feature/review/WriteReviewButton";
+import Modal from "@/components/common/modal/CommonModal";
 import type { ReviewBootcamp, Review } from "@/types/response";
+import type { AxiosError } from "axios";
 
 export default function MyReviews() {
   const {
@@ -27,25 +29,32 @@ export default function MyReviews() {
     content: string;
   } | null>(null);
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
+
   const renderStars = (rating: number) =>
     Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-4 h-4 ${
-          i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-        }`}
+        className={`w-4 h-4 ${i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
       />
     ));
 
-  const handleDelete = async (reviewId: number) => {
-    if (!confirm("리뷰를 삭제하시겠습니까?")) return;
+  const handleDelete = async () => {
+    if (!deleteTargetId) return;
     try {
-      await axiosDefault.delete(END_POINT.DELETE_REVIEW(reviewId));
+      await axiosDefault.delete(END_POINT.DELETE_REVIEW(deleteTargetId));
       toast.success("리뷰가 삭제되었습니다.");
       await refetch?.();
-    } catch (err) {
-      console.error(err);
-      toast.error("리뷰 삭제 중 오류가 발생했습니다.");
+    } catch (err: unknown) {
+      const error = err as AxiosError;
+
+      if (error.response?.status === 403) toast.error("삭제 권한이 없습니다.");
+      else if (error.response?.status === 400) toast.error("잔여 포인트가 부족합니다.");
+      else toast.error("리뷰 삭제 중 오류가 발생했습니다.");
+    } finally {
+      setIsDeleteModalOpen(false);
+      setDeleteTargetId(null);
     }
   };
 
@@ -53,8 +62,7 @@ export default function MyReviews() {
   if (isMyReviewsError || isMyInfoError) return <div>Error loading data</div>;
 
   const getCategoryName = (programId: string) =>
-    myInfo?.certifications.find((c) => c.trainingProgramId === programId)
-      ?.categoryName ?? "";
+    myInfo?.certifications.find((c) => c.trainingProgramId === programId)?.categoryName ?? "";
 
   return (
     <div className="mx-auto min-h-[450px] flex flex-col justify-between">
@@ -67,7 +75,6 @@ export default function MyReviews() {
               key={review.reviewId}
               className="relative bg-white p-4 rounded-lg shadow border border-gray-200 hover:bg-gray-50 transition-colors min-h-[180px] sm:min-h-[150px]"
             >
-              {/* 제목 + 데스크탑 버튼 */}
               <div className="flex justify-between items-start mb-2">
                 <h2 className="text-sm font-semibold text-gray-700 max-w-[85%] break-words whitespace-normal">
                   {review.courseName}
@@ -93,14 +100,16 @@ export default function MyReviews() {
                   </button>
                   <button
                     className="text-gray-700 hover:text-red-600"
-                    onClick={() => handleDelete(review.reviewId)}
+                    onClick={() => {
+                      setDeleteTargetId(review.reviewId);
+                      setIsDeleteModalOpen(true);
+                    }}
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               </div>
 
-              {/* 별점 + 날짜 */}
               <div className="flex items-center mb-1">
                 {renderStars(review.rating)}
                 <span className="text-xs ml-2 text-gray-700">
@@ -108,15 +117,12 @@ export default function MyReviews() {
                 </span>
               </div>
 
-              {/* 작성자 */}
               <p className="text-sm text-gray-500 mb-1">{review.userName}</p>
 
-              {/* 본문 */}
               <p className="text-sm text-gray-800 break-normal whitespace-pre-line">
                 {review.content}
               </p>
 
-              {/* 모바일 하단 버튼 */}
               <div className="flex sm:hidden justify-end absolute bottom-3 right-4 gap-3">
                 <button
                   className="text-sm text-gray-700 hover:text-amber-900"
@@ -138,7 +144,10 @@ export default function MyReviews() {
                 </button>
                 <button
                   className="text-gray-700 hover:text-red-600"
-                  onClick={() => handleDelete(review.reviewId)}
+                  onClick={() => {
+                    setDeleteTargetId(review.reviewId);
+                    setIsDeleteModalOpen(true);
+                  }}
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -148,24 +157,45 @@ export default function MyReviews() {
         )}
       </div>
 
-      {/* 리뷰 작성 버튼 */}
       <div className="flex justify-end mt-6">
         <WriteReviewButton refetch={refetch} />
       </div>
 
-      {/* 수정 모달 */}
       {editTarget && (
         <ReviewModal
-        isOpen={!!editTarget}
-        onCloseAction={() => setEditTarget(null)}
-        bootcamp={editTarget!.bootcamp}
-        mode="edit"
-        reviewId={editTarget!.reviewId}
-        defaultRating={editTarget!.rating}
-        defaultContent={editTarget!.content}
-        refetch={refetch}
-      />
+          isOpen={!!editTarget}
+          onCloseAction={() => setEditTarget(null)}
+          bootcamp={editTarget.bootcamp}
+          mode="edit"
+          reviewId={editTarget.reviewId}
+          defaultRating={editTarget.rating}
+          defaultContent={editTarget.content}
+          refetch={refetch}
+        />
       )}
+
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        title="리뷰 삭제"
+        size="sm"
+      >
+        <div className="text-gray-700 py-4">리뷰를 삭제하시겠습니까?</div>
+        <div className="flex justify-end gap-2">
+          <button
+            onClick={() => setIsDeleteModalOpen(false)}
+            className="btn btn-outline border-gray-400 rounded-lg"
+          >
+            취소
+          </button>
+          <button
+            onClick={handleDelete}
+            className="btn bg-red-600 text-white rounded-lg"
+          >
+            삭제
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }
