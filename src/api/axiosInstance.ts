@@ -20,7 +20,6 @@ axiosDefault.interceptors.response.use(
 
     if (status === 401) {
       console.warn("로그인이 필요한 서비스입니다.");
-      window.location.href = "/login";
     } else if (status === 500) {
       console.error("서버 오류 발생");
     }

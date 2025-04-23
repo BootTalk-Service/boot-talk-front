@@ -1,6 +1,5 @@
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
-import { useUserStore } from "@/store/useUserStore";
 import { UserInfo } from "@/types/response";
 import { useQuery } from "@tanstack/react-query";
 
@@ -15,7 +14,6 @@ const fetchMyInfo = async () => {
 };
 
 export const useGetMyInfo = () => {
-  const { isAuthenticated } = useUserStore();
   const {
     data: myInfo,
     isLoading: isMyInfoLoading,
@@ -23,7 +21,6 @@ export const useGetMyInfo = () => {
   } = useQuery({
     queryKey: ["myInfo"],
     queryFn: fetchMyInfo,
-    enabled: isAuthenticated,
     retry: 1,
     staleTime: 300000,
   });
