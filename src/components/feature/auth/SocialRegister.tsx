@@ -16,7 +16,7 @@ const SocialRegister = () => {
   const { isAuthenticated, user } = useUserStore();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated === false) {
       router.replace("/login");
     } else if (isAuthenticated && user?.desiredCareer) {
       router.replace("/");
@@ -32,7 +32,7 @@ const SocialRegister = () => {
       }
       throw new Error("직무 데이터를 불러올 수 없습니다.");
     },
-    enabled: !isAuthenticated,
+    enabled: isAuthenticated === true,
   });
 
   const updateUserMutation = useMutation({
