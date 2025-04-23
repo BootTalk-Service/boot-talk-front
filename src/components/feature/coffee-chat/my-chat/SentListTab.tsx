@@ -27,6 +27,7 @@ const SentListTab = () => {
       const response = await axiosDefault.get(END_POINT.SENT_COFFEE_CHATS);
       return response.data.data;
     },
+    staleTime: 0,
   });
 
   const { handleCancel, isCanceling, modalState, closeModal, confirmAction } =

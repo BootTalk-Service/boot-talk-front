@@ -24,6 +24,7 @@ const ApprovedListTab = () => {
       const response = await axiosDefault.get(END_POINT.APPROVED_COFFEE_CHATS);
       return response.data.data;
     },
+    staleTime: 0,
   });
 
   const handleCoffeeChatClick = (coffeechat: CoffeeChat) => {

@@ -27,6 +27,7 @@ const ReceivedListTab = () => {
       const response = await axiosDefault.get(END_POINT.RECEIVED_COFFEE_CHATS);
       return response.data.data;
     },
+    staleTime: 0,
   });
 
   const {

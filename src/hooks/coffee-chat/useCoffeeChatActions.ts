@@ -42,6 +42,9 @@ export const useCoffeeChatActions = (userRole: UserRole = "MENTOR") => {
       queryClient.invalidateQueries({
         queryKey: ["sentList"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["chatRoomList"],
+      });
       toast.success("커피챗이 승인되었습니다.");
     },
     onError: (error) => {
@@ -91,6 +94,9 @@ export const useCoffeeChatActions = (userRole: UserRole = "MENTOR") => {
       queryClient.invalidateQueries({ queryKey: ["sentList"] });
       queryClient.invalidateQueries({
         queryKey: ["approvedList"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["chatRoomList"],
       });
       toast.success("커피챗이 취소되었습니다.");
     },
