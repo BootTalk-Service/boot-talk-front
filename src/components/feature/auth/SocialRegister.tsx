@@ -6,14 +6,11 @@ import { useRouter } from "next/navigation";
 import { END_POINT } from "@/constants/endPoint";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { getCookie } from "@/lib/cookie";
 import { useState } from "react";
 
 const SocialRegister = () => {
   const [job, setJob] = useState("");
   const router = useRouter();
-
-  const token = getCookie("Authorization");
 
   // useEffect(() => {
   //   if (!token) {
@@ -32,7 +29,6 @@ const SocialRegister = () => {
       }
       throw new Error("직무 데이터를 불러올 수 없습니다.");
     },
-    enabled: !!token,
   });
 
   const updateUserMutation = useMutation({
