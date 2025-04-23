@@ -1,29 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { axiosDefault } from "@/api/axiosInstance";
 import AuthCard from "@/components/common/AuthCard";
 import { useRouter } from "next/navigation";
 import { END_POINT } from "@/constants/endPoint";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useUserStore } from "@/store/useUserStore";
 import toast from "react-hot-toast";
 import { getCookie } from "@/lib/cookie";
+import { useState } from "react";
 
 const SocialRegister = () => {
   const [job, setJob] = useState("");
   const router = useRouter();
 
   const token = getCookie("Authorization");
-  const { user } = useUserStore();
 
-  useEffect(() => {
-    if (!token) {
-      router.replace("/login");
-    } else if (token && user) {
-      router.replace("/");
-    }
-  }, [token, user, router]);
+  // useEffect(() => {
+  //   if (!token) {
+  //     router.replace("/login");
+  //   } else if (token && user) {
+  //     router.replace("/");
+  //   }
+  // }, [token, user, router]);
 
   const { data: jobRoles = [] } = useQuery({
     queryKey: ["jobRoles"],
