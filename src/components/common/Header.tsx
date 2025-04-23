@@ -12,7 +12,7 @@ import { END_POINT } from "@/constants/endPoint";
 import { axiosDefault } from "@/api/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 
 const navItems = [
@@ -25,15 +25,16 @@ const Header = () => {
   const { user, logout, isAuthenticated, setUser } = useUserStore();
   const queryClient = useQueryClient();
   const pathname = usePathname();
+  const isInitialLoad = useRef(true);
 
   useDrawerScrollLock();
-  const userTextStyle = "text-sm font-medium";
 
   const { myInfo, isMyInfoLoading, isMyInfoError } = useGetMyInfo();
 
   useEffect(() => {
-    if (myInfo && !isMyInfoLoading && !isMyInfoError) {
+    if (myInfo && !isMyInfoLoading && !isMyInfoError && isInitialLoad.current) {
       setUser(myInfo);
+      isInitialLoad.current = false;
     }
   }, [myInfo, isMyInfoLoading, isMyInfoError, setUser]);
 
@@ -125,12 +126,14 @@ const Header = () => {
                 <div className="hidden md:block gap-3">
                   <Link
                     href="/mypage"
-                    className={`${userTextStyle} hover:underline`}
+                    className="text-sm font-medium hover:underline"
                   >
-                    {`${myInfo?.name}님`}
+                    {`${user?.name}님`}
                   </Link>
 
-                  <span className={userTextStyle}>{myInfo?.currentPoint}P</span>
+                  <span className="text-sm font-medium">
+                    {user?.currentPoint}P
+                  </span>
 
                   <button
                     className="btn bg-base-100 border-none text-sm hover:text-amber-950 transition-colors"
