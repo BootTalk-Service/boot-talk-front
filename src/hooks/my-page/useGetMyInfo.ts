@@ -24,7 +24,8 @@ export const useGetMyInfo = () => {
     queryKey: ["myInfo"],
     queryFn: fetchMyInfo,
     enabled: isAuthenticated,
-    retry: false,
+    retry: 1,
+    staleTime: 300000,
   });
 
   console.log("myInfo", myInfo);

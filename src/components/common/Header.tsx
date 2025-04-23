@@ -12,7 +12,7 @@ import { END_POINT } from "@/constants/endPoint";
 import { axiosDefault } from "@/api/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 const navItems = [
@@ -25,22 +25,14 @@ const Header = () => {
   const { user, logout, isAuthenticated, setUser } = useUserStore();
   const queryClient = useQueryClient();
   const pathname = usePathname();
-  const isInitialLoad = useRef(true);
 
   useDrawerScrollLock();
 
   const { myInfo, isMyInfoLoading, isMyInfoError } = useGetMyInfo();
 
   useEffect(() => {
-    if (
-      isAuthenticated &&
-      myInfo &&
-      !isMyInfoLoading &&
-      !isMyInfoError &&
-      isInitialLoad.current
-    ) {
+    if (isAuthenticated && myInfo && !isMyInfoLoading && !isMyInfoError) {
       setUser(myInfo);
-      isInitialLoad.current = false;
     }
   }, [myInfo, isMyInfoLoading, isMyInfoError, setUser, isAuthenticated]);
 
