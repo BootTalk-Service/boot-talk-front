@@ -126,11 +126,11 @@ const Header = () => {
                     href="/mypage"
                     className="text-sm font-medium hover:underline"
                   >
-                    {`${user?.name}님`}
+                    {`${myInfo?.name}님`}
                   </Link>
 
                   <span className="text-sm font-medium ml-3">
-                    {user?.currentPoint}P
+                    {myInfo?.currentPoint}P
                   </span>
 
                   <button
