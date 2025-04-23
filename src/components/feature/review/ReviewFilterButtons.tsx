@@ -101,8 +101,6 @@ export default function ReviewFilterButtons({
                       onClick={() => handleSelect("category", role)}
                       className={clsx(
                         "w-full text-left text-sm py-2 px-4 hover:bg-gray-100 rounded",
-                        selectedFilters.category === role &&
-                          "bg-amber-100 text-amber-900 font-semibold"
                       )}
                     >
                       {role}
