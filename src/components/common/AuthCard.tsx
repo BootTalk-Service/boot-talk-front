@@ -4,9 +4,9 @@ interface AuthCardProps {
 
 const AuthCard = ({ children }: AuthCardProps) => {
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
-      <div className="card w-full max-w-md bg-base-100 border border-base-300 shadow-sm px-6 py-10">
-        <div className="card-body items-center justify-center gap-6 p-0 min-h-[380px] w-full">
+    <main className="flex min-h-screen items-center justify-center px-4 bg-base-100">
+      <div className="card w-full max-w-md min-h-[460px] bg-white border border-gray-200 shadow-md rounded-xl">
+        <div className="card-body p-8 flex items-center justify-center w-full">
           {children}
         </div>
       </div>
