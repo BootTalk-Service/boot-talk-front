@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef } from "react";
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import clsx from "clsx";
@@ -67,16 +67,6 @@ export const ReviewFilterButtons = ({
     setOpenDropdown(null);
   };
 
-  const selectedCategoryLabel = useMemo(() => {
-    return selectedFilters.category || "직무";
-  }, [selectedFilters.category]);
-
-  const selectedDateLabel = useMemo(() => {
-    if (selectedFilters.date === "오래된순") return "오래된순";
-    if (selectedFilters.date === "") return "최신순";
-    return "정렬";
-  }, [selectedFilters.date]);
-
   return (
     <div className="flex flex-wrap gap-3 items-center">
       {/* 직무 필터 */}
@@ -84,7 +74,7 @@ export const ReviewFilterButtons = ({
         className="relative"
         ref={(el: HTMLDivElement | null) => {
           dropdownRefs.current["category"] = el;
-        }}
+        }}        
       >
         <button
           onClick={() =>
@@ -97,7 +87,7 @@ export const ReviewFilterButtons = ({
               : "btn-outline border-neutral-400"
           )}
         >
-          {selectedCategoryLabel}
+          {selectedFilters.category || "직무"}
         </button>
 
         {openDropdown === "category" && (
@@ -147,7 +137,7 @@ export const ReviewFilterButtons = ({
               : "btn-outline border-neutral-400"
           )}
         >
-          {selectedDateLabel}
+          {selectedFilters.date || "정렬"}
         </button>
 
         {openDropdown === "date" && (
