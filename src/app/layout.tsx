@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "@/provider/QueryProvider";
 import Header from "@/components/common/Header";
 import { Toaster } from "react-hot-toast";
+import Footer from "@/components/common/Footer";
 
 export const metadata: Metadata = {
   title: "Boot Talk App",
@@ -17,11 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="flex flex-col min-h-screen">
         <QueryProvider>
           <Header />
-          {children}
+          <main className="flex-grow min-h-[800px]">{children}</main>
           <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
+          <Footer />
         </QueryProvider>
       </body>
     </html>
