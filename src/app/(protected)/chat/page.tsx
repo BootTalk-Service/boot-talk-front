@@ -131,7 +131,10 @@ const ChatPage = () => {
         {/* 오른쪽: 채팅방 */}
         <div className="w-full h-[400px] md:h-full md:w-2/3 overflow-hidden border border-gray-100 rounded-lg shadow-sm">
           {selectedChat ? (
-            <ChatRoomContainer selectedChat={selectedChat} />
+            <ChatRoomContainer
+              selectedChat={selectedChat}
+              key={selectedChatId}
+            />
           ) : (
             <div className="h-full flex items-center justify-center text-gray-400">
               채팅방을 선택해주세요.
