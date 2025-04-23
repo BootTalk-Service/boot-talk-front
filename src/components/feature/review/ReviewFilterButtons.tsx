@@ -33,10 +33,10 @@ export const ReviewFilterButtons = ({
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (e: MouseEvent) => {
       if (
         openDropdown &&
-        !dropdownRefs.current[openDropdown]?.contains(event.target as Node)
+        !dropdownRefs.current[openDropdown]?.contains(e.target as Node)
       ) {
         setOpenDropdown(null);
       }
@@ -46,18 +46,9 @@ export const ReviewFilterButtons = ({
   }, [openDropdown]);
 
   const handleFilterSelect = (key: "category" | "date", value: string) => {
-    const updatedValue = selectedFilters[key] === value ? undefined : value;
-
-    setSelectedFilters((prev) => ({
-      ...prev,
-      [key]: updatedValue,
-    }));
-
-    onFilterChangeAction((prev) => ({
-      ...prev,
-      [key]: updatedValue,
-    }));
-
+    const updated = selectedFilters[key] === value ? undefined : value;
+    setSelectedFilters((prev) => ({ ...prev, [key]: updated }));
+    onFilterChangeAction((prev) => ({ ...prev, [key]: updated }));
     setOpenDropdown(null);
   };
 
@@ -77,6 +68,7 @@ export const ReviewFilterButtons = ({
         }}        
       >
         <button
+          type="button"
           onClick={() =>
             setOpenDropdown(openDropdown === "category" ? null : "category")
           }
@@ -91,7 +83,7 @@ export const ReviewFilterButtons = ({
         </button>
 
         {openDropdown === "category" && (
-          <div className="absolute top-full left-0 mt-1 shadow bg-white rounded-lg z-[999] max-h-60 w-44 sm:w-52 overflow-y-auto overflow-x-hidden">
+          <div className="absolute top-full left-0 mt-1 shadow bg-white rounded-lg z-50 max-h-60 w-44 sm:w-52 overflow-auto">
             <ul className="menu menu-compact p-2">
               {jobRoles.length === 0 && (
                 <li>
@@ -102,16 +94,17 @@ export const ReviewFilterButtons = ({
               )}
               {jobRoles.map((role) => (
                 <li key={role}>
-                  <a
+                  <button
+                    type="button"
                     onClick={() => handleFilterSelect("category", role)}
                     className={clsx(
-                      "text-sm py-2 px-4 hover:bg-gray-100 rounded-md block",
+                      "text-sm block w-full text-left py-2 px-4 hover:bg-gray-100 rounded",
                       selectedFilters.category === role &&
                         "bg-amber-100 text-amber-900 font-semibold"
                     )}
                   >
                     {role}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -127,6 +120,7 @@ export const ReviewFilterButtons = ({
         }}
       >
         <button
+          type="button"
           onClick={() =>
             setOpenDropdown(openDropdown === "date" ? null : "date")
           }
@@ -141,31 +135,33 @@ export const ReviewFilterButtons = ({
         </button>
 
         {openDropdown === "date" && (
-          <div className="absolute top-full left-0 mt-1 shadow bg-white rounded-lg z-[999] max-h-60 w-40 overflow-y-auto overflow-x-hidden">
+          <div className="absolute top-full left-0 mt-1 shadow bg-white rounded-lg z-50 max-h-60 w-40 overflow-auto">
             <ul className="menu menu-compact p-2">
               <li>
-                <a
-                  onClick={() => handleFilterSelect("date", "")}
+                <button
+                  type="button"
+                  onClick={() => handleFilterSelect("date", "최신순")}
                   className={clsx(
-                    "text-sm py-2 px-4 hover:bg-gray-100 rounded-md block",
-                    selectedFilters.date === "" &&
+                    "text-sm block w-full text-left py-2 px-4 hover:bg-gray-100 rounded",
+                    selectedFilters.date === "최신순" &&
                       "bg-amber-100 text-amber-900 font-semibold"
                   )}
                 >
                   최신순
-                </a>
+                </button>
               </li>
               <li>
-                <a
+                <button
+                  type="button"
                   onClick={() => handleFilterSelect("date", "오래된순")}
                   className={clsx(
-                    "text-sm py-2 px-4 hover:bg-gray-100 rounded-md block",
+                    "text-sm block w-full text-left py-2 px-4 hover:bg-gray-100 rounded",
                     selectedFilters.date === "오래된순" &&
                       "bg-amber-100 text-amber-900 font-semibold"
                   )}
                 >
                   오래된순
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -174,6 +170,7 @@ export const ReviewFilterButtons = ({
 
       {/* 초기화 버튼 */}
       <button
+        type="button"
         onClick={clearFilters}
         className="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
         aria-label="전체 필터 초기화"
