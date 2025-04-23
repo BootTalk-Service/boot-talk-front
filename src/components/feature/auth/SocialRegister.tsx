@@ -7,10 +7,13 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { END_POINT } from "@/constants/endPoint";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useUserStore } from "@/store/useUserStore";
 
 const SocialRegister = () => {
   const [job, setJob] = useState("");
   const router = useRouter();
+
+  const { isAuthenticated } = useUserStore();
 
   const { data: jobRoles = [] } = useQuery({
     queryKey: ["jobRoles"],
@@ -21,6 +24,7 @@ const SocialRegister = () => {
       }
       throw new Error("직무 데이터를 불러올 수 없습니다.");
     },
+    enabled: isAuthenticated,
   });
 
   const updateUserMutation = useMutation({
