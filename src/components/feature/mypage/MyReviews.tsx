@@ -196,7 +196,7 @@ export default function MyReviews() {
           </button>
           <button
             onClick={handleDelete}
-            className="btn bg-red-600 text-white rounded-lg"
+            className="btn rounded-lg border border-gray-400 text-gray-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200"
           >
             삭제
           </button>
