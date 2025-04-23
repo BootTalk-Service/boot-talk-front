@@ -17,7 +17,10 @@ export const useUserStore = create<UserStore>()(
       isAuthenticated: false,
       login: (user) => set({ user, isAuthenticated: true }),
       setUser: (user) => set({ user, isAuthenticated: !!user }),
-      logout: () => set({ user: null, isAuthenticated: false }),
+      logout: () => {
+        set({ user: null, isAuthenticated: false });
+        localStorage.removeItem("user-storage");
+      },
     }),
     {
       name: "user-storage",
