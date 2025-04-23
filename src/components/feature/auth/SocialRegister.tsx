@@ -16,7 +16,7 @@ const SocialRegister = () => {
   const { isAuthenticated, user } = useUserStore();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (isAuthenticated) {
       router.replace("/login");
     } else if (isAuthenticated && user?.desiredCareer) {
       router.replace("/");
