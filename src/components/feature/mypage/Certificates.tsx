@@ -164,10 +164,11 @@ const Certificates = () => {
           </button>
         </div>
         <div className="bg-gray-50 border border-gray-200 rounded-md p-4 text-sm text-gray-600 leading-relaxed flex items-start gap-2">
-          <BadgeInfo className="text-gray-500 mt-1 min-w-[20px]" size={18}/>
-          <p>
-            제출한 수료증 이미지와 코스명은 <b>고용24</b>의 부트캠프 정보와 비교해 인증됩니다. 일치하지 않을 경우 인증이 반려될 수 있습니다.
-          </p>
+          <BadgeInfo className="text-gray-500 mt-[2px] min-w-[20px]" size={18} />
+          <div className="flex flex-col">
+            <span>제출한 수료증 이미지와 코스명은 <b>고용24</b>의 부트캠프 정보와 비교해 인증됩니다.</span>
+            <span>일치하지 않을 경우 인증이 반려될 수 있습니다.</span>
+          </div>
         </div>
       </div>
     </form>
