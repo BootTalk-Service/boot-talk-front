@@ -6,13 +6,18 @@ import ChatRequestModal from "./ChatRequestModal";
 import { mentorCategory } from "@/constants/mentorCategory";
 import { jobCategoryMapping } from "@/constants/jobCategory";
 import { useUserStore } from "@/store/useUserStore";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const FindMentors = () => {
-  const { mentorList, isLoading, isError } = useMentorList();
-  console.log("멘토 리스트:", mentorList);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null);
   const [isChatModalOpen, setIsChatModalOpen] = useState<boolean>(false);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const jobTypeFilter = searchParams.get("jobType") || "all";
+
+  const { mentorList, isLoading, isError } = useMentorList(jobTypeFilter);
 
   const userId = useUserStore((state) => state.user?.userId) || 0;
 
@@ -34,6 +39,16 @@ const FindMentors = () => {
     setIsChatModalOpen(false);
   };
 
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+
+    if (value === "all") {
+      router.push(window.location.pathname);
+    } else {
+      router.push(`?jobType=${value}`);
+    }
+  };
+
   if (isLoading) {
     return <div>로딩 중...</div>;
   }
@@ -49,11 +64,18 @@ const FindMentors = () => {
           <h3 className="text-lg font-semibold">멘토 리스트</h3>
           <div className="flex flex-warp gap-2">
             {/* 기타 옵션은 필요 시 추가 예정 */}
-            <select defaultValue="all" className="select rounded-lg">
+            <select
+              value={jobTypeFilter}
+              onChange={handleFilterChange}
+              className="select rounded-lg"
+            >
               <option value="all">모든 분야</option>
-              <option value="프론트엔드">프론트엔드</option>
-              <option value="백엔드">백엔드</option>
-              <option value="디자인">디자인</option>
+              <option value="FRONTEND">프론트엔드</option>
+              <option value="BACKEND">백엔드</option>
+              <option value="PM">PM</option>
+              <option value="UIUX">UI/UX</option>
+              <option value="DATA_ANALYSIS">데이터분석</option>
+              <option value="ETC">기타</option>
             </select>
           </div>
         </div>
