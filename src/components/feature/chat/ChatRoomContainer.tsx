@@ -201,7 +201,7 @@ const ChatRoomContainer = ({ selectedChat }: ChatRoomPageProps) => {
           <h3 className="font-medium">{amIMentee ? mentorName : menteeName}</h3>
         </div>
         <div className="text-xs text-gray-500">
-          {getRemainingMinutes(selectedChat.expiresAt)}분 남음
+          {getRemainingMinutes(selectedChat.endAt)}분 남음
         </div>
       </div>
 

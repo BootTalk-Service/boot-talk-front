@@ -8,7 +8,7 @@ export default function CoffeeChatLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="bg-white p-4 rounded-lg">
+    <div className="max-w-[1200px] mx-auto bg-white p-6 rounded-lg">
       <CoffeeChatHeader />
       <CoffeeChatTabNavigation />
       {children}
