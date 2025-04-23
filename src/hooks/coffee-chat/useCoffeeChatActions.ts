@@ -34,7 +34,10 @@ export const useCoffeeChatActions = (userRole: UserRole = "MENTOR") => {
     onSuccess: () => {
       // 성공 시 목록 갱신
       queryClient.invalidateQueries({
-        queryKey: ["receivedList", "approvedList"],
+        queryKey: ["receivedList"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["approvedList"],
       });
       toast.success("커피챗이 승인되었습니다.");
     },
