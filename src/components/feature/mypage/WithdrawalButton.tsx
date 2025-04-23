@@ -6,7 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const WithdrawalButton = () => {
   const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);

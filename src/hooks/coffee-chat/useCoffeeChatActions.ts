@@ -2,7 +2,7 @@ import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export type ActionType = "APPROVE" | "REJECT" | "CANCEL";
 export type UserRole = "MENTOR" | "MENTEE";

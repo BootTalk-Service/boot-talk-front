@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { axiosDefault } from "@/api/axiosInstance";
 import AuthCard from "@/components/common/AuthCard";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { END_POINT } from "@/constants/endPoint";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useUserStore } from "@/store/useUserStore";
+import toast from "react-hot-toast";
 
 const SocialRegister = () => {
   const [job, setJob] = useState("");

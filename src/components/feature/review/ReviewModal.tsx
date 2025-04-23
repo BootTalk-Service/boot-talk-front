@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import Modal from "@/components/common/modal/CommonModal";
 import { RatingSelector } from "@/components/feature/review/RatingSelector";
-import { toast } from "react-toastify";
 import { END_POINT } from "@/constants/endPoint";
 import { axiosDefault } from "@/api/axiosInstance";
 import type { ReviewBootcamp } from "@/types/response";
+import toast from "react-hot-toast";
 
 interface ReviewModalProps {
   isOpen: boolean;
@@ -62,20 +62,14 @@ export default function ReviewModal({
 
     try {
       if (mode === "edit" && reviewId != null) {
-        await axiosDefault.put(
-          END_POINT.UPDATE_REVIEW(reviewId),
-          payload
-        );
+        await axiosDefault.put(END_POINT.UPDATE_REVIEW(reviewId), payload);
         toast.success("리뷰가 수정되었습니다!");
       } else {
-        await axiosDefault.post(
-          END_POINT.REVIEWS,
-          {
-            trainingProgramId: bootcamp.trainingProgramId,
-            rating,
-            content,
-          }
-        );
+        await axiosDefault.post(END_POINT.REVIEWS, {
+          trainingProgramId: bootcamp.trainingProgramId,
+          rating,
+          content,
+        });
         toast.success("리뷰가 등록되었습니다!");
       }
 

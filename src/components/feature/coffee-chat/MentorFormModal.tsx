@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Clock, PencilLine, UserSearch } from "lucide-react";
-import { toast } from "react-toastify";
+
 import useMentorRegistration from "@/hooks/coffee-chat/useMentorRegistration";
 import TimeSlotSelector, { DayOfWeek, TimeSlot } from "./TimeSlotSelectorProps";
 import Modal from "@/components/common/modal/CommonModal";
@@ -8,6 +8,7 @@ import { jobCategoryMapping } from "@/constants/jobCategory";
 import { dayMapping } from "@/constants/dayMapping";
 import { MentorInfoData } from "@/types/request";
 import { useUserStore } from "@/store/useUserStore";
+import toast from "react-hot-toast";
 
 interface MentorFormModalProps {
   isOpen: boolean;

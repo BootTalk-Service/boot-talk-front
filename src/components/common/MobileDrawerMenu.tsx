@@ -5,9 +5,9 @@ import { useUserStore } from "@/store/useUserStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
-import { toast } from "react-toastify";
 import Image from "next/image";
 import { useGetMyInfo } from "@/hooks/my-page/useGetMyInfo";
+import toast from "react-hot-toast";
 
 interface NavItem {
   href: string;

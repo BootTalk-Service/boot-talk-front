@@ -3,16 +3,17 @@
 import { useState } from "react";
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
-import { toast } from "react-toastify";
 import ReviewModal from "./ReviewModal";
 import type { ReviewBootcamp, Certification, Review } from "@/types/response";
+import toast from "react-hot-toast";
 
 interface WriteReviewButtonProps {
   refetch?: () => Promise<unknown>;
 }
 
 export default function WriteReviewButton({ refetch }: WriteReviewButtonProps) {
-  const [selectedBootcamp, setSelectedBootcamp] = useState<ReviewBootcamp | null>(null);
+  const [selectedBootcamp, setSelectedBootcamp] =
+    useState<ReviewBootcamp | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleReviewClick = async () => {
@@ -32,7 +33,7 @@ export default function WriteReviewButton({ refetch }: WriteReviewButtonProps) {
         (cert) =>
           cert.trainingProgramId !== undefined &&
           !reviewedIds.includes(cert.trainingProgramId)
-      );      
+      );
 
       if (!unreviewed || !unreviewed.trainingProgramId) {
         toast.error("작성 가능한 리뷰가 없습니다.");

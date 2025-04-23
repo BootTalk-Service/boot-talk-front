@@ -21,7 +21,7 @@ export default function RootLayout({
         <QueryProvider>
           <Header />
           {children}
-          <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
+          <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
         </QueryProvider>
       </body>
     </html>

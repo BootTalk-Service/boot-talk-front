@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import AuthCard from "@/components/common/AuthCard";
-import { toast } from "react-toastify";
+
 import { END_POINT } from "@/constants/endPoint";
+import toast from "react-hot-toast";
 
 const SocialLogin = () => {
   const handleNaverLogin = () => {

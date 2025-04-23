@@ -6,10 +6,10 @@ import { ko } from "date-fns/locale/ko";
 import { CalendarDays, Clock, MessageCircle } from "lucide-react";
 import { useMentorApplication } from "@/hooks/coffee-chat/useMentorApplication";
 import { format } from "date-fns";
-import { toast } from "react-toastify";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "@/components/feature/coffee-chat/mentor/ChatRequestModal.module.css";
 import { MentorApplicationData } from "@/types/request";
+import toast from "react-hot-toast";
 
 interface ChatRequestModalProps {
   isOpen: boolean;
@@ -94,7 +94,7 @@ const ChatRequestModal: React.FC<ChatRequestModalProps> = ({
       onError: (error) => {
         console.error("커피챗 신청 오류:", error);
         if (error.message.includes("409")) {
-          toast.warning("이미 신청한 커피챗입니다.");
+          toast.error("이미 신청한 커피챗입니다.");
         } else {
           toast.error("커피챗 신청 중 오류가 발생했습니다.");
         }

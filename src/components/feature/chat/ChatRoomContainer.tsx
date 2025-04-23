@@ -1,10 +1,9 @@
 import { useGetMessages } from "@/hooks/chat/useGetMessages";
 import { useWebSocket } from "@/hooks/useWebSocket";
-
 import { useUserStore } from "@/store/useUserStore";
 import { ChatRoom } from "@/types/response";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 interface ChatRoomPageProps {
   selectedChat: ChatRoom;

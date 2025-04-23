@@ -5,7 +5,7 @@ import { Course } from "@/types/response";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Search } from "lucide-react";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const fetchCourses = async (query: string): Promise<Course[]> => {
   const res = await axiosDefault.get(
