@@ -3,7 +3,7 @@ import { END_POINT } from "@/constants/endPoint";
 import { useFileUpload } from "@/hooks/my-page/useFileUpload";
 import { Course } from "@/types/response";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Search } from "lucide-react";
+import { BadgeInfo, Search } from "lucide-react";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -162,6 +162,11 @@ const Certificates = () => {
           >
             제출
           </button>
+        </div>
+        <div className="bg-gray-50 border border-gray-200 rounded-md p-4 text-sm text-gray-600 leading-relaxed flex items-start gap-2">
+        <BadgeInfo className="text-gray-500 mt-[2px] min-w-[20px]" size={18}/>
+          제출한 수료증 이미지와 코스명은 <b>고용24</b>의 부트캠프 정보와 비교해 인증됩니다.<br />
+          일치하지 않을 경우 인증이 반려될 수 있습니다.
         </div>
       </div>
     </form>

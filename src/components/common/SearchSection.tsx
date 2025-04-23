@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { END_POINT } from "@/constants/endPoint";
+// import { END_POINT } from "@/constants/endPoint";
 import { useSearchSuggestions, BootcampSuggestion } from "@/hooks/useSerchSuggestions";
 import clsx from "clsx";
 
@@ -27,20 +27,17 @@ const SearchSection = () => {
   } = useSearchSuggestions();
 
   const handleSuggestionClick = (suggestion: BootcampSuggestion) => {
-    const rawUrl = END_POINT.BOOTCAMP_DETAIL(String(suggestion.bootcampId));
-    const routeUrl = rawUrl.replace(/^\/api/, "");
-
-    router.push(routeUrl);
+    router.push(`/bootcamps/${suggestion.bootcampId}`);
     setIsOpen(false);
   };
-
+  
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && suggestions.length > 0) {
-      router.push(END_POINT.BOOTCAMP_DETAIL(String(suggestions[0].bootcampId)));
+      router.push(`/bootcamps/${suggestions[0].bootcampId}`);
       setQuery("");
       setIsOpen(false);
     }
-  };
+  };  
 
   if (!mounted) return null;
 
