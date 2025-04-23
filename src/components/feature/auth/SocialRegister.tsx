@@ -8,20 +8,22 @@ import { END_POINT } from "@/constants/endPoint";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useUserStore } from "@/store/useUserStore";
 import toast from "react-hot-toast";
+import { getCookie } from "@/lib/cookie";
 
 const SocialRegister = () => {
   const [job, setJob] = useState("");
   const router = useRouter();
 
-  const { isAuthenticated, user } = useUserStore();
+  const token = getCookie("Authorization");
+  const { user } = useUserStore();
 
   useEffect(() => {
-    if (isAuthenticated === false) {
+    if (!token) {
       router.replace("/login");
-    } else if (isAuthenticated && user?.desiredCareer) {
+    } else if (token && user) {
       router.replace("/");
     }
-  }, [isAuthenticated, user, router]);
+  }, [token, user, router]);
 
   const { data: jobRoles = [] } = useQuery({
     queryKey: ["jobRoles"],
@@ -32,7 +34,7 @@ const SocialRegister = () => {
       }
       throw new Error("직무 데이터를 불러올 수 없습니다.");
     },
-    enabled: isAuthenticated === true,
+    enabled: !!token,
   });
 
   const updateUserMutation = useMutation({
