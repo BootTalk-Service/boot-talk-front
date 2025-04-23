@@ -32,11 +32,17 @@ const Header = () => {
   const { myInfo, isMyInfoLoading, isMyInfoError } = useGetMyInfo();
 
   useEffect(() => {
-    if (myInfo && !isMyInfoLoading && !isMyInfoError && isInitialLoad.current) {
+    if (
+      isAuthenticated &&
+      myInfo &&
+      !isMyInfoLoading &&
+      !isMyInfoError &&
+      isInitialLoad.current
+    ) {
       setUser(myInfo);
       isInitialLoad.current = false;
     }
-  }, [myInfo, isMyInfoLoading, isMyInfoError, setUser]);
+  }, [myInfo, isMyInfoLoading, isMyInfoError, setUser, isAuthenticated]);
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
