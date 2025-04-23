@@ -32,7 +32,7 @@ const SocialRegister = () => {
       }
       throw new Error("직무 데이터를 불러올 수 없습니다.");
     },
-    enabled: isAuthenticated,
+    enabled: isAuthenticated && !user?.desiredCareer,
   });
 
   const updateUserMutation = useMutation({
