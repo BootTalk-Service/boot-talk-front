@@ -179,15 +179,19 @@ export const handlers = [
 
   http.delete(END_POINT.MENTOR_REGISTER, () => {
     DB.mentorInfo = {
-      mentorType: "",
-      jobType: "",
-      introduction: "",
+      info: {
+        coffeeChatInfoId: 0,
+        mentorUserId: 0,
+        mentorName: "",
+        mentorType: "",
+        jobType: "",
+        introduction: "",
+      },
       time: {
         MONDAY: [],
-        TUESDAY: [],
         WEDNESDAY: [],
-        THURSDAY: [],
         FRIDAY: [],
+        SATURDAY: [],
       },
     };
     return new HttpResponse(null, { status: 200 });
@@ -199,14 +203,20 @@ export const handlers = [
 
     // DB에 멘토 정보 업데이트
     DB.mentorInfo = {
-      mentorType: requestBody.info.mentorType || DB.mentorInfo.mentorType,
-      jobType: requestBody.info.jobType || DB.mentorInfo.jobType,
-      introduction: requestBody.info.introduction || DB.mentorInfo.introduction,
+      info: {
+        coffeeChatInfoId: DB.mentorInfo.info.coffeeChatInfoId,
+        mentorUserId: DB.mentorInfo.info.mentorUserId,
+        mentorName: DB.mentorInfo.info.mentorName,
+        mentorType:
+          requestBody.info.mentorType || DB.mentorInfo.info.mentorType,
+        jobType: requestBody.info.jobType || DB.mentorInfo.info.jobType,
+        introduction:
+          requestBody.info.introduction || DB.mentorInfo.info.introduction,
+      },
       time: {
         MONDAY: requestBody.time?.MONDAY || DB.mentorInfo.time.MONDAY,
-        TUESDAY: requestBody.time?.TUESDAY || DB.mentorInfo.time.TUESDAY,
         WEDNESDAY: requestBody.time?.WEDNESDAY || DB.mentorInfo.time.WEDNESDAY,
-        THURSDAY: requestBody.time?.THURSDAY || DB.mentorInfo.time.THURSDAY,
+        SATURDAY: requestBody.time?.THURSDAY || DB.mentorInfo.time.SATURDAY,
         FRIDAY: requestBody.time?.FRIDAY || DB.mentorInfo.time.FRIDAY,
       },
     };
@@ -451,5 +461,16 @@ export const handlers = [
       },
       { status: 200 }
     );
+  }),
+
+  http.get(END_POINT.NAVER_REDIRECT, () => {
+    return new HttpResponse(null, {
+      status: 302,
+      headers: {
+        Location: "/",
+        "Set-Cookie":
+          "Authorization=Bearer mock_access_token; Path=/; HttpOnly; Max-Age=3600, refreshToken=mock_refresh_token; Path=/; HttpOnly; Max-Age=86400",
+      },
+    });
   }),
 ];
