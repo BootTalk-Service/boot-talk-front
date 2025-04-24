@@ -101,7 +101,7 @@ const MyPageLayout = ({
 
         {/* 오른쪽 컨텐츠 영역 */}
         <div className="flex-1">
-          <div className="bg-base-100 rounded-xl shadow-md p-6 border border-base-300 min-h-143">
+          <div className="bg-base-100 rounded-xl shadow-md p-6 border border-base-300 min-h-156">
             <h2 className="text-xl font-bold mb-6 pb-3 border-b border-gray-200">
               {tabs.find((tab) => tab.id === activeTab)?.label || ""}
             </h2>
