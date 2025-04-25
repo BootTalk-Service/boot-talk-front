@@ -19,10 +19,9 @@ const PointHistory = () => {
   return (
     <div className="overflow-x-auto">
       {/* 요약 정보 */}
-      <div className="bg-base-200 p-4 rounded-xl shadow mb-6">
-        <p className="text-md font-medium">
-          현재 포인트:{" "}
-          <span className="font-bold">{pointHistory[0].currentPoint}P</span>
+      <div className="bg-base-200 px-4 py-2 rounded-xl shadow mb-6">
+        <p className="font-medium">
+          현재 포인트: <span>{pointHistory[0].currentPoint}P</span>
         </p>
       </div>
 
@@ -52,7 +51,7 @@ const PointHistory = () => {
                 {point.pointTypeName.includes("적립") ||
                 point.pointTypeName.includes("환불")
                   ? "+"
-                  : ""}
+                  : "-"}
                 {point.changedPoint}P
               </td>
               <td className="text-right text-sm text-gray-600">

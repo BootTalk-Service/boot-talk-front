@@ -588,7 +588,7 @@ export const DB = {
         pointHistoryId: 3,
         userId: 1,
         currentPoint: 2,
-        changedPoint: -1,
+        changedPoint: 1,
         pointTypeName: "사용",
         eventTypeName: "커피챗",
         createdAt: "2025-03-28T00:00:00",
