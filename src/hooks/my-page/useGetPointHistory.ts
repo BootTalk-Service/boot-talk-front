@@ -6,7 +6,7 @@ interface Point {
   pointHistoryId: number;
   eventTypeName: string;
   createdAt: string;
-  pointTypeName: "EARNED" | "USED";
+  pointTypeName: string;
   changedPoint: number;
   currentPoint: number;
 }

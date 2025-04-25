@@ -92,14 +92,14 @@ const MentorProfile = () => {
       <div className="mb-6">
         <h3 className="font-medium text-gray-900 mb-2">기본 정보</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-base-200 p-4 rounded">
+          <div className="bg-base-200 p-4 rounded-lg">
             <p className="text-sm text-gray-500">멘토 유형</p>
             <p className="text-sm">
               {mentorCategory[mentorData.info.mentorType] ||
                 mentorData.info.mentorType}
             </p>
           </div>
-          <div className="bg-base-200 p-4 rounded">
+          <div className="bg-base-200 p-4 rounded-lg">
             <p className="text-sm text-gray-500">직무 분야</p>
             <p className="text-sm">
               {jobCategoryMapping[mentorData.info.jobType] ||
@@ -111,7 +111,7 @@ const MentorProfile = () => {
 
       <div className="mb-6">
         <h3 className="font-medium text-gray-900 mb-2">멘토 소개글</h3>
-        <div className="bg-base-200 p-4 rounded max-h-40 overflow-y-auto">
+        <div className="bg-base-200 p-4 rounded-lg max-h-40 overflow-y-auto">
           <p className="whitespace-pre-line text-sm">
             {mentorData.info.introduction}
           </p>
@@ -122,7 +122,7 @@ const MentorProfile = () => {
         <h3 className="font-medium text-gray-900 mb-2">상담 가능 시간</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Object.entries(mentorData.time as TimeSlot).map(([day, times]) => (
-            <div key={day} className="bg-base-200 p-4 rounded">
+            <div key={day} className="bg-base-200 p-4 rounded-lg">
               <p className="text-sm font-medium text-gray-700 mb-2">
                 {reverseDayMapping[day]}요일
               </p>
@@ -131,7 +131,7 @@ const MentorProfile = () => {
                 {times.map((time: string, index: string) => (
                   <span
                     key={index}
-                    className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"
+                    className="bg-white text-amber-800 text-xs px-3 py-1 rounded-full border border-gray-200"
                   >
                     {time}
                   </span>

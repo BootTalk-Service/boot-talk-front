@@ -100,7 +100,7 @@ const SentListTab = () => {
                 (sent.status === "PENDING" &&
                   isNow < new Date(sent.coffeeChatStartTime))) && (
                 <button
-                  className="btn btn-soft btn-xs"
+                  className="btn btn-soft btn-sm"
                   onClick={(e) =>
                     handleCancel(
                       sent.coffeeChatAppId,

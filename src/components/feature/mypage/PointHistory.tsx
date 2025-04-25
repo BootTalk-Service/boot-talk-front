@@ -43,12 +43,16 @@ const PointHistory = () => {
               <td>{new Date(point.createdAt).toLocaleString()}</td>
               <td
                 className={`text-right font-bold ${
-                  point.pointTypeName === "EARNED"
+                  point.pointTypeName.includes("적립") ||
+                  point.pointTypeName.includes("환불")
                     ? "text-blue-600"
                     : "text-red-600"
                 }`}
               >
-                {point.pointTypeName === "EARNED" ? "+" : ""}
+                {point.pointTypeName.includes("적립") ||
+                point.pointTypeName.includes("환불")
+                  ? "+"
+                  : ""}
                 {point.changedPoint}P
               </td>
               <td className="text-right text-sm text-gray-600">

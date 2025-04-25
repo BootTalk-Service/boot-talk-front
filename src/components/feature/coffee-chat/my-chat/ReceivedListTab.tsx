@@ -112,7 +112,7 @@ const ReceivedListTab = () => {
                 {received.status === "PENDING" && (
                   <>
                     <button
-                      className="px-3 py-1.5 bg-emerald-600 text-white rounded text-xs font-medium hover:bg-emerald-700 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1"
+                      className="btn btn-sm btn-active bg-amber-900 text-white"
                       onClick={(e) =>
                         handleApprove(received.coffeeChatAppId, e)
                       }
@@ -120,7 +120,7 @@ const ReceivedListTab = () => {
                       승인하기
                     </button>
                     <button
-                      className="px-3 py-1.5 bg-red-500 text-white rounded text-xs font-medium hover:bg-red-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
+                      className="btn btn-sm btn-active"
                       onClick={(e) => handleReject(received.coffeeChatAppId, e)}
                     >
                       거절하기
@@ -131,7 +131,7 @@ const ReceivedListTab = () => {
                 {received.status === "APPROVED" &&
                   isNow < new Date(received.coffeeChatStartTime) && (
                     <button
-                      className="px-3 py-1.5 bg-gray-500 text-white rounded text-xs font-medium hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1"
+                      className="btn btn-sm btn-active"
                       onClick={(e) =>
                         handleCancel(
                           received.coffeeChatAppId,

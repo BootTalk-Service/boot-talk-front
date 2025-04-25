@@ -41,7 +41,7 @@ const CoffeeChatActionModal: React.FC<CoffeeChatActionModalProps> = ({
 
         {/* 패널티 경고 메시지 */}
         {actionType === "CANCEL" && isPenalty && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 rounded mb-4">
             <p className="font-bold">주의!</p>
             {userRole === "MENTOR" ? (
               <p>
@@ -64,13 +64,8 @@ const CoffeeChatActionModal: React.FC<CoffeeChatActionModalProps> = ({
           </button>
           <button
             onClick={onConfirm}
-            className={`btn btn-outline ${
-              actionType === "APPROVE"
-                ? "btn-success"
-                : actionType === "REJECT"
-                ? "btn-warning"
-                : "btn-error"
-            } ${isLoading ? "loading" : ""}`}
+            className={`btn btn-neutral
+            ${isLoading ? "loading" : ""}`}
             disabled={isLoading}
           >
             {actionType === "APPROVE" && "승인하기"}

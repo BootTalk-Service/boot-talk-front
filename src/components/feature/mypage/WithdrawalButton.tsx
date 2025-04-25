@@ -61,7 +61,7 @@ const WithdrawalButton = () => {
               취소
             </button>
             <button
-              className="btn btn-outline btn-error"
+              className="btn btn-neutral"
               onClick={handleWithdrawal}
               disabled={withdrawalMutation.isPending}
             >

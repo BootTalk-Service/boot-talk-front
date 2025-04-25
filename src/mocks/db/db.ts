@@ -2,6 +2,7 @@ export const DB = {
   example: [{ id: 1, name: "홍길동" }],
 
   myInfo: {
+    userId: 1,
     email: "frontend@example.com",
     name: "김개발",
     desiredCareer: "프론트엔드",
