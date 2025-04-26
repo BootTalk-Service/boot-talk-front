@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
-// import { END_POINT } from "@/constants/endPoint";
 import { useSearchSuggestions, BootcampSuggestion } from "@/hooks/useSerchSuggestions";
 import clsx from "clsx";
 
 const SearchSection = () => {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
   useEffect(() => {
     setMounted(true);
@@ -32,12 +32,31 @@ const SearchSection = () => {
   };
   
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && suggestions.length > 0) {
-      router.push(`/bootcamps/${suggestions[0].bootcampId}`);
+    if (suggestions.length === 0) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev + 1) % suggestions.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev - 1 + suggestions.length) % suggestions.length);
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
+        router.push(`/bootcamps/${suggestions[selectedIndex].bootcampId}`);
+      } else {
+        router.push(`/bootcamps/${suggestions[0].bootcampId}`);
+      }
       setQuery("");
       setIsOpen(false);
     }
-  };  
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedIndex(-1);
+    }
+  }, [isOpen]);
 
   if (!mounted) return null;
 
@@ -83,11 +102,14 @@ const SearchSection = () => {
               </div>
             ) : suggestions.length > 0 ? (
               <ul>
-                {suggestions.map((suggestion) => (
+                {suggestions.map((suggestion, index) => (
                   <li
                   key={suggestion.bootcampId}
                   onClick={() => handleSuggestionClick(suggestion)}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm text-left truncate"
+                    className={clsx(
+                      "px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm text-left truncate",
+                      selectedIndex === index && "bg-gray-100 font-semibold"
+                    )}
                   >
                     {suggestion.bootcampName}
                   </li>
