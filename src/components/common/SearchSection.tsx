@@ -28,27 +28,34 @@ const SearchSection = () => {
 
   const handleSuggestionClick = (suggestion: BootcampSuggestion) => {
     router.push(`/bootcamps/${suggestion.bootcampId}`);
+    setQuery("");
     setIsOpen(false);
+    setSelectedIndex(-1);
   };
-  
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (suggestions.length === 0) return;
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
+      if (!isOpen) setIsOpen(true);
       setSelectedIndex((prev) => (prev + 1) % suggestions.length);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
+      if (!isOpen) setIsOpen(true);
       setSelectedIndex((prev) => (prev - 1 + suggestions.length) % suggestions.length);
     } else if (e.key === "Enter") {
       e.preventDefault();
-      if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
-        router.push(`/bootcamps/${suggestions[selectedIndex].bootcampId}`);
-      } else {
-        router.push(`/bootcamps/${suggestions[0].bootcampId}`);
+      if (isOpen) {
+        if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
+          router.push(`/bootcamps/${suggestions[selectedIndex].bootcampId}`);
+        } else {
+          router.push(`/bootcamps/${suggestions[0].bootcampId}`);
+        }
+        setQuery("");
+        setIsOpen(false);
+        setSelectedIndex(-1);
       }
-      setQuery("");
-      setIsOpen(false);
     }
   };
 
@@ -77,7 +84,11 @@ const SearchSection = () => {
         <input
             ref={inputRef}
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              if (e.target.value.trim().length > 0) setIsOpen(true);
+              else setIsOpen(false);
+            }}
             onFocus={() => query.trim().length > 0 && setIsOpen(true)}
             onKeyDown={handleKeyDown}
             type="text"
@@ -104,8 +115,8 @@ const SearchSection = () => {
               <ul>
                 {suggestions.map((suggestion, index) => (
                   <li
-                  key={suggestion.bootcampId}
-                  onClick={() => handleSuggestionClick(suggestion)}
+                    key={suggestion.bootcampId}
+                    onClick={() => handleSuggestionClick(suggestion)}
                     className={clsx(
                       "px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm text-left truncate",
                       selectedIndex === index && "bg-gray-100 font-semibold"
