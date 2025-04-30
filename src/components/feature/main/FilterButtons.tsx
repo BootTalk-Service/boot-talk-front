@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { RotateCcw } from "lucide-react";
 import clsx from "clsx";
 import { STATIC_FILTER_OPTIONS } from "./bootcampFilters";
+import FilterButton from "@/components/common/FilterButton";
 
 interface FilterButtonsProps {
   selectedFilters: Record<string, string>;
@@ -79,25 +80,22 @@ export default function FilterButtons({
             }}
             className="relative flex items-center gap-1"
           >
-            <button
-              type="button"
+            <FilterButton
+              label={filter.label}
+              selectedValue={
+                filter.options.find((opt) => opt.value === selectedFilters[filter.key])?.label
+              }
               onClick={() =>
                 setOpenDropdown(openDropdown === filter.key ? null : filter.key)
               }
-              className={clsx(
-                "btn btn-sm rounded-full min-w-[72px] sm:min-w-[90px]",
-                selectedFilters[filter.key]
-                  ? "bg-amber-900 text-white"
-                  : "btn-outline border-neutral-400"
-              )}
-            >
-              {
-                filter.options.find(
-                  (o) => o.value === selectedFilters[filter.key]
-                )?.label ?? filter.label
+              onClear={() =>
+                setSelectedFilters((prev) => {
+                  const copy = { ...prev };
+                  delete copy[filter.key];
+                  return copy;
+                })
               }
-            </button>
-
+            />
             {openDropdown === filter.key && (
               <div
                 className={clsx(

@@ -9,6 +9,10 @@ export function useInitialNotifications() {
   const setUnreadCount  = useNotificationStore((s) => s.setUnreadCount);
 
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_USE_MOCK === "true") {
+      return;
+    }
+
     fetch(END_POINT.NOTIFICATIONS, {
       method: "GET",
       credentials: "include",
