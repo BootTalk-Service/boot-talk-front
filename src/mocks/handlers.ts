@@ -226,8 +226,23 @@ export const handlers = [
   }),
 
   // 커피챗페이지 핸들러 ------------------------------------------------------------
-  http.get(END_POINT.MENTOR_LIST, () => {
-    return HttpResponse.json(DB.mentorList, {});
+  http.get(END_POINT.MENTOR_LIST, ({ request }) => {
+    const url = new URL(request.url);
+    const jobType = url.searchParams.get("jobType");
+
+    let filteredMentors = DB.mentorList.data;
+    if (jobType && jobType !== "all") {
+      filteredMentors = filteredMentors.filter(
+        (mentor) => mentor.jobType === jobType
+      );
+    }
+
+    return HttpResponse.json(
+      {
+        data: filteredMentors,
+      },
+      { status: 200 }
+    );
   }),
 
   http.get(
@@ -470,6 +485,16 @@ export const handlers = [
         Location: "/",
         "Set-Cookie":
           "Authorization=Bearer mock_access_token; Path=/; HttpOnly; Max-Age=3600, refreshToken=mock_refresh_token; Path=/; HttpOnly; Max-Age=86400",
+      },
+    });
+  }),
+
+  http.post(END_POINT.LOGOUT, () => {
+    return new HttpResponse(null, {
+      status: 200,
+      headers: {
+        "Set-Cookie":
+          "Authorization=; Path=/; HttpOnly; Max-Age=0, refreshToken=; Path=/; HttpOnly; Max-Age=0",
       },
     });
   }),
