@@ -5,6 +5,7 @@ import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import clsx from "clsx";
 import { RotateCcw } from "lucide-react";
+import FilterButton from "@/components/common/FilterButton";
 
 interface FilterType {
   category?: string;
@@ -68,22 +69,16 @@ export default function ReviewFilterButtons({
         className="relative"
         ref={(el: HTMLDivElement | null) => {
           dropdownRefs.current["category"] = el;
-        }}        
+        }}
       >
-        <button
-          type="button"
+        <FilterButton
+          label="직무"
+          selectedValue={selectedFilters.category}
           onClick={() =>
             setOpenDropdown(openDropdown === "category" ? null : "category")
           }
-          className={clsx(
-            "btn btn-sm rounded-full min-w-[90px] px-4",
-            selectedFilters.category
-              ? "bg-amber-900 text-white"
-              : "btn-outline border-neutral-400"
-          )}
-        >
-          {selectedFilters.category ?? "직무"}
-        </button>
+          onClear={() => onFilterChange("category", undefined)}
+        />
         {openDropdown === "category" && (
           <div className="absolute top-full left-0 mt-1 shadow-lg bg-white rounded-lg z-50 max-h-60 w-44 sm:w-52 overflow-auto">
             <ul className="menu menu-compact p-2">
@@ -94,14 +89,12 @@ export default function ReviewFilterButtons({
                   </span>
                 </li>
               ) : (
-                jobRoles.map(role => (
+                jobRoles.map((role) => (
                   <li key={role}>
                     <button
                       type="button"
                       onClick={() => handleSelect("category", role)}
-                      className={clsx(
-                        "w-full text-left text-sm py-2 px-4 hover:bg-gray-100 rounded",
-                      )}
+                      className="w-full text-left text-sm py-2 px-4 hover:bg-gray-100 rounded"
                     >
                       {role}
                     </button>
@@ -120,24 +113,18 @@ export default function ReviewFilterButtons({
           dropdownRefs.current["date"] = el;
         }}
       >
-        <button
-          type="button"
+        <FilterButton
+          label="정렬"
+          selectedValue={selectedFilters.date}
           onClick={() =>
             setOpenDropdown(openDropdown === "date" ? null : "date")
           }
-          className={clsx(
-            "btn btn-sm rounded-full min-w-[90px] px-4",
-            selectedFilters.date
-              ? "bg-amber-900 text-white"
-              : "btn-outline border-neutral-400"
-          )}
-        >
-          {selectedFilters.date ?? "정렬"}
-        </button>
+          onClear={() => onFilterChange("date", undefined)}
+        />
         {openDropdown === "date" && (
           <div className="absolute top-full left-0 mt-1 shadow-lg bg-white rounded-lg z-50 max-h-60 w-40 overflow-auto">
             <ul className="menu menu-compact p-2">
-              {["최신순", "오래된순"].map(option => (
+              {["최신순", "오래된순"].map((option) => (
                 <li key={option}>
                   <button
                     type="button"

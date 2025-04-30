@@ -8,6 +8,10 @@ export function useNotificationEffect() {
   const addNotification = useNotificationStore((s) => s.addNotification);
 
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_USE_MOCK === "true") {
+      return;
+    }
+
     const evtSource = new EventSource(END_POINT.SSE_CONNECT, {
       withCredentials: true,
     });
