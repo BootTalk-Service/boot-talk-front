@@ -287,6 +287,17 @@ export const handlers = [
     return HttpResponse.json(DB.receivedCoffeeChats, {});
   }),
 
+  http.put(END_POINT.STATUS_CHATS(":coffeeChatAppId"), async ({ request }) => {
+    const body = (await request.json()) as { changeStatus: string };
+    const { changeStatus } = body;
+    return HttpResponse.json(
+      {
+        changeStatus: changeStatus,
+      },
+      { status: 200 }
+    );
+  }),
+
   // 부트캠프 페이지 핸들러 ------------------------------------------------------------
   http.get(END_POINT.BOOTCAMP_DETAIL(":id"), ({ params }) => {
     const bootcampId = Number(params.id);
