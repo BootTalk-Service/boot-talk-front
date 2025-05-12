@@ -187,7 +187,7 @@ const transformFilterValue = (key: string, value: string): string => {
 };
 ```
 - 최종적으로 `?page=0&size=10&region=서울&duration=2&minRating=3`처럼 여러 필터가 적용된 쿼리스트링을 동적으로 생성하여 정확한 API 요청이 가능하게 개선.
-
+<br><br>
 
 ### 2. 무한 요청
 
@@ -208,7 +208,7 @@ getNextPageParam: (lastPage) =>
 - `IntersectionObserver`는 `observer.observe(target)` 시점을 마지막 요소 렌더 이후로 조정
 - `observerRef`가 페이지 로드와 함께 관찰을 시작하지 않도록 `useEffect`에서 `data?.pages.length`를 의존성으로 설정
 - 리뷰 요청 단위를 `size=10` → `size=20`으로 조정하여 초기 과요청 문제 감소
-
+<br><br>
 
 ### 3. 웹소켓 무한 입장
 
