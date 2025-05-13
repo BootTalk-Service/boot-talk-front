@@ -19,20 +19,20 @@ export default function BootcampDetailInfo({
   trainingCenterUrl,
 }: BootcampDetailInfoProps) {
 
-  const iconClass = "w-5 h-5 text-gray-600";
+  const iconClass = "w-5 h-5 text-gray-500";
 
   return (
     <DetailSectionCard title="교육기관 정보">
       <div className="relative flex flex-col sm:flex-row justify-between items-center sm:items-center gap-4 sm:gap-2">
         {/* 왼쪽 텍스트 영역 */}
-        <div className="space-y-2 text-base sm:text-base text-gray-700 w-full sm:pr-6">
+        <div className="space-y-2 text-base sm:text-base text-gray-600 w-full sm:pr-6">
           {/* 모바일에선 링크, 데스크탑에선 일반 텍스트 */}
           <div className="flex items-center gap-2">
             <a
               href={trainingCenterUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-lg sm:text-xl font-bold text-amber-950 hover:underline break-words"
+              className="text-lg sm:text-xl text-gray-800 font-bold hover:underline break-words"
             >
               {trainingCenterName}
             </a>

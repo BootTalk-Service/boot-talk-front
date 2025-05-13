@@ -7,6 +7,8 @@ import ReviewItem from "./ReviewItem";
 
 interface BootcampReviewProps {
   reviews: Review[];
+  isLoading?: boolean;
+  isError?: boolean;
 }
 
 export default function BootcampReview({ reviews }: BootcampReviewProps) {

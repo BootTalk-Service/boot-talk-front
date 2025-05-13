@@ -6,6 +6,7 @@ import BootcampDetailInfo from "@/components/feature/detail/BootcampDetailInfo";
 import BootcampSchedule from "@/components/feature/detail/BootcampSchedule";
 import BootcampReview from "@/components/feature/detail/BootcampReview";
 import BootcampIntro from "./BootcampIntro";
+import clsx from "clsx";
 interface Props {
   id: string;
 }
@@ -13,7 +14,6 @@ interface Props {
 const BootcampDetailClient = ({ id }: Props) => {
   const { data, isLoading, isError } = useGetBootcampDetail(id);
   const {
-    data: reviewsData,
     isLoading: isReviewsLoading,
     isError: isReviewsError,
   } = useGetBootcampReviews(id);
@@ -25,12 +25,16 @@ const BootcampDetailClient = ({ id }: Props) => {
     <main className="max-w-screen-xl min-w-[320px] mx-auto px-6 py-10">
       {/* 제목 영역 */}
       <div className="mb-8 mt-6 overflow-hidden">
-        <h1 className="text-2xl font-bold text-amber-950 max-w-full sm:max-w-[700px]">
-          <span className="block sm:hidden line-clamp-2 break-keep">
-            {data.bootcampName}
-          </span>
-          <span className="hidden sm:block line-clamp-2 break-keep">{data.bootcampName}</span>
-        </h1>
+      <h1
+        className={clsx(
+          "text-2xl font-semibold text-amber-950 max-w-full",
+          "break-words",
+          "sm:line-clamp-2 sm:break-keep",
+          "lg:truncate"
+        )}
+      >
+        {data.bootcampName}
+      </h1>
         <div className="border-t border-amber-600 mt-4" />
       </div>
       {/* 상세 정보 카드 */}
@@ -51,9 +55,11 @@ const BootcampDetailClient = ({ id }: Props) => {
 
       <BootcampIntro />
 
-      {!isReviewsLoading && !isReviewsError && reviewsData && (
-        <BootcampReview reviews={reviewsData ?? []} />
-      )}
+      <BootcampReview 
+        reviews={data.reviews ?? []}
+        isLoading={isReviewsLoading}
+        isError={isReviewsError} 
+      />
     </main>
     </>
   );

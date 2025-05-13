@@ -400,7 +400,8 @@ export const DB = {
       userName: "뽀로로개발자",
       content: "너무 도움됐어요!",
       rating: 5,
-      created_at: "2024-03-01",
+      createdAt: "2024-03-01",
+      trainingProgramId: 101,
       trainingCenterName: "강남 그린컴퓨터아카데미",
     },
     {
@@ -408,7 +409,8 @@ export const DB = {
       userName: "코딩하는토끼",
       content: "실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요.",
       rating: 4,
-      created_at: "2024-03-04",
+      createdAt: "2024-03-04",
+      trainingProgramId: 102,
       trainingCenterName: "강남 그린컴퓨터아카데미",
     },
     {
@@ -416,7 +418,8 @@ export const DB = {
       userName: "프론트짱민수",
       content: "실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요.",
       rating: 4,
-      created_at: "2024-03-04",
+      createdAt: "2024-03-04",
+      trainingProgramId: 103,
       trainingCenterName: "수원인재기술학원",
     },
     {
@@ -424,7 +427,8 @@ export const DB = {
       userName: "버그박멸러",
       content: "실무 기반 프로젝트가 많아서 포트폴리오 준비에 좋아요.",
       rating: 4,
-      created_at: "2024-03-04",
+      createdAt: "2024-03-04",
+      trainingProgramId: 104,
       trainingCenterName: "연세IT미래교육원(구.연세직업전문학교)",
     },
     {
@@ -432,7 +436,8 @@ export const DB = {
       userName: "버그킬러",
       content: "강사님은 좋았는데 자료가 조금 부족했어요.",
       rating: 3,
-      created_at: "2024-03-07",
+      createdAt: "2024-03-07",
+      trainingProgramId: 105,
       trainingCenterName: "강남 그린컴퓨터아카데미",
     },
     {
@@ -440,7 +445,8 @@ export const DB = {
       userName: "리액트초보",
       content: "강사님은 좋았는데 자료가 조금 부족했어요.",
       rating: 3,
-      created_at: "2024-03-07",
+      createdAt: "2024-03-07",
+      trainingProgramId: 106,
       trainingCenterName: "하이미디어아카데미",
     },
     {
@@ -448,7 +454,8 @@ export const DB = {
       userName: "코딩에진심인편",
       content: "멘토링이 진짜 인생 바뀌는 줄..!",
       rating: 5,
-      created_at: "2024-03-10",
+      createdAt: "2024-03-10",
+      trainingProgramId: 107,
       trainingCenterName: "하이미디어아카데미",
     },
     {
@@ -456,7 +463,8 @@ export const DB = {
       userName: "잠못드는개발자",
       content: "더 많은 인사이트를 얻었습니다.",
       rating: 4,
-      created_at: "2024-03-13",
+      createdAt: "2024-03-13",
+      trainingProgramId: 108,
       trainingCenterName: "라인원격평생교육원",
     },
     {
@@ -464,7 +472,8 @@ export const DB = {
       userName: "JS는내운명",
       content: "비전공자도 이해하기 쉬운 강의였습니다.",
       rating: 5,
-      created_at: "2024-03-16",
+      createdAt: "2024-03-16",
+      trainingProgramId: 109,
       trainingCenterName: "라인원격평생교육원",
     },
     {
@@ -472,7 +481,8 @@ export const DB = {
       userName: "디버깅하는사자",
       content: "온라인 강의지만 실시간 소통이 잘 되었어요.",
       rating: 4,
-      created_at: "2024-03-19",
+      createdAt: "2024-03-19",
+      trainingProgramId: 110,
       trainingCenterName: "코멘토 원격 평생교육시설",
     },
     {
@@ -480,7 +490,8 @@ export const DB = {
       userName: "코드도비",
       content: "과제가 많지만 실력 향상에 좋았어요.",
       rating: 3,
-      created_at: "2024-03-22",
+      createdAt: "2024-03-22",
+      trainingProgramId: 111,
       trainingCenterName: "하이미디어IT인재개발학원",
     },
     {
@@ -488,7 +499,8 @@ export const DB = {
       userName: "코테레츠고",
       rating: 4,
       content: "시설은 조금 아쉬웠지만 커리큘럼은 알찼어요.",
-      created_at: "2024-03-25",
+      createdAt: "2024-03-25",
+      trainingProgramId: 112,
       trainingCenterName: "하이미디어IT인재개발학원",
     },
     {
@@ -496,7 +508,8 @@ export const DB = {
       reviewId: 13,
       rating: 5,
       content: "수료 후 멘토링 시스템이 유익했어요.",
-      created_at: "2024-03-28",
+      createdAt: "2024-03-28",
+      trainingProgramId: 113,
       trainingCenterName: "한국직업전문학교 1캠퍼스",
     },
     {
@@ -506,7 +519,7 @@ export const DB = {
       content: "부트캠프1 리뷰",
       rating: 4,
       createdAt: "2025-04-04T01:50:33.945196",
-      updatedAt: "2025-04-04T01:50:33.945196",
+      trainingProgramId: 114,
       trainingCenterName: "한국직업전문학교 1캠퍼스",
     },
     {
@@ -516,7 +529,7 @@ export const DB = {
       content: "부트캠프2 리뷰",
       rating: 5,
       createdAt: "2025-04-04T01:50:17.656716",
-      updatedAt: "2025-04-04T01:50:17.656716",
+      trainingProgramId: 115,
       trainingCenterName: "동성인재개발교육원",
     },
     {
@@ -526,7 +539,7 @@ export const DB = {
       content: "부트캠프3 리뷰",
       rating: 3,
       createdAt: "2025-04-04T01:49:55.407069",
-      updatedAt: "2025-04-04T01:49:55.407069",
+      trainingProgramId: 116,
       trainingCenterName: "동성인재개발교육원",
     },
   ],
