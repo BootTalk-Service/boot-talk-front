@@ -4,7 +4,7 @@ import DetailSectionCard from "./DetailSectionCard";
 const BootcampIntro = () => {
   return (
     <DetailSectionCard title="부트캠프 소개">
-      <div className="text-sm sm:text-base text-gray-600 leading-relaxed">
+      <div className="text-sm sm:text-base text-neutral-700 leading-relaxed">
         <p className="block sm:hidden">
             부트캠프의 설명이 제공되지 않습니다.
             <br />
