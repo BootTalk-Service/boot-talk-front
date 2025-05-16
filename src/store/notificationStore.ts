@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { NotificationItem } from "@/types/Notification";
+import { NotificationItem } from "@/types/response";
 
 const getUnreadCount = (notifications: NotificationItem[]) =>
   notifications.filter((n) => !n.checked).length;

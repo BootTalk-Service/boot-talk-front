@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { END_POINT } from "@/constants/endPoint";
 import { axiosDefault } from "@/api/axiosInstance";
-import type { NotificationItem } from "@/types/Notification";
+import type { NotificationItem } from "@/types/response";
 
 export const usePatchNotifications = () => {
   const queryClient = useQueryClient();

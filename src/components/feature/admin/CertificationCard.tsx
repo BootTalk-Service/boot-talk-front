@@ -1,8 +1,7 @@
-// components/feature/admin/CertificationCard.tsx
 "use client";
 
 import React from "react";
-import { Certification } from "@/types/certification";
+import { Certification } from "@/types/response";
 
 interface Props {
   cert: Certification;

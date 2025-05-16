@@ -7,7 +7,7 @@ import { usePatchCertificationStatus } from "@/hooks/admin/usePatchCertification
 import PaginationControls from "./PaginationControls";
 import ImageModal from "./ImageModal";
 import CertificationCard from "./CertificationCard";
-import { Certification } from "@/types/certification";
+import { Certification } from "@/types/response";
 
 const CertificationApproval = () => {
   const [currentPage, setCurrentPage] = useState(1);

@@ -1,7 +1,7 @@
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
 import { useQuery } from "@tanstack/react-query";
-import type { BootcampDetail } from "@/types/Bootcamp";
+import type { BootcampDetail } from "@/types/response";
 
 
 const fetchBootcampDetail = async (id: string): Promise<BootcampDetail> => {

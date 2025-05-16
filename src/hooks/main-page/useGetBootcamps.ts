@@ -3,7 +3,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { axiosDefault } from "@/api/axiosInstance";
 import { END_POINT } from "@/constants/endPoint";
-import { Bootcamp } from "@/types/Bootcamp";
+import { Bootcamp } from "@/types/response";
 
 interface BootcampResponse {
   data: Bootcamp[];

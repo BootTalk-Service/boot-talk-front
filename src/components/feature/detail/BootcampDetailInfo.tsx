@@ -1,5 +1,5 @@
 import { Phone, Mail, MapPin, LinkIcon } from "lucide-react";
-import type { BootcampDetail } from "@/types/Bootcamp";
+import type { BootcampDetail } from "@/types/response";
 import DetailSectionCard from "./DetailSectionCard";
 
 type BootcampDetailInfoProps = Pick<
