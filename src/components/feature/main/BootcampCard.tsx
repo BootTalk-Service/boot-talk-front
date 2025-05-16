@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import type { Bootcamp } from "@/types/Bootcamp";
+import type { Bootcamp } from "@/types/response";
 import BootcampMobile from "./BootcampMobile";
 import clsx from "clsx";
 import { Star } from "lucide-react";

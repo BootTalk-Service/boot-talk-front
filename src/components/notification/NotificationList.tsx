@@ -1,5 +1,5 @@
 import NotificationCard from "./NotificationCard";
-import { NotificationItem } from "@/types/Notification";
+import { NotificationItem } from "@/types/response";
 
 interface Props {
   notifications: NotificationItem[];

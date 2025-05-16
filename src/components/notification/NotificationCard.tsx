@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { NotificationItem } from "@/types/Notification";
+import { NotificationItem } from "@/types/response";
 import { useNotificationStore } from "@/store/notificationStore";
 import { useMarkNotificationAsRead } from "@/hooks/notification/useMarkNotificationAsRead";
 
