@@ -126,6 +126,7 @@
   <tr>
     <th align="center width:50%">✨ 커피챗 신청</th>
     <th align="center width:50%">✨ 실시간 알림</th>
+    <th align="center width:50%">✨ 실시간 채팅</th>
   </tr>
   <tr>
     <td align="center">
@@ -134,6 +135,10 @@
     <td align="center">
       <img src="https://github.com/user-attachments/assets/0fa3459e-b607-4371-89e0-c3f583615113" width="100px;" alt="실시간 알림"><br />
     </td>
+     <td align="center">
+      <img src="https://github.com/user-attachments/assets/b1c93c7d-7ecb-4ea7-bc67-7b691ee6cb86" width="100px;" alt="실시간 채팅"><br />
+    </td>
+
   </tr>
 </table>
 <table>
